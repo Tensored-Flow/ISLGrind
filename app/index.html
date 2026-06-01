@@ -120,6 +120,9 @@
     <button class="act" id="shuffle">↻ New set of 4</button>
     <button class="act" id="revealAll">👁 Reveal sources</button>
     <div class="spacer"></div>
+    <button class="act" id="exportBtn">⬇ Backup</button>
+    <button class="act" id="importBtn">⬆ Restore</button>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none" />
     <button class="act" id="reset">Reset progress</button>
   </div>
   <div class="grid" id="grid"></div>
@@ -146,6 +149,16 @@ const PKEY   = "isl_trainer_profiles_v1";        // {profiles:[{id,name}], activ
 const SKEY   = id => "isl_trainer_state_v1:" + id;
 const MAX_PROFILES = 4;
 
+// Safe storage: localStorage when available (Vercel, localhost, most file:// browsers),
+// otherwise an in-memory fallback so the app never crashes. Some browsers block
+// localStorage on file:// — there we warn the user and rely on Backup/Restore.
+const _ls = (typeof window!=="undefined") ? window.localStorage : null;
+let storageOK = (()=>{ try{ _ls.setItem("__islt","1"); _ls.removeItem("__islt"); return true; }catch(e){ return false; } })();
+const _mem = {};
+function lsGet(k){ if(storageOK){ try{ return _ls.getItem(k); }catch(e){ storageOK=false; } } return (k in _mem)?_mem[k]:null; }
+function lsSet(k,v){ if(storageOK){ try{ _ls.setItem(k,v); return; }catch(e){ storageOK=false; } } _mem[k]=v; }
+function lsDel(k){ if(storageOK){ try{ _ls.removeItem(k); return; }catch(e){ storageOK=false; } } delete _mem[k]; }
+
 const SUBJECTS = ["Algebra","Combinatorics","Geometry","Number Theory"];
 function defaultState(){
   return {
@@ -158,19 +171,19 @@ function defaultState(){
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 function loadProfiles(){
-  let pm = JSON.parse(localStorage.getItem(PKEY) || "null");
+  let pm = JSON.parse(lsGet(PKEY) || "null");
   if(!pm || !Array.isArray(pm.profiles) || !pm.profiles.length){
     pm = { profiles:[{id:"p1", name:"Player 1"}], active:"p1" };
-    localStorage.setItem(PKEY, JSON.stringify(pm));
-    const legacy = localStorage.getItem(OLD_LS);   // migrate old progress into Player 1
-    if(legacy && !localStorage.getItem(SKEY("p1"))) localStorage.setItem(SKEY("p1"), legacy);
+    lsSet(PKEY, JSON.stringify(pm));
+    const legacy = lsGet(OLD_LS);   // migrate old progress into Player 1
+    if(legacy && !lsGet(SKEY("p1"))) lsSet(SKEY("p1"), legacy);
   }
   return pm;
 }
 let PM = loadProfiles();
 let activeId = (PM.active && PM.profiles.some(p=>p.id===PM.active)) ? PM.active : PM.profiles[0].id;
 function loadState(id){
-  const s = Object.assign(defaultState(), JSON.parse(localStorage.getItem(SKEY(id)) || "{}"));
+  const s = Object.assign(defaultState(), JSON.parse(lsGet(SKEY(id)) || "{}"));
   if(!s.theta || typeof s.theta!=="object") s.theta = defaultState().theta;
   if(!s.nSub  || typeof s.nSub !=="object") s.nSub  = defaultState().nSub;
   for(const k of SUBJECTS){ if(typeof s.theta[k]!=="number") s.theta[k]=1.0; if(typeof s.nSub[k]!=="number") s.nSub[k]=0; }
@@ -182,13 +195,13 @@ function loadState(id){
   return s;
 }
 let state = loadState(activeId);
-function save(){ localStorage.setItem(SKEY(activeId), JSON.stringify(state)); }
+function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); }
 function activeName(){ const p = PM.profiles.find(x=>x.id===activeId); return p ? p.name : "?"; }
 
 function switchProfile(id){
   if(id===activeId) return;
   save();                                  // persist current profile first
-  activeId = id; PM.active = id; localStorage.setItem(PKEY, JSON.stringify(PM));
+  activeId = id; PM.active = id; lsSet(PKEY, JSON.stringify(PM));
   state = loadState(id);
   syncFilterChips(); renderProfiles(); restoreBoard();
   toast(`Switched to ${activeName()}`);
@@ -198,20 +211,20 @@ function addProfile(){
   const n = PM.profiles.reduce((m,p)=>Math.max(m, +(p.id.replace('p',''))||0), 0) + 1;
   const name = (prompt("New profile name:", "Player "+(PM.profiles.length+1)) || "").trim() || ("Player "+(PM.profiles.length+1));
   const id = "p"+n;
-  PM.profiles.push({id, name}); localStorage.setItem(PKEY, JSON.stringify(PM));
+  PM.profiles.push({id, name}); lsSet(PKEY, JSON.stringify(PM));
   switchProfile(id);
 }
 function renameProfile(){
   const p = PM.profiles.find(x=>x.id===activeId);
   const nm = (prompt("Rename profile:", p.name) || "").trim();
-  if(nm){ p.name = nm; localStorage.setItem(PKEY, JSON.stringify(PM)); renderProfiles(); }
+  if(nm){ p.name = nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); }
 }
 function deleteProfile(){
   if(PM.profiles.length <= 1){ alert("Keep at least one profile."); return; }
   if(!confirm(`Delete profile “${activeName()}” and all its progress?`)) return;
-  localStorage.removeItem(SKEY(activeId));
+  lsDel(SKEY(activeId));
   PM.profiles = PM.profiles.filter(p=>p.id!==activeId);
-  activeId = PM.profiles[0].id; PM.active = activeId; localStorage.setItem(PKEY, JSON.stringify(PM));
+  activeId = PM.profiles[0].id; PM.active = activeId; lsSet(PKEY, JSON.stringify(PM));
   state = loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard();
 }
 function renderProfiles(){
@@ -221,6 +234,7 @@ function renderProfiles(){
     PM.profiles.map(p=>`<span class="pchip ${p.id===activeId?'active':''}" data-id="${p.id}">${esc(p.name)}</span>`).join("") +
     (PM.profiles.length<MAX_PROFILES ? `<span class="pchip add" id="addprof">＋ New</span>` : ``) +
     `<span class="spacer"></span>
+     ${storageOK ? "" : `<span style="color:var(--bad);font-size:12px;margin-right:8px">⚠ this browser isn't saving progress — use Backup</span>`}
      <button class="act" id="renprof">✎ Rename</button>
      <button class="act" id="delprof">🗑 Delete</button>`;
   bar.querySelectorAll(".pchip[data-id]").forEach(c=>c.onclick=()=>switchProfile(c.dataset.id));
@@ -230,6 +244,37 @@ function renderProfiles(){
 }
 function syncFilterChips(){
   document.querySelectorAll('.chip[data-s]').forEach(c=>c.classList.toggle('active', c.dataset.s===state.filter));
+}
+
+/* ---------- Backup / Restore: portable progress across files, devices, local↔Vercel ---------- */
+function exportProgress(){
+  save();                                   // flush current profile first
+  const dump = { _app:"islgrind", _v:1, [PKEY]: lsGet(PKEY) };
+  PM.profiles.forEach(p=>{ dump[SKEY(p.id)] = lsGet(SKEY(p.id)); });
+  const blob = new Blob([JSON.stringify(dump,null,1)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "islgrind-progress.json";
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+  toast("Backed up to islgrind-progress.json");
+}
+function importProgress(file){
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const dump = JSON.parse(r.result);
+      if(dump._app!=="islgrind" || !dump[PKEY]) throw 0;
+      Object.keys(dump).forEach(k=>{
+        if((k===PKEY || k.indexOf("isl_trainer_state_v1:")===0) && dump[k]!=null) lsSet(k, dump[k]);
+      });
+      PM = loadProfiles();
+      activeId = (PM.active && PM.profiles.some(p=>p.id===PM.active)) ? PM.active : PM.profiles[0].id;
+      state = loadState(activeId);
+      syncFilterChips(); renderProfiles(); restoreBoard();
+      toast("Progress restored ✓");
+    }catch(e){ alert("That file doesn't look like an ISLGrind backup."); }
+  };
+  r.readAsText(file);
 }
 
 /* ===== Adaptive engine: per-topic ability (θ) + zone-of-proximal-development serving =====
@@ -427,12 +472,18 @@ document.getElementById("filters").onclick = (e)=>{
 };
 document.getElementById("shuffle").onclick = ()=>dealAll();
 document.getElementById("revealAll").onclick = ()=>{state.revealed=!state.revealed; save(); renderAll();};
+document.getElementById("exportBtn").onclick = exportProgress;
+document.getElementById("importBtn").onclick = ()=>document.getElementById("importFile").click();
+document.getElementById("importFile").onchange = (e)=>{ importProgress(e.target.files[0]); e.target.value=""; };
 document.getElementById("reset").onclick = ()=>{
   if(confirm(`Reset progress for “${activeName()}”? (other profiles are unaffected)`)){
     state=defaultState(); save(); syncFilterChips(); dealAll();
   }};
 
-window.addEventListener("load", ()=>{ renderProfiles(); syncFilterChips(); restoreBoard(); });
+window.addEventListener("load", ()=>{
+  renderProfiles(); syncFilterChips(); restoreBoard();
+  if(!storageOK) setTimeout(()=>toast("This browser won't save progress here — use ⬇ Backup to keep it"), 600);
+});
 </script>
 </body>
 </html>
