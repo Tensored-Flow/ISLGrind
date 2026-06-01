@@ -89,8 +89,7 @@ def build():
                 "body": body,
             })
     bank.sort(key=lambda p: (p["level"], p["year"], p["code"]))
-    out = ROOT / "app" / "bank.js"
-    out.parent.mkdir(exist_ok=True)
+    out = ROOT / "bank.js"
     out.write_text("window.ISL_BANK = " + json.dumps(bank, ensure_ascii=False) + ";\n")
     # stats
     from collections import Counter

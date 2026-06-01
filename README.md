@@ -22,9 +22,9 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 
 **Or run it on your own computer:**
 1. Click the green **`Code`** button at the top of this repo → **Download ZIP** (or `git clone https://github.com/Tensored-Flow/ISLGrind.git`).
-2. Unzip it and open the **`app`** folder.
-3. Double-click **`index.html`** — it opens in your browser and you're training.
-   - *(Optional, for a cleaner setup: open a terminal in the `app` folder and run `python3 -m http.server`, then visit the link it prints.)*
+2. Unzip it and double-click **`index.html`** — it opens in your browser and you're training.
+   - *(Optional, for a cleaner setup: open a terminal in the unzipped folder and run `python3 -m http.server`, then visit the link it prints.)*
+   - *Tip: to keep progress when moving between computers, use the **⬇ Backup** button to save a file and **⬆ Restore** it elsewhere.*
 
 Your progress saves automatically in that browser. Pick a profile and go — solve two notches above your level, and watch each topic's bar climb.
 
