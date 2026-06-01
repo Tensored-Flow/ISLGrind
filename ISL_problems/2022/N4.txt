@@ -1,0 +1,2 @@
+Find all triples of positive integers pa, b, pq with p prime and
+                                          ap = b! + p.

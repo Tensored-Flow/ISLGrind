@@ -1,0 +1,6 @@
+Find all positive integers n, for which the numbers in the set S = {1, 2, . . . , n} can be
+colored red and blue, with the following condition being satisfied: the set S × S × S contains
+exactly 2007 ordered triples (x, y, z) such that (i) x, y, z are of the same color and (ii) x + y + z
+is divisible by n.
+                                                                                      (Netherlands)
+Answer. n = 69 and n = 84.

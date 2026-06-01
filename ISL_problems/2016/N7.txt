@@ -1,0 +1,3 @@
+Let n be an odd positive integer. In the Cartesian plane, a cyclic polygon P with area
+S is chosen. All its vertices have integral coordinates, and all squares of its side lengths are
+divisible by n. Prove that 2S is an integer divisible by n.

@@ -1,0 +1,7 @@
+Find all integers n ⩾ 3 with the following property: for all real numbers a1 , a2 , . . . , an
+and b1 , b2 , . . . , bn satisfying |ak | + |bk | = 1 for 1 ⩽ k ⩽ n, there exist x1 , x2 , . . . , xn , each of
+which is either −1 or 1, such that
+
+                                         X               n
+                                              x k ak +         xk bk ⩽ 1.
+                                        k=1              k=1

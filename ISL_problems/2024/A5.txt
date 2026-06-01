@@ -1,0 +1,4 @@
+Find all periodic sequences a1 , a2 , . . .           of real numbers such that the following
+conditions hold for all n ≥ 1:
+                        an+2 + a2n = an + a2n+1           and       |an+1 − an | ≤ 1.
+                                                                                               (Kosovo)

@@ -1,0 +1,5 @@
+Let ABC be a triangle with incenter I and let X, Y and Z be the incenters of the triangles
+BIC, CIA and AIB, respectively. Let the triangle XY Z be equilateral. Prove that ABC is
+equilateral too.
+
+50th IMO 2009                       Problem Shortlist                          Geometry

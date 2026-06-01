@@ -1,0 +1,5 @@
+Find all positive integers n > 2 such that
+                                          ˇ ź
+                                      n! ˇˇ      pp + qq.
+                                           p<q≤n,
+                                          p,q primes

@@ -1,0 +1,5 @@
+Let m ‰ 0 be an integer. Find all polynomials P pxq with real coefficients such that
+             px3 − mx2 + 1qP px + 1q + px3 + mx2 + 1qP px − 1q = 2px3 − mx + 1qP pxq
+for all real numbers x.
+
+4                                                                                      IMO 2013 Colombia

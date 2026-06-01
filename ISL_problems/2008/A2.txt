@@ -1,0 +1,7 @@
+(a) Prove the inequality
+                                   x2       y2       z2
+                                        +        +         ≥1
+                                (x − 1)2 (y − 1)2 (z − 1)2
+for real numbers x, y, z 6= 1 satisfying the condition xyz = 1.
+    (b) Show that there are infinitely many triples of rational numbers x, y, z for which this
+inequality turns into equality.

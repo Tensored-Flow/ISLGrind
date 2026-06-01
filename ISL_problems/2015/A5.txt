@@ -1,0 +1,4 @@
+Let 2Z + 1 denote the set of odd integers. Find all functions f : Z → 2Z + 1 satisfying
+                       +             ˘   +             ˘
+                      f x + f pxq + y + f x − f pxq − y = f px + yq + f px − yq
+for every x, y P Z.

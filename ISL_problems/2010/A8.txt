@@ -1,0 +1,6 @@
+Given six positive numbers a, b, c, d, e, f such that a                    b        c     d     e        f . Let a c e  S
+and b    d        f  T . Prove that
+                                    b                                                                    
+                         2ST ¡          3pS    T q S pbd     bf    df q       T pac         ae     ceq .                     (1)
+
+                                                                                                                 (South Korea)

@@ -1,0 +1,7 @@
+Let Z≥0 be the set of non-negative integers, and let f : Z≥0 ˆ Z≥0 → Z≥0 be a
+bijection such that whenever f px1 , y1 q > f px2 , y2 q, we have f px1 + 1, y1 q > f px2 + 1, y2 q and
+f px1 , y1 + 1q > f px2 , y2 + 1q.
+    Let N be the number of pairs of integers px, yq, with 0 ≤ x, y < 100, such that f px, yq is
+odd. Find the smallest and largest possible value of N .
+
+6                                                               Oslo, Norway, 6th–16th July 2022

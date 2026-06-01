@@ -1,0 +1,7 @@
+Determine all functions f : Q Ý→ Z satisfying
+                                         ˆ               ˙        −x + a¯
+                                             f pxq + a
+                                     f                       =f
+                                                 b                   b
+for all x P Q, a P Z, and b P Z>0 . (Here, Z>0 denotes the set of positive integers.)
+                                                                                    (Israel)

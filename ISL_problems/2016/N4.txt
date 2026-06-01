@@ -1,0 +1,5 @@
+Let n, m, k and l be positive integers with n 6= 1 such that nk + mnl + 1 divides nk+l − 1.
+Prove that
+
+   • m = 1 and l = 2k; or
+   • l|k and m = nnl −1−1 .

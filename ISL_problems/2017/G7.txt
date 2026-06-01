@@ -1,0 +1,5 @@
+A   onvex quadrilateral ABCD has an ins ribed        ir le with   enter I . Let Ia , Ib , Ic ,
+and Id be the in enters of the triangles DAB , ABC , BCD , and CDA, respe tively. Suppose
+that the     ommon external tangents of the     ir les AIb Id and CIb Id meet at X , and the ommon
+external tangents of the      ir les BIa Ic and DIa Ic meet at Y . Prove that =XIY = 90 .
+                                                                                          (Kazakhstan)

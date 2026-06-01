@@ -1,0 +1,4 @@
+Denote by R+ the set of all positive real numbers. Find all functions f : R+ → R+ such
+that                                                              Ä                      ä
+                     xf (x2 )f (f (y)) + f (yf (x)) = f (xy) f (f (x2 )) + f (f (y 2 ))
+for all positive real numbers x and y.

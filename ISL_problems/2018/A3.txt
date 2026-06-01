@@ -1,0 +1,9 @@
+Given any set S of positive integers, show that at least one of the following two
+assertions holds:
+                                                               ř           ř
+ (1) There exist distin t
+nite subsets F and G of S su h that xPF 1{x = xPG 1{x ;
+ (2) There exists a positive rational number r < 1 su h that xPF 1{x ‰ r for all
+nite subsets
+      F of S .
+                                                                                                     (Luxembourg)

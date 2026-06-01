@@ -1,0 +1,4 @@
+Let a , a , a , . . . be an infinite sequence of positive integers such that a + divides
+                 1   2   3                                                                   n 2m
+an + an+m for all positive integers n and m. Prove that this sequence is eventually periodic, i.e.
+there exist positive integers N and d such that an = an+d for all n > N .

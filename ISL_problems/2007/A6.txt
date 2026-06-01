@@ -1,0 +1,4 @@
+Let a1 , a2 , . . . , a100 be nonnegative real numbers such that a21 + a22 + . . . + a2100 = 1. Prove
+that
+                                              a21 a2 + a22 a3 + . . . + a2100 a1 <                   .
+                                                                                                                                          (Poland)

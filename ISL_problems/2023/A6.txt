@@ -1,0 +1,4 @@
+Let k ≥ 2 be an integer. Determine all sequences of positive integers a1 , a2 , . . . for
+which there exists a monic polynomial P of degree k with non-negative integer coefficients such
+                                 P pan q = an+1 an+2 ··· an+k
+for every integer n ≥ 1.

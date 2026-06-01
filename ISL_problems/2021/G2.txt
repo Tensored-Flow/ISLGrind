@@ -1,0 +1,5 @@
+Let ABCD be a convex quadrilateral circumscribed around a circle with centre I .
+Let ω be the circumcircle of the triangle ACI . The extensions of BA and BC beyond A and
+C meet ω at X and Z , respectively. The extensions of AD and CD beyond D meet ω at Y
+and T , respectively. Prove that the perimeters of the (possibly self-intersecting) quadrilaterals
+ADT X and CDY Z are equal.

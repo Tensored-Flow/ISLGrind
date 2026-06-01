@@ -1,0 +1,4 @@
+Determine all functions f from the set of positive integers into the set of positive integers such
+that for all x and y there exists a non degenerated triangle with sides of lengths
+
+                                x,   f (y)   and f (y + f (x) − 1).

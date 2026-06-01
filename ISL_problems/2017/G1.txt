@@ -1,0 +1,4 @@
+onvex pentagon su h that AB = BC = CD , =EAB = =BCD ,
+             Let ABCDE be a
+and =EDC   = =CBA. Prove that the perpendi ular line from E to BC and the line seg-
+ments AC and BD are on urrent.

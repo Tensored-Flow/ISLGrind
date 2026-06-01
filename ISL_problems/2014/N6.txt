@@ -1,0 +1,4 @@
+Let a1 < a2 < ··· < an be pairwise coprime positive integers with a1 being prime
+and a1 ≥ n + 2. On the segment I = r0, a1 a2 ··· an s of the real line, mark all integers that are
+divisible by at least one of the numbers a1 , . . . , an . These points split I into a number of smaller
+segments. Prove that the sum of the squares of the lengths of these segments is divisible by a1 .

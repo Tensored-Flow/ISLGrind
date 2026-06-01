@@ -1,0 +1,7 @@
+Determine all functions f : Z → Z such that
+                          2   2
+                       f a +b pa + bq = af paq + bf pbq     for every a, b P Z.
+
+Here, f n denotes the nth iteration of f , i.e., f 0 pxq = x and f n+1pxq = f pf n pxqq for all n ≥ 0.
+
+Shortlisted problems                                                                                5

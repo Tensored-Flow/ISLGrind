@@ -1,0 +1,6 @@
+De
+ne the sequen e a0 , a1 , a2 , . . . by an = 2n + 2tn{2u . Prove that there are in
+nitely
+many terms of the sequen e whi h an be expressed as a sum of (two or more) distin t terms
+of the sequen e, as well as in
+nitely many of those whi h annot be expressed in su h a way.

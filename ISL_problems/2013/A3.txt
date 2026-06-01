@@ -1,0 +1,6 @@
+Let Q>0 be the set of positive rational numbers. Let f : Q>0 → R be a function satisfying
+the conditions
+                    f pxqf pyq ≥ f pxyq and f px + yq ≥ f pxq + f pyq
+for all x, y P Q>0 . Given that f paq = a for some rational a > 1, prove that f pxq = x for all
+x P Q>0 .
+                                                                                                (Bulgaria)

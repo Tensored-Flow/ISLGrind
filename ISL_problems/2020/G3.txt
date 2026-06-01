@@ -1,0 +1,4 @@
+Let ABCD be a convex quadrilateral with =ABC > 90˝ , =CDA > 90˝ , and
+=DAB = =BCD. Denote by E and F the reflections of A in lines BC and CD, respectively.
+Suppose that the segments AE and AF meet the line BD at K and L, respectively. Prove that
+the circumcircles of triangles BEK and DF L are tangent to each other.

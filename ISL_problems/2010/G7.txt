@@ -1,0 +1,28 @@
+Three circular arcs γ1 , γ2 , and γ3 connect the points A and C. These arcs lie in the same
+half-plane defined by line AC in such a way that arc γ2 lies between the arcs γ1 and γ3 . Point
+B lies on the segment AC. Let h1 , h2 , and h3 be three rays starting at B, lying in the same
+half-plane, h2 being between h1 and h3 . For i, j  1, 2, 3, denote by Vij the point of intersection
+of hi and γj (see the Figure below).
+    Denote by VǑ        Ǒ
+                 ij Vkj Vkℓ Viℓ the curved quadrilateral, whose sides are the segments Vij Viℓ , Vkj Vkℓ
+and arcs Vij Vkj and Viℓ Vkℓ . We say that this quadrilateral is circumscribed if there exists a circle
+touching these two segments and two arcs.
+    Prove that if the curved quadrilaterals VǑ         Ǒ ǑǑ ǑǑ
+                                                11 V21 V22 V12 , V12 V22 V23 V13 , V21 V31 V32 V22 are circum-
+                                            Ǒ     Ǒ
+scribed, then the curved quadrilateral V22 V32 V33 V23 is circumscribed, too.
+                                                                h2
+                                                          V23                       h3
+                                         h1
+                                                                                  V33
+                                        V13
+
+                                                            V22
+                                              V12                          V32
+                                   γ3
+                                        γ2                 V21       V31
+                                                    V11
+                                        γ1
+                               A                      B                                  C
+                                                           Fig. 1
+                                                                                                    (Hungary)

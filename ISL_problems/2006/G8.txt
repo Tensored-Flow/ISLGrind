@@ -1,0 +1,8 @@
+Let ABCD be a convex quadrilateral. A circle passing through the points A and D
+and a circle passing through the points B and C are externally tangent at a point P inside the
+quadrilateral. Suppose that
+
+                 ∠P AB + ∠P DC ≤ 90◦             and           ∠P BA + ∠P CD ≤ 90◦ .
+
+Prove that AB + CD ≥ BC + AD.
+                                                                                          (Poland)

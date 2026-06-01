@@ -1,0 +1,12 @@
+A hunter and an invisible rabbit play a game on an infinite square grid. First the
+hunter fixes a colouring of the cells with finitely many colours. The rabbit then secretly chooses
+a cell to start in. Every minute, the rabbit reports the colour of its current cell to the hunter,
+and then secretly moves to an adjacent cell that it has not visited before (two cells are adjacent
+if they share a side). The hunter wins if after some finite time either
+    • the rabbit cannot move; or
+
+    • the hunter can determine the cell in which the rabbit started.
+
+Decide whether there exists a winning strategy for the hunter.
+
+Shortlisted problems                                                                                7

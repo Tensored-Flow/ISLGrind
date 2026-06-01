@@ -1,0 +1,12 @@
+Let p be an odd prime number. For every integer a, define the number
+
+                                              a a2        ap−1
+                                       Sa =     +   +···+      .
+                                              1   2       p−1
+
+Let m and n be integers such that
+                                            S3 + S4 − 3S2 =       .
+                                                                n
+Prove that p divides m.
+
+                                                                                                                   N8

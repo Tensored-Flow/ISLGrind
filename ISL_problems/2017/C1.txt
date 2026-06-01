@@ -1,0 +1,3 @@
+A re tangle R with odd integer side lengths is divided into small re tangles with integer
+side lengths. Prove that there is at least one among the small re tangles whose distan es from
+the four sides of R are either all odd or all even.

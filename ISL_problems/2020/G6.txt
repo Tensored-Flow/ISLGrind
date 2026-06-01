@@ -1,0 +1,6 @@
+Let I and IA be the incenter and the A-excenter of an acute-angled triangle ABC
+with AB < AC. Let the incircle meet BC at D. The line AD meets BIA and CIA at E
+and F , respectively. Prove that the circumcircles of triangles AID and IA EF are tangent to
+each other.
+
+Shortlisted problems                                                                          9

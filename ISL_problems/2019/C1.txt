@@ -1,0 +1,9 @@
+The inﬁnite sequence a0 , a1 , a2 , . . . of (not necessarily diﬀerent) integers has the
+following properties: 0 ≤ ai ≤ i for all integers i ≥ 0, and
+                               ˆ ˙ ˆ ˙                    ˆ ˙
+                                  k         k               k
+                                      +         + ···+          = 2k
+                                 a0        a1               ak
+for all integers k ≥ 0.
+    Prove that all integers N ≥ 0 occur in the sequence (that is, for all N ≥ 0, there exists i ≥ 0
+with ai = N).

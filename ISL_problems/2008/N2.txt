@@ -1,0 +1,2 @@
+Let a1 , a2 , . . . , an be distinct positive integers, n ≥ 3. Prove that there exist distinct
+indices i and j such that ai + aj does not divide any of the numbers 3a1 , 3a2 , . . . , 3an .

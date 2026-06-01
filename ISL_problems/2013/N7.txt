@@ -1,0 +1,19 @@
+Let ν be an irrational positive number, and let m be a positive integer. A pair pa, bq of
+positive integers is called good if
+                                    arbνs − btaνu = m.
+A good pair pa, bq is called excellent if neither of the pairs pa−b, bq and pa, b−aq is good. (As usual,
+by txu and rxs we denote the integer numbers such that x − 1 < txu ≤ x and x ≤ rxs < x + 1.)
+   Prove that the number of excellent pairs is equal to the sum of the positive divisors of m.
+                                                                                              (U.S.A.)
+
+8                                                                                                                  IMO 2013 Colombia
+
+                                                Solutions
+
+A1.     Let n be a positive integer and let a1 , . . . , an−1 be arbitrary real numbers. Define the
+sequences u0 , . . . , un and v0 , . . . , vn inductively by u0 = u1 = v0 = v1 = 1, and
+
+              uk+1 = uk + ak uk−1 ,                 vk+1 = vk + an−k vk−1                     for k = 1, . . . , n − 1.
+
+Prove that un = vn .
+                                                                                                                            (France)

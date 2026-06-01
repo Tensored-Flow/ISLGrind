@@ -1,0 +1,9 @@
+Call a rational number      short if it has
+nitely many digits in its de imal expansion.
+For a positive integer m, we say that a positive integer t is m      -tasti if there exists a number
+                                10 − 1                          10k − 1
+c P t1, 2, 3, . . . , 2017u su h that   is short, and su h that         is not short for any
+                                  c·m                            c·m
+1 ≤ k < t. Let Spmq be the set of m-tasti numbers. Consider Spmq for m = 1, 2, . . .. What is
+the maximum number of elements in Spmq?
+                                                                                                         (Turkey)

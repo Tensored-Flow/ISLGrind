@@ -1,0 +1,3 @@
+Let O be the   ir um enter of an a ute s alene triangle ABC . Line OA interse ts the
+altitudes of ABC through B and C at P and Q, respe tively. The altitudes meet at H . Prove
+that the     ir um enter of triangle P QH lies on a median of triangle ABC .

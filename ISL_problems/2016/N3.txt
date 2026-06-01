@@ -1,0 +1,5 @@
+Define P (n) = n2 + n + 1. For any positive integers a and b, the set
+                              {P (a), P (a + 1), P (a + 2), . . . , P (a + b)}
+
+is said to be fragrant if none of its elements is relatively prime to the product of the other
+elements. Determine the smallest size of a fragrant set.

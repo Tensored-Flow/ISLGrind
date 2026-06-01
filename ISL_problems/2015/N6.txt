@@ -1,0 +1,10 @@
+Let Z>0 denote the set of positive integers. Consider a function f : Z>0 → Z>0 . For
+any m, n P Z>0 we write f n pmq = looomooon
+                                    f pf p. . . f pmq . . .qq. Suppose that f has the following two
+properties:
+                              f n pmq − m
+  piq If m, n P Z>0 , then                P Z>0 ;
+ piiq The set Z>0 z tf pnq | n P Z>0 u is finite.
+
+Prove that the sequence f p1q − 1, f p2q − 2, f p3q − 3, . . . is periodic.
+                                                                                   (Singapore)

@@ -1,0 +1,4 @@
+Let ABCDE be a convex pentagon such that BC k AE, AB  BC AE, and =ABC 
+=CDE. Let M be the midpoint of CE, and let O be the circumcenter of triangle BCD. Given
+that =DMO  90 , prove that 2=BDA  =CDE.
+                                                                                                     (Ukraine)

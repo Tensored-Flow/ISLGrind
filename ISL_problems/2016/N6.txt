@@ -1,0 +1,5 @@
+Denote by N the set of all positive integers. Find all functions f : N → N such that
+for all positive integers m and n, the integer f (m) + f (n) − mn is nonzero and divides
+mf (m) + nf (n).
+
+10                                                                          IMO 2016 Hong Kong

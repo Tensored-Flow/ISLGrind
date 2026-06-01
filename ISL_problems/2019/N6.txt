@@ -1,0 +1,5 @@
+Let H = Xi?2\ : i P Z>0 ( = t1, 2, 4, 5, 7, . . .u, and let n be a positive integer. Prove
+that there exists a constant C such that, if A Ă t1, 2, . . . , nu satisﬁes |A| ≥ C n, then there
+exist a, b P A such that a − b P H. (Here Z>0 is the set of positive integers, and tzu denotes the
+greatest integer less than or equal to z.)
+                                                                                          (Brazil)

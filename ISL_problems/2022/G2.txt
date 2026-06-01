@@ -1,0 +1,5 @@
+In the acute-angled triangle ABC, the point F is the foot of the altitude from A, and
+P is a point on the segment AF . The lines through P parallel to AC and AB meet BC at D
+and E, respectively. Points X ‰ A and Y ‰ A lie on the circles ABD and ACE, respectively,
+such that DA = DX and EA = EY .
+   Prove that B, C, X and Y are concyclic.

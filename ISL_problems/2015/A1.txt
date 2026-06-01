@@ -1,0 +1,6 @@
+Suppose that a sequence a1 , a2 , . . . of positive real numbers satisfies
+                                                        kak
+                                           ak+1 ≥    2
+                                                    ak + pk − 1q
+
+for every positive integer k. Prove that a1 + a2 + ··· + an ≥ n for every n ≥ 2.

@@ -1,0 +1,6 @@
+Let A1 , B1 and C1 be points on sides BC, CA and AB of an acute triangle ABC
+respectively, such that AA1 , BB1 and CC1 are the internal angle bisectors of triangle ABC.
+Let I be the incentre of triangle ABC, and H be the orthocentre of triangle A1 B1 C1 . Show
+                              AH + BH + CH ⩾ AI + BI + CI.
+
+Shortlisted problems                                                                         9

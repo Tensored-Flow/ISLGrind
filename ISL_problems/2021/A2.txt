@@ -1,0 +1,6 @@
+For every integer n ≥ 1 consider the n ˆ n table with entry n + 1 at the intersection
+                                                                                                    Z        ^
+                                                                                                        ij
+
+of row i and column j , for every i = 1, . . . , n and j = 1, . . . , n. Determine all integers n ≥ 1 for
+which the sum of the n2 entries in the table is equal to 14 n2pn − 1q.

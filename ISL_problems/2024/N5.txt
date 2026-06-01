@@ -1,0 +1,9 @@
+Let S be a finite nonempty set of prime numbers. Let 1 = b1 < b2 < ··· be the
+sequence of all positive integers whose prime divisors all belong to S. Prove that, for all but
+finitely many positive integers n, there exist positive integers a1 , a2 , . . . , an such that
+                                                 R                      V
+                          a1 a2            an      1     1            1
+                              +    + ··· +     =      + + ··· +            .
+                           b1   b2         bn      b1 b 2            bn
+
+                                                                                          (Croatia)

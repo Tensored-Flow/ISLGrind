@@ -1,0 +1,7 @@
+Let c > 2, and let a(1), a(2), . . . be a sequence of nonnegative real numbers such that
+                                a(m + n) ≤ 2a(m) + 2a(n) for all m, n ≥ 1,                                          (1)
+
+                                         a(2k ) ≤                      for all k ≥ 0.                               (2)
+                                                     (k + 1)c
+Prove that the sequence a(n) is bounded.
+                                                                                                              (Croatia)

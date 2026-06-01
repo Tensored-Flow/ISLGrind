@@ -1,0 +1,5 @@
+Let k be a positive integer. Show that if there exists a sequence a0 , a1 , . . . of integers satisfying
+the condition
+                                          an−1 + nk
+                                   an =               for all n ≥ 1,
+then k − 2 is divisible by 3.

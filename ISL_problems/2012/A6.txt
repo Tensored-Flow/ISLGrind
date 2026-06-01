@@ -1,0 +1,3 @@
+Let f : N → N be a function, and let f m be f applied m times. Suppose that for
+every n ∈ N there exists a k ∈ N such that f 2k (n) = n + k, and let kn be the smallest such k.
+Prove that the sequence k1 , k2 , . . . is unbounded.

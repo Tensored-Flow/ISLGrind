@@ -1,0 +1,9 @@
+Let n ≥ 2 be a positive integer. Paul has a 1 ˆ n2 rectangular strip consisting of n2
+unit squares, where the ith square is labelled with i for all 1 ≤ i ≤ n2 . He wishes to cut the
+strip into several pieces, where each piece consists of a number of consecutive unit squares, and
+then translate (without rotating or flipping) the pieces to obtain an n ˆ n square satisfying the
+following property: if the unit square in the ith row and j th column is labelled with aij , then
+aij − pi + j − 1q is divisible by n.
+    Determine the smallest number of pieces Paul needs to make in order to accomplish this.
+
+6                                                               Chiba, Japan, 2nd–13th July 2023

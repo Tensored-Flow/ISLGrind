@@ -1,0 +1,4 @@
+For a prime p and a positive integer n, denote by νp (n) the exponent of p in the prime
+factorization of n!. Given a positive integer d and a finite set {p1 , . . . , pk } of primes. Show that
+there are infinitely many positive integers n such that d νpi (n) for all 1 ≤ i ≤ k.
+                                                                                                 (India)

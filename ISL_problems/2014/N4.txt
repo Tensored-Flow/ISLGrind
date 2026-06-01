@@ -1,0 +1,5 @@
+Let n > 1 be a given integer. Prove that infinitely many terms of the sequence pak qk≥1 ,
+defined by                                     Z k^
+                                          ak =        ,
+are odd. (For a real number x, txu denotes the largest integer not exceeding x.)
+                                                                                          (Hong Kong)

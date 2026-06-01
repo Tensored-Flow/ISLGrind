@@ -1,0 +1,3 @@
+Let A be a finite set of (not necessarily positive) integers, and let m ≥ 2 be an integer.
+Assume that there exist non-empty subsets B1 , B2, B3, . . . , Bm of A whose elements add up to
+the sums m1 , m2 , m3, . . . , mm, respectively. Prove that A contains at least m{2 elements.

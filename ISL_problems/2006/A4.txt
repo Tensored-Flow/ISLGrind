@@ -1,0 +1,9 @@
+Prove the inequality
+                               X ai aj               n              X
+                                         ≤                              ai aj
+                                  a + aj
+                               i<j i
+                                           2(a1 + a2 + · · · + an ) i<j
+
+for positive real numbers a1 , a2 , . . . , an .
+                                                                                                   (Serbia)

@@ -1,0 +1,15 @@
+Let $n > 1$ be an integer. Find all sequences $a_1, a_2, \ldots, a_{n^2+n}$ satisfying the following conditions:
+
+(a) $a_i \in \{0, 1\}$ for all $1 \leq i \leq n^2 + n$;
+
+(b) $a_{i+1} + a_{i+2} + \ldots + a_{i+n} < a_{i+n+1} + a_{i+n+2} + \ldots + a_{i+2n}$ for all $0 \leq i \leq n^2 - n$.
+
+\textbf{Answer.} Such a sequence is unique. It can be defined as follows:
+\[
+a_{u+vn} = \begin{cases} 0, & u + v \leq n, \\ 1, & u + v \geq n + 1 \end{cases} \qquad \text{for all } 1 \leq u \leq n \text{ and } 0 \leq v \leq n. \tag{1}
+\]
+
+The terms can be arranged into blocks of length $n$ as
+\[
+(\underbrace{0 \ldots 0}_{n})\,(\underbrace{0 \ldots 0}_{n-1} 1)\,(\underbrace{0 \ldots 0}_{n-2} 1\,1) \ldots (\underbrace{0 \ldots 0}_{n-v} \underbrace{1 \ldots 1}_{v}) \ldots (0\,\underbrace{1 \ldots 1}_{n-1})\,(\underbrace{1 \ldots 1}_{n}).
+\]

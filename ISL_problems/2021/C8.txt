@@ -1,0 +1,8 @@
+Determine the largest N for which there exists a table T of integers with N rows and
+100 columns that has the following properties:
+
+  (i) Every row contains the numbers 1, 2, . . . , 100 in some order.
+ (ii) For any two distinct rows r and s, there is a column c such that |T pr, cq − T ps, cq| ≥ 2.
+    Here T pr, cq means the number at the intersection of the row r and the column c.
+
+8                                              Saint-Petersburg — Russia, 16th–24th July 2021

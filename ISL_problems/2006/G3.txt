@@ -1,0 +1,5 @@
+Let ABCDE be a convex pentagon such that
+             ∠BAC = ∠CAD = ∠DAE                 and       ∠ABC = ∠ACD = ∠ADE.
+
+The diagonals BD and CE meet at P . Prove that the line AP bisects the side CD.
+                                                                                     (USA)

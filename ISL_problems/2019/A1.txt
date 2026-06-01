@@ -1,0 +1,4 @@
+Let Z be the set of integers. Determine all functions f : Z → Z such that, for all
+integers a and b,
+                                 f p2aq + 2f pbq = f pf pa + bqq.
+                                                                                          (South Africa)

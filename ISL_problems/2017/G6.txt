@@ -1,0 +1,5 @@
+Let n ≥ 3 be an integer. Two regular n-gons A and B are given in the plane. Prove
+that the verti es of A that lie inside B or on its boundary are      onse utive.
+       (That is, prove that there exists a line separating those verti es of A that lie inside B or on
+its boundary from the other verti es of A.)
+                                                                                     (Cze h Republi )

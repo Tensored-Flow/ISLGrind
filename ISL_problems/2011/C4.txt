@@ -1,0 +1,7 @@
+Determine the greatest positive integer k that satisfies the following property: The set of positive
+     integers can be partitioned into k subsets A1 , A2 , . . . , Ak such that for all integers n ≥ 15 and
+     all i ∈ {1, 2, . . . , k} there exist two distinct elements of Ai whose sum is n.
+
+52nd IMO 2011                             Problem shortlist                             Combinatorics
+
+                                                                                                           C5

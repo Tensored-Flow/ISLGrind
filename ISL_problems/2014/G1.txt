@@ -1,0 +1,4 @@
+The points P and Q are chosen on the side BC of an acute-angled triangle ABC so
+that =P AB = =ACB and =QAC = =CBA. The points M and N are taken on the rays AP
+and AQ, respectively, so that AP = P M and AQ = QN. Prove that the lines BM and CN
+intersect on the circumcircle of the triangle ABC.

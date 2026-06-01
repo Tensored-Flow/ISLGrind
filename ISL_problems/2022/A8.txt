@@ -1,0 +1,10 @@
+For a positive integer n, an n-sequence is a sequence pa0 , . . . , an q of non-negative
+integers satisfying the following condition: if i and j are non-negative integers with i + j ≤ n,
+then ai + aj ≤ n and aai +aj = ai+j .
+    Let f pnq be the number of n-sequences. Prove that there exist positive real numbers c1 , c2
+and λ such that
+                                       c1 λn < f pnq < c2 λn
+for all positive integers n.
+                                                                                         (Canada)
+
+4                                                               Oslo, Norway, 6th–16th July 2022

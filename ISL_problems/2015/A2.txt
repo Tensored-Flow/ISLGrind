@@ -1,0 +1,6 @@
+Determine all functions f : Z → Z with the property that
+                                    +         ˘   +     ˘
+                                   f x − f pyq = f f pxq − f pyq − 1
+
+holds for all x, y P Z.
+                                                                                     (Croatia)

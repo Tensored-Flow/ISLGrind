@@ -1,0 +1,5 @@
+A point T is hosen inside a triangle ABC . Let A1 , B1 , and C1 be the re
+e tions
+of T in BC , CA, and AB , respe tively. Let Ω be the ir um ir le of the triangle A1 B1 C1 .
+The lines A1 T , B1 T , and C1 T meet Ω again at A2 , B2 , and C2 , respe tively. Prove that the
+lines AA2 , BB2 , and CC2 are on urrent on Ω.

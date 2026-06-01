@@ -1,0 +1,7 @@
+Show that for all real numbers x , . . . , x the following inequality holds:
+                                                     1               n
+
+                                     ÿ n b
+                                     n ÿ                             ÿ n b
+                                               |xi − xj | ≤                     |xi + xj |.
+                                    i 1j 1                           = =

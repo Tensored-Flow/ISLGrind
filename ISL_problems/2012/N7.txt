@@ -1,0 +1,9 @@
+Find all n ∈ N for which there exist nonnegative integers a1 , a2 , . . . , an such that
+                        1    1           1    1    2            n
+                         a
+                           + a
+                               + · · · +  a
+                                            =  a
+                                                 + a
+                                                     + · · · +     = 1.
+                        21 22            2n   31 32            3an

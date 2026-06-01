@@ -1,0 +1,7 @@
+Let ABC be an acute-angled triangle with AB < AC. Denote its circumcircle by Ω
+and denote the midpoint of arc CAB by S. Let the perpendicular from A to BC meet BS
+and Ω at D and E ‰ A respectively. Let the line through D parallel to BC meet line BE at L
+and denote the circumcircle of triangle BDL by ω. Let ω meet Ω again at P ‰ B.
+   Prove that the line tangent to ω at P , and line BS intersect on the internal bisector
+of =BAC.
+                                                                              (Portugal)

@@ -1,0 +1,10 @@
+Let n ≥ 2 be a positive integer and a1 , a2 , . . . , an be real numbers such that
+
+                                           a1 + a2 + ··· + an = 0.
+
+Deﬁne the set A by                        ˇ                              (
+                               A = pi, jq ˇ 1 ≤ i < j ≤ n, |ai − aj | ≥ 1 .
+Prove that, if A is not empty, then              ÿ
+                                                          ai aj < 0.
+
+                                                                                                (China)

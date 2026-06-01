@@ -1,0 +1,7 @@
+Let a1 , . . . , ar be positive real numbers. For n ¡ r, we inductively define
+                                         an  max pak                  ank q.                                      (1)
+                                                  ··
+                                                  1 k n 1
+
+Prove that there exist positive integers ℓ · r and N such that an  anℓ                            aℓ for all n © N.
+                                                                                                                 (Iran)

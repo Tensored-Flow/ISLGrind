@@ -1,0 +1,5 @@
+A thimblerigger has 2021 thimbles numbered from 1 through 2021. The thimbles are
+arranged in a circle in arbitrary order. The thimblerigger performs a sequence of 2021 moves;
+in the kth move, he swaps the positions of the two thimbles adjacent to thimble k.
+    Prove that there exists a value of k such that, in the kth move, the thimblerigger swaps
+some thimbles a and b such that a < k < b.

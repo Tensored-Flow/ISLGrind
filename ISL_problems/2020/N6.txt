@@ -1,0 +1,8 @@
+For a positive integer n, let dpnq be the number of positive divisors of n, and let
+ϕpnq be the number of positive integers not exceeding n which are coprime to n. Does there
+exist a constant C such that
+                                          ϕpdpnqq
+                                                  ≤C
+                                          dpϕpnqq
+for all n ≥ 1?
+                                                                                                       (Cyprus)

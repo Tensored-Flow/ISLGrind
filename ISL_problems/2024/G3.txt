@@ -1,0 +1,5 @@
+Let ABCDE be a convex pentagon and let M be the midpoint of AB. Suppose
+that segment AB is tangent to the circumcircle of triangle CM E at M and that D lies on the
+circumcircles of triangles AM E and BM C. Lines AD and M E intersect at K, and lines BD
+and M C intersect at L. Points P and Q lie on line EC so that =P DC = =EDQ = =ADB.
+   Prove that lines KP , LQ, and M D are concurrent.

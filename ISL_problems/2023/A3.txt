@@ -1,0 +1,7 @@
+Let x1 , x2 , . . . , x2023 be distinct real positive numbers such that
+                                     d                       ˆ                    ˙
+                                                                1    1         1
+                             an = px1 + x2 + ··· + xn q         +    + ··· +
+                                                               x1 x 2          xn
+
+is an integer for every n = 1, 2, . . . , 2023. Prove that a2023 ≥ 3034.

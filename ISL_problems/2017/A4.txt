@@ -1,0 +1,9 @@
+A sequen e of real numbers a1 , a2 , . . . satis
+
+                             an = − max pai + aj q        for all n > 2017.
+                                     i+j=n
+
+Prove that this sequen e is bounded, i.e., there is a         onstant M su h that |an | ≤ M for all
+positive integers n.
+
+Shortlisted problems                                                                                            5

@@ -1,0 +1,6 @@
+Find all fun tions f : R → R su h that
+
+                                      f pf pxqf pyqq + f px + yq = f pxyq
+
+for all x, y P R.
+                                                                                                     (Albania)

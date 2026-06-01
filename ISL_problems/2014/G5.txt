@@ -1,0 +1,9 @@
+Let ABCD be a convex quadrilateral with =B = =D = 90 . Point H is the foot of
+                                                                   ˝
+
+the perpendicular from A to BD. The points S and T are chosen on the sides AB and AD,
+respectively, in such a way that H lies inside triangle SCT and
+
+                     =SHC − =BSC = 90˝ ,       =T HC − =DT C = 90˝ .
+
+Prove that the circumcircle of triangle SHT is tangent to the line BD.

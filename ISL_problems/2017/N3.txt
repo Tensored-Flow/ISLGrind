@@ -1,0 +1,6 @@
+Determine all integers n ≥ 2 with the following property: for any integers a1 , a2 , . . . , an
+whose sum is not divisible by n, there exists an index 1 ≤ i ≤ n su h that none of the numbers
+
+                                ai , ai + ai+1 , . . . , ai + ai+1 + ··· + ai+n−1
+
+is divisible by n. (We let ai = ai−n when i > n.)

@@ -1,0 +1,5 @@
+Let a, b, c, d be positive integers satisfying
+                                  ab      cd     pa + bqpc + dq
+                                      +        =                .
+                                a+b c+d          a+b+c+d
+Determine all possible values of a + b + c + d.

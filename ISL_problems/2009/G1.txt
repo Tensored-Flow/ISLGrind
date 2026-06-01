@@ -1,0 +1,3 @@
+Let ABC be a triangle with AB = AC. The angle bisectors of A and B meet the sides BC
+and AC in D and E, respectively. Let K be the incenter of triangle ADC. Suppose that
+∠BEK = 45 ◦. Find all possible values of ∠BAC.

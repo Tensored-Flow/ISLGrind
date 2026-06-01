@@ -1,0 +1,10 @@
+Let P1 , . . . , Ps be arithmetic progressions of integers, the following conditions being
+satisfied:
+    (i) each integer belongs to at least one of them;
+    (ii) each progression contains a number which does not belong to other progressions.
+    Denote by n the least common multiple of steps of these progressions; let n  pα1 1 . . . pαk k be
+its prime factorization. Prove that
+
+                                          s©1              αi ppi  1q.
+
+                                                                                           (Germany)

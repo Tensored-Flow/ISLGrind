@@ -1,0 +1,6 @@
+Decide whether for every sequence pan q of positive real numbers,
+                                    3a1 + 3a2 + ··· + 3an       1
+                                     a     a             a   2
+                                                               <
+                                   p2 1 + 2 2 + ··· + 2 n q    2024
+is true for at least one positive integer n.

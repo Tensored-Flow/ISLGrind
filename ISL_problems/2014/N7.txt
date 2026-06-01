@@ -1,0 +1,5 @@
+Let c ≥ 1 be an integer. Define a sequence of positive integers by a1 = c and
+                                  an+1 = a3n − 4c · a2n + 5c2 · an + c
+
+for all n ≥ 1. Prove that for each integer n ≥ 2 there exists a prime number p dividing an but
+none of the numbers a1 , . . . , an−1 .

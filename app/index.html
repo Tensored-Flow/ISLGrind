@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ISLGrind — adaptive IMO Shortlist practice</title>
+<meta name="description" content="Adaptive practice for IMO Shortlist problems (1990–2024). Per-topic difficulty calibration serves you problems a notch above your level across Algebra, Combinatorics, Geometry, and Number Theory." />
+<meta name="theme-color" content="#0e1116" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ISLGrind — adaptive IMO Shortlist practice" />
+<meta property="og:description" content="1,004 IMO Shortlist problems (1990–2024) with adaptive, per-topic difficulty calibration." />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1116'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Georgia,serif' fill='%235b9dff' text-anchor='middle'%3E%CE%A3%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c232d; --line:#2a3340;
+    --ink:#e7edf3; --dim:#9aa7b4; --accent:#5b9dff; --good:#3fb950; --bad:#f0883e;
+    --a:#7aa2ff; --c:#f7768e; --g:#9ece6a; --n:#e0af68;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  header{position:sticky;top:0;z-index:5;background:rgba(14,17,22,.9);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  h1{font-size:18px;margin:0;letter-spacing:.3px}
+  h1 small{color:var(--dim);font-weight:400;font-size:12px;margin-left:8px}
+  .spacer{flex:1}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;
+    padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:8px}
+  .badge b{color:var(--accent)}
+  .leveldots{display:flex;gap:3px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+  .dot.on{background:var(--accent)}
+  main{max-width:1100px;margin:0 auto;padding:22px}
+  .profilebar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;
+    padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .plabel{color:var(--dim);font-size:12px;margin-right:2px;text-transform:uppercase;letter-spacing:.5px}
+  .pchip{cursor:pointer;user-select:none;border:1px solid var(--line);background:var(--panel);
+    color:var(--dim);border-radius:999px;padding:6px 16px;font-size:13px;display:flex;align-items:center;gap:8px}
+  .pchip:hover{border-color:#3a4757}
+  .pchip.active{color:#fff;border-color:var(--accent);background:linear-gradient(180deg,#2a3550,#1c2433);font-weight:600}
+  .pchip.active::before{content:"●";color:var(--accent);font-size:10px}
+  .pchip.add{color:var(--accent);border-style:dashed}
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  .filters{display:flex;gap:6px}
+  .chip{cursor:pointer;user-select:none;border:1px solid var(--line);background:var(--panel);
+    color:var(--dim);border-radius:8px;padding:6px 12px;font-size:13px}
+  .chip.active{color:var(--ink);border-color:var(--accent);background:var(--panel2)}
+  button.act{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+    border-radius:8px;padding:8px 14px;font-size:13px}
+  button.act:hover{border-color:var(--accent)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;display:flex;flex-direction:column;gap:12px;transition:.15s}
+  .card:hover{border-color:#3a4757}
+  .card.done{opacity:.45}
+  .card.solved-card{border-color:var(--good);box-shadow:0 0 0 1px var(--good)}
+  .card.failed-card{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad)}
+  .card.dimmed{opacity:.4}
+  .src.shown{opacity:1 !important;color:var(--ink);font-weight:500}
+  .ctag{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--dim)}
+  .pill{font-weight:600;padding:3px 9px;border-radius:6px;font-size:11px;letter-spacing:.4px}
+  .pill.A{color:var(--a);background:#7aa2ff1a} .pill.C{color:var(--c);background:#f7768e1a}
+  .pill.G{color:var(--g);background:#9ece6a1a} .pill.N{color:var(--n);background:#e0af681a}
+  .src{margin-left:auto;font-variant-numeric:tabular-nums}
+  .stmt{font-size:15px;min-height:60px}
+  .stmt.text{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:13px;line-height:1.5;color:#d6dde4}
+  .btns{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+  .btns button{flex:1;cursor:pointer;border-radius:8px;padding:9px;font-size:13px;font-weight:600;border:1px solid}
+  .solve{background:#3fb95018;border-color:#3fb95055;color:var(--good)}
+  .solve:hover{background:#3fb95030}
+  .fail{background:#f0883e14;border-color:#f0883e55;color:var(--bad)}
+  .fail:hover{background:#f0883e28}
+  .reveal{flex:0 0 auto;background:var(--panel2);border-color:var(--line);color:var(--dim);font-weight:400}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--accent);border-radius:10px;
+    padding:12px 20px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
+  .toast.show{opacity:1}
+  .stats{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim);font-size:13px}
+  .abwrap{margin-top:12px;display:flex;flex-direction:column;gap:9px;max-width:680px}
+  .abrow{display:flex;align-items:center;gap:12px}
+  .ablabel{min-width:104px;text-align:center}
+  .abbar{position:relative;flex:1;height:9px;background:var(--panel);border-radius:6px;overflow:visible}
+  .abfill{height:100%;background:linear-gradient(90deg,#3b6,#5b9dff);border-radius:6px}
+  .abtick{position:absolute;top:-3px;width:2px;height:15px;background:var(--bad);border-radius:2px}
+  .abval{min-width:170px;color:var(--ink);font-size:12px;font-variant-numeric:tabular-nums}
+  .abval b{color:var(--accent)}
+  .bars{display:flex;gap:6px;align-items:flex-end;height:70px;margin-top:10px}
+  .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .bar .fillwrap{width:100%;height:50px;background:var(--panel);border-radius:4px;
+    display:flex;align-items:flex-end;overflow:hidden}
+  .bar .fill{width:100%;background:var(--accent);border-radius:4px 4px 0 0}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>ISLGrind <small id="bankinfo">loading…</small></h1>
+  <div class="spacer"></div>
+  <div class="badge">Avg lvl <b id="lvl">1</b> <span class="leveldots" id="dots"></span></div>
+  <div class="badge">Solved <b id="solvedN">0</b></div>
+  <div class="badge">Streak <b id="streak">0</b></div>
+</header>
+<main>
+  <div class="profilebar" id="profilebar"></div>
+  <div class="toolbar">
+    <div class="filters" id="filters">
+      <span class="chip active" data-s="all">All</span>
+      <span class="chip" data-s="Algebra">Algebra</span>
+      <span class="chip" data-s="Combinatorics">Combi</span>
+      <span class="chip" data-s="Geometry">Geometry</span>
+      <span class="chip" data-s="Number Theory">Number Th.</span>
+    </div>
+    <button class="act" id="shuffle">↻ New set of 4</button>
+    <button class="act" id="revealAll">👁 Reveal sources</button>
+    <div class="spacer"></div>
+    <button class="act" id="reset">Reset progress</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="stats" id="stats"></div>
+  <footer style="margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--dim);font-size:12px;line-height:1.7">
+    Problems are the official <b>IMO Shortlists</b> (1990–2024), sourced from
+    <a href="https://www.imo-official.org/" target="_blank" rel="noopener">imo-official.org</a> and
+    <a href="https://www.imomath.com/" target="_blank" rel="noopener">The IMO Compendium</a>; all rights to the problems remain with their authors and the IMO.
+    This is a free, non-commercial practice tool. Progress is stored only in your browser.
+  </footer>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="bank.js"></script>
+<script>
+const BANK = window.ISL_BANK || [];
+const maxLevel = Math.max(...BANK.map(p=>p.level), 1);
+const toast = (m)=>{const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1800);};
+
+/* ---------- Profiles: up to 4, fully isolated progress ---------- */
+const OLD_LS = "isl_trainer_v1";                 // legacy single-profile key
+const PKEY   = "isl_trainer_profiles_v1";        // {profiles:[{id,name}], active}
+const SKEY   = id => "isl_trainer_state_v1:" + id;
+const MAX_PROFILES = 4;
+
+const SUBJECTS = ["Algebra","Combinatorics","Geometry","Number Theory"];
+function defaultState(){
+  return {
+    theta: {Algebra:1.0, Combinatorics:1.0, Geometry:1.0, "Number Theory":1.0}, // per-topic ability estimate
+    nSub:  {Algebra:0,   Combinatorics:0,   Geometry:0,   "Number Theory":0},   // attempts per topic (→ confidence)
+    solved:{}, attempted:{}, streak:0, filter:"all", revealed:false,
+    board:null                                       // ids of the 4 problems currently on screen (persisted)
+  };
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function loadProfiles(){
+  let pm = JSON.parse(localStorage.getItem(PKEY) || "null");
+  if(!pm || !Array.isArray(pm.profiles) || !pm.profiles.length){
+    pm = { profiles:[{id:"p1", name:"Player 1"}], active:"p1" };
+    localStorage.setItem(PKEY, JSON.stringify(pm));
+    const legacy = localStorage.getItem(OLD_LS);   // migrate old progress into Player 1
+    if(legacy && !localStorage.getItem(SKEY("p1"))) localStorage.setItem(SKEY("p1"), legacy);
+  }
+  return pm;
+}
+let PM = loadProfiles();
+let activeId = (PM.active && PM.profiles.some(p=>p.id===PM.active)) ? PM.active : PM.profiles[0].id;
+function loadState(id){
+  const s = Object.assign(defaultState(), JSON.parse(localStorage.getItem(SKEY(id)) || "{}"));
+  if(!s.theta || typeof s.theta!=="object") s.theta = defaultState().theta;
+  if(!s.nSub  || typeof s.nSub !=="object") s.nSub  = defaultState().nSub;
+  for(const k of SUBJECTS){ if(typeof s.theta[k]!=="number") s.theta[k]=1.0; if(typeof s.nSub[k]!=="number") s.nSub[k]=0; }
+  // migrate legacy single global "level" → seed every topic's ability
+  if(typeof s.level==="number" && SUBJECTS.every(k=>!s.nSub[k])){
+    for(const k of SUBJECTS) s.theta[k]=s.level;
+  }
+  delete s.level; delete s.ups; delete s.fails;
+  return s;
+}
+let state = loadState(activeId);
+function save(){ localStorage.setItem(SKEY(activeId), JSON.stringify(state)); }
+function activeName(){ const p = PM.profiles.find(x=>x.id===activeId); return p ? p.name : "?"; }
+
+function switchProfile(id){
+  if(id===activeId) return;
+  save();                                  // persist current profile first
+  activeId = id; PM.active = id; localStorage.setItem(PKEY, JSON.stringify(PM));
+  state = loadState(id);
+  syncFilterChips(); renderProfiles(); restoreBoard();
+  toast(`Switched to ${activeName()}`);
+}
+function addProfile(){
+  if(PM.profiles.length >= MAX_PROFILES) return;
+  const n = PM.profiles.reduce((m,p)=>Math.max(m, +(p.id.replace('p',''))||0), 0) + 1;
+  const name = (prompt("New profile name:", "Player "+(PM.profiles.length+1)) || "").trim() || ("Player "+(PM.profiles.length+1));
+  const id = "p"+n;
+  PM.profiles.push({id, name}); localStorage.setItem(PKEY, JSON.stringify(PM));
+  switchProfile(id);
+}
+function renameProfile(){
+  const p = PM.profiles.find(x=>x.id===activeId);
+  const nm = (prompt("Rename profile:", p.name) || "").trim();
+  if(nm){ p.name = nm; localStorage.setItem(PKEY, JSON.stringify(PM)); renderProfiles(); }
+}
+function deleteProfile(){
+  if(PM.profiles.length <= 1){ alert("Keep at least one profile."); return; }
+  if(!confirm(`Delete profile “${activeName()}” and all its progress?`)) return;
+  localStorage.removeItem(SKEY(activeId));
+  PM.profiles = PM.profiles.filter(p=>p.id!==activeId);
+  activeId = PM.profiles[0].id; PM.active = activeId; localStorage.setItem(PKEY, JSON.stringify(PM));
+  state = loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard();
+}
+function renderProfiles(){
+  const bar = document.getElementById("profilebar");
+  bar.innerHTML =
+    `<span class="plabel">Profiles</span>` +
+    PM.profiles.map(p=>`<span class="pchip ${p.id===activeId?'active':''}" data-id="${p.id}">${esc(p.name)}</span>`).join("") +
+    (PM.profiles.length<MAX_PROFILES ? `<span class="pchip add" id="addprof">＋ New</span>` : ``) +
+    `<span class="spacer"></span>
+     <button class="act" id="renprof">✎ Rename</button>
+     <button class="act" id="delprof">🗑 Delete</button>`;
+  bar.querySelectorAll(".pchip[data-id]").forEach(c=>c.onclick=()=>switchProfile(c.dataset.id));
+  const add = document.getElementById("addprof"); if(add) add.onclick = addProfile;
+  document.getElementById("renprof").onclick = renameProfile;
+  document.getElementById("delprof").onclick = deleteProfile;
+}
+function syncFilterChips(){
+  document.querySelectorAll('.chip[data-s]').forEach(c=>c.classList.toggle('active', c.dataset.s===state.filter));
+}
+
+/* ===== Adaptive engine: per-topic ability (θ) + zone-of-proximal-development serving =====
+   Models each topic with a continuous ability θ on the level scale. The chance of solving a
+   problem of difficulty d is logistic in (θ − d). After each attempt θ moves toward reality by
+   K·(result − expected): nailing a HARD problem (low expected) jumps θ; missing an EASY one
+   (high expected) drops it; an on-level result barely moves it. K shrinks as a topic accrues
+   evidence, so early estimates adapt fast and later ones stabilise (confidence). Problems are
+   served a notch ABOVE θ (challenging-but-reachable), with natural spread for stretch/review. */
+const W = 1.1;          // logistic spread: +1 level above you ≈ 73% solve chance, +2 ≈ 88%
+const K0 = 0.9;         // initial learning rate (θ units)
+const KHALF = 6;        // attempts at which the rate has roughly halved
+const ZPD = 0.4;        // serve this many levels above current ability, on average
+
+function expectedSolve(theta, d){ return 1/(1+Math.exp(-(theta-d)/W)); }
+function stepSize(n){ return Math.max(0.25, K0*KHALF/(KHALF+n)); }
+function randn(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+
+function subjPool(subject){ return BANK.filter(p=>p.subject===subject); }
+// target difficulty for the next problem in a topic: just above ability, with spread
+function zpdTarget(subject){
+  const th = state.theta[subject] || 1;
+  return Math.max(1, Math.min(maxLevel, Math.round(th + ZPD + randn()*0.9)));
+}
+// pick a problem in `subject` near the ZPD target, preferring unseen & nearest level (ties lean harder)
+function pickProblem(subject, exclude){
+  const all = subjPool(subject);
+  if(!all.length) return null;
+  const target = zpdTarget(subject);
+  const order=[0]; for(let r=1;r<=maxLevel;r++){ order.push(r,-r); }   // 0,+1,-1,+2,-2…  (harder first)
+  for(const off of order){
+    const lv=target+off; if(lv<1||lv>maxLevel) continue;
+    const cands=all.filter(p=>p.level===lv && !exclude.has(p.id) && !state.solved[p.id]);
+    if(cands.length) return cands[Math.floor(Math.random()*cands.length)];
+  }
+  let c=all.filter(p=>!exclude.has(p.id)&&!state.solved[p.id]);   // ran out near target: any unseen
+  if(!c.length) c=all.filter(p=>!exclude.has(p.id));             // then any not on board
+  if(!c.length) c=all;
+  return c[Math.floor(Math.random()*c.length)];
+}
+function boardIds(skip){ const s=new Set(); board.forEach((p,i)=>{ if(p&&i!==skip) s.add(p.id); }); return s; }
+const overallLevel = ()=> SUBJECTS.reduce((a,s)=>a+(state.theta[s]||1),0)/SUBJECTS.length;
+
+let board=[null,null,null,null];
+
+function headerStats(){
+  const ov=overallLevel();
+  document.getElementById("lvl").textContent=ov.toFixed(1);
+  document.getElementById("solvedN").textContent=Object.keys(state.solved).length;
+  document.getElementById("streak").textContent=state.streak;
+  document.getElementById("dots").innerHTML=
+    Array.from({length:maxLevel},(_,i)=>`<span class="dot ${i<Math.round(ov)?'on':''}"></span>`).join("");
+}
+
+function cardHTML(p){
+  const k=p.code[0];
+  const src = state.revealed
+    ? `<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''}</span>`
+    : `<span class="src" style="opacity:.4">ISL ?? · level ${p.level}</span>`;
+  return `<div class="ctag"><span class="pill ${k}">${p.subject}</span>${src}</div>
+    <div class="stmt ${p.format==='text'?'text':''}"></div>
+    <div class="btns">
+      <button class="solve">✓ Solved</button>
+      <button class="fail">✗ Couldn't</button>
+      <button class="reveal">source</button>
+    </div>`;
+}
+
+// render a single slot (card) in place — other cards are untouched
+function renderSlot(i){
+  const g=document.getElementById("grid");
+  let card=g.children[i];
+  if(!card){ card=document.createElement("div"); g.appendChild(card); }
+  const p=board[i];
+  if(!p){ card.className="card done"; card.innerHTML="<div class='stmt'>— no more problems at this level —</div>"; return; }
+  card.className="card"; card.removeAttribute("data-done");
+  card.innerHTML=cardHTML(p);
+  const stmt=card.querySelector(".stmt");
+  stmt.textContent=p.body;
+  card.querySelector(".solve").onclick=()=>resolve(i,true);
+  card.querySelector(".fail").onclick =()=>resolve(i,false);
+  card.querySelector(".reveal").onclick=()=>revealSrc(card,p);
+  if(window.renderMathInElement && p.format!=='text'){
+    try{renderMathInElement(stmt,{delimiters:[
+      {left:"$$",right:"$$",display:true},{left:"\\[",right:"\\]",display:true},
+      {left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false}],throwOnError:false});}catch(e){}
+  }
+}
+
+function renderAll(){
+  headerStats();
+  document.getElementById("grid").innerHTML="";
+  board.forEach((_,i)=>renderSlot(i));
+  drawStats();
+}
+
+// each of the 4 slots is a fixed topic when unfiltered (one of each) → balanced practice;
+// when a subject filter is on, all four are that subject (at varied ZPD levels)
+function boardSubjects(){
+  if(state.filter!=="all") return [state.filter,state.filter,state.filter,state.filter];
+  return SUBJECTS.slice().sort(()=>Math.random()-0.5);
+}
+let slotSubjects = boardSubjects();
+function persistBoard(){ state.board = board.map(p=>p?p.id:null); save(); }
+function byId(id){ return BANK.find(p=>p.id===id) || null; }
+
+function dealAll(){
+  slotSubjects = boardSubjects();
+  board=[null,null,null,null];
+  for(let i=0;i<4;i++) board[i]=pickProblem(slotSubjects[i], boardIds(i));
+  persistBoard(); renderAll();
+}
+
+// restore the saved board on load/profile-switch so refreshing keeps the same 4 problems
+function restoreBoard(){
+  const ids = state.board;
+  if(!Array.isArray(ids) || ids.length!==4){ dealAll(); return; }
+  board = ids.map(id => id ? byId(id) : null);
+  for(let i=0;i<4;i++){                         // refill empty/missing or already-solved slots
+    const subj = board[i] ? board[i].subject : (slotSubjects[i] || SUBJECTS[i]);
+    if(!board[i] || state.solved[board[i].id]) board[i] = pickProblem(subj, boardIds(i));
+  }
+  persistBoard(); renderAll();
+}
+
+function revealSrc(cardEl, p){
+  const s=cardEl.querySelector(".src"); if(!s) return;
+  const link = p.year>=2006
+    ? ` · <a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank">solutions PDF</a>`
+    : ` · <a href="https://artofproblemsolving.com/community/c3223_imo_shortlist" target="_blank">AoPS</a>`;
+  s.outerHTML=`<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''}${link}</span>`;
+}
+
+function resolve(i, ok){
+  const p=board[i]; if(!p) return;
+  const card=document.getElementById("grid").children[i];
+  if(card.dataset.done) return;            // already resolved, awaiting Next
+  card.dataset.done="1";
+  state.attempted[p.id]=true;
+  // --- update the topic's ability estimate by how surprising the result was ---
+  const subject=p.subject, d=p.level;
+  const th=state.theta[subject], n=state.nSub[subject]||0;
+  const exp=expectedSolve(th, d);          // chance we expected you to solve this
+  const K=stepSize(n);
+  let nth = th + K*((ok?1:0) - exp);
+  nth = Math.max(1, Math.min(maxLevel, nth));
+  state.theta[subject]=nth; state.nSub[subject]=n+1;
+  if(ok){ state.solved[p.id]=true; state.streak++; } else { state.streak=0; }
+  save();
+  // feedback that explains the move
+  const dir = nth>th+0.02?"↑":nth<th-0.02?"↓":"→";
+  const surprise = ok ? (exp<0.4?" — strong, that was above your level!":"") : (exp>0.6?" — that one was in range, worth review":"");
+  const msg=`${subject} ${ok?"✓":"✗"} (lvl ${d}) · ability ${th.toFixed(1)} ${dir} ${nth.toFixed(1)}${surprise}`;
+  revealSrc(card,p);
+  card.classList.add(ok?"solved-card":"failed-card");
+  card.querySelectorAll(".btns button").forEach(b=>b.disabled=true);
+  headerStats(); drawStats();
+  // a Next button replaces ONLY this card — same topic, redrawn at the updated ZPD
+  const nb=document.createElement("button"); nb.className="act"; nb.textContent="Next problem →";
+  nb.style.marginTop="6px"; nb.onclick=()=>{ board[i]=pickProblem(subject, boardIds(i)); persistBoard(); renderSlot(i); };
+  card.appendChild(nb);
+  toast(msg);
+}
+
+function drawStats(){
+  const rows = SUBJECTS.map(s=>{
+    const th=state.theta[s], n=state.nSub[s]||0;
+    const pct=Math.round(100*(th-1)/(maxLevel-1));
+    const conf = n>=10?"high":n>=4?"medium":"low";
+    const next = Math.max(1,Math.min(maxLevel,Math.round(th+ZPD)));
+    return `<div class="abrow">
+      <span class="ablabel pill ${s[0]}">${s}</span>
+      <div class="abbar"><div class="abfill" style="width:${pct}%"></div>
+        <span class="abtick" style="left:${Math.round(100*(next-1)/(maxLevel-1))}%"></span></div>
+      <span class="abval">lvl <b>${th.toFixed(1)}</b> · ${n} tries · ${conf} conf</span></div>`;
+  }).join("");
+  document.getElementById("stats").innerHTML =
+    `<b>Your calibration</b> — overall level ${overallLevel().toFixed(1)} · ${Object.keys(state.solved).length} solved
+     <div class="abwrap">${rows}</div>
+     <p style="margin-top:14px">Each topic has its own ability estimate (level 1 = easiest, up to ${maxLevel}). After every problem it shifts toward
+     what you showed: solving one <em>above</em> your level moves it up a lot; missing one <em>below</em> moves it down a lot; an on-level
+     result barely moves it — and moves shrink as a topic gathers evidence. The tick (┃) marks where the next problem in that topic is aimed
+     — a notch above you. Work any of the 4 cards; marking one replaces just that card.</p>`;
+}
+
+// init
+document.getElementById("bankinfo").textContent =
+  BANK.length ? `${BANK.length} problems · ${Math.min(...BANK.map(p=>p.year))}–${Math.max(...BANK.map(p=>p.year))}` : "no bank.js found";
+document.getElementById("filters").onclick = (e)=>{
+  if(!e.target.dataset.s) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  e.target.classList.add("active"); state.filter=e.target.dataset.s; save();
+  dealAll();
+};
+document.getElementById("shuffle").onclick = ()=>dealAll();
+document.getElementById("revealAll").onclick = ()=>{state.revealed=!state.revealed; save(); renderAll();};
+document.getElementById("reset").onclick = ()=>{
+  if(confirm(`Reset progress for “${activeName()}”? (other profiles are unaffected)`)){
+    state=defaultState(); save(); syncFilterChips(); dealAll();
+  }};
+
+window.addEventListener("load", ()=>{ renderProfiles(); syncFilterChips(); restoreBoard(); });
+</script>
+</body>
+</html>

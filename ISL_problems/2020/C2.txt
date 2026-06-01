@@ -1,0 +1,7 @@
+In a regular 100-gon, 41 vertices are colored black and the remaining 59 vertices are
+colored white. Prove that there exist 24 convex quadrilaterals Q1 , . . . , Q24 whose corners are
+vertices of the 100-gon, so that
+
+     • the quadrilaterals Q1 , . . . , Q24 are pairwise disjoint, and
+
+     • every quadrilateral Qi has three corners of one color and one corner of the other color.

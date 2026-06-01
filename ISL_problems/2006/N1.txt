@@ -1,0 +1,4 @@
+Determine all pairs (x, y) of integers satisfying the equation
+                                       1 + 2x + 22x+1 = y 2 .
+
+                                                                                           (USA)

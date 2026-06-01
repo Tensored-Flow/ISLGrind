@@ -1,0 +1,25 @@
+Let n > 1 be an integer. Find all sequences a1 , a2 , . . . , an2 +n satisfying the following
+conditions:
+   (a) ai ∈ {0, 1} for all 1 ≤ i ≤ n2 + n;
+   (b) ai+1 + ai+2 + . . . + ai+n < ai+n+1 + ai+n+2 + . . . + ai+2n for all 0 ≤ i ≤ n2 − n.
+                                                                                             (Serbia)
+Answer. Such a sequence is unique. It can be defined as follows:
+                     0, u + v ≤ n,
+          au+vn =                           for all 1 ≤ u ≤ n and 0 ≤ v ≤ n.                                             (1)
+                     1, u + v ≥ n + 1
+
+The terms can be arranged into blocks of length n as
+
+         (0| .{z
+               . . 0)
+                   } (0| .{z
+                           . . 0} 1) (0| .{z
+                                           . . 0} 1 1) . . . (|0 .{z
+                                                                   . . 0} |1 .{z
+                                                                               . . 1)
+                                                                                   } . . . (0 1| .{z
+                                                                                                   . . 1)
+                                                                                                       } (|1 .{z
+                                                                                                               . . 1).
+                                                                                                                   }
+              n          n−1             n−2                   n−v             v              n−1             n

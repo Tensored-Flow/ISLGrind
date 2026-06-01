@@ -1,0 +1,5 @@
+Point P lies on side AB of a convex quadrilateral ABCD. Let ω be the incircle
+of triangle CP D, and let I be its incenter. Suppose that ω is tangent to the incircles of
+triangles AP D and BP C at points K and L, respectively. Let lines AC and BD meet at E,
+and let lines AK and BL meet at F . Prove that points E, I, and F are collinear.
+                                                                                 (Poland)

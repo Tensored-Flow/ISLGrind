@@ -1,0 +1,8 @@
+On some planet, there are 2N countries (N © 4). Each country has a flag N units wide
+and one unit high composed of N fields of size 1  1, each field being either yellow or blue. No
+two countries have the same flag.
+    We say that a set of N flags is diverse if these flags can be arranged into an N  N square so
+that all N fields on its main diagonal will have the same color. Determine the smallest positive
+integer M such that among any M distinct flags, there exist N flags forming a diverse set.
+                                                                                         (Croatia)
+Answer. M  2N 2       1.

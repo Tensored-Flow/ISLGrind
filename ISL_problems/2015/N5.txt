@@ -1,0 +1,4 @@
+Determine all triples pa, b, cq of positive integers for which ab − c, bc − a, and ca − b are
+powers of 2.
+    Explanation: A power of 2 is an integer of the form 2n , where n denotes some nonnegative
+integer.

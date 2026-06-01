@@ -1,0 +1,3 @@
+Let S be an infinite set of positive integers, such that there exist four pairwise distinct
+a, b, c, d P S with gcdpa, bq ‰ gcdpc, dq. Prove that there exist three pairwise distinct x, y, z P S
+such that gcdpx, y q = gcdpy, zq ‰ gcdpz, xq.

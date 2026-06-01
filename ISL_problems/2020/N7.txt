@@ -1,0 +1,21 @@
+Let S be a set consisting of n ≥ 3 positive integers, none of which is a sum of two
+other distinct members of S. Prove that the elements of S may be ordered as a1 , a2 , . . . , an so
+that ai does not divide ai−1 + ai+1 for all i = 2, 3, . . . , n − 1.
+
+Shortlisted problems   11
+
+12                                           Saint-Petersburg — Russia, 18th–28th September 2020
+
+                                           Solutions
+
+    A1.  Version 1. Let n be a positive integer, and set N = 2n . Determine the smallest real
+number an such that, for all real x,
+                                  c
+                                            ≤ an px − 1q2 + x.
+
+    Version 2. For every positive integer N, determine the smallest real number bN such that,
+for all real x,                  c
+                                             ≤ bN px − 1q2 + x.
+                                                                                    (Ireland)
+
+Answer for both versions : an = bN = N{2.

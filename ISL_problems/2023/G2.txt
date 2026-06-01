@@ -1,0 +1,7 @@
+Let ABC be a triangle with AC > BC. Let ω be the circumcircle of triangle ABC
+and let r be the radius of ω. Point P lies on segment AC such that BC = CP and point S is
+the foot of the perpendicular from P to line AB. Let ray BP intersect ω again at D and let Q
+lie on line SP such that P Q = r and S, P, Q lie on the line in that order. Finally, let the line
+perpendicular to CQ from A intersect the line perpendicular to DQ from B at E.
+   Prove that E lies on ω.
+                                                                                          (Iran)

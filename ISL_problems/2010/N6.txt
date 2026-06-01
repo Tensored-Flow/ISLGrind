@@ -1,0 +1,6 @@
+The rows and columns of a 2n  2n table are numbered from 0 to 2n  1. The cells of the
+table have been colored with the following property being satisfied: for each 0 · i, j · 2n  1,
+the jth cell in the ith row and the pi j qth cell in the jth row have the same color. (The
+indices of the cells in a row are considered modulo 2n .)
+   Prove that the maximal possible number of colors is 2n .
+                                                                                                  (Iran)

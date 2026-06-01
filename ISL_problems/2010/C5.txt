@@ -1,0 +1,8 @@
+n © 4 players participated in a tennis tournament. Any two players have played exactly
+one game, and there was no tie game. We call a company of four players bad if one player
+was defeated by the other three players, and each of these three players won a game and lost
+another game among themselves. Suppose that there is no bad company in this tournament.
+Let wi and ℓi be respectively the number of wins and losses of the ith player. Prove that
+                                                           pwi  ℓiq3 © 0.                                                            (1)
+
+                                                                                                                            (South Korea)

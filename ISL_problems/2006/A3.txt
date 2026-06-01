@@ -1,0 +1,12 @@
+The sequence c0 , c1 , . . . , cn , . . . is defined by c0 = 1, c1 = 0 and cn+2 = cn+1 + cn for n ≥ 0.
+Consider the set
+               P S of ordered
+                           P pairs (x, y) for which there is a finite set J of positive integers
+such that x = j∈J cj , y = j∈J cj−1 . Prove that there exist real numbers α, β and m, M with
+the following property: An ordered pair of nonnegative integers (x, y) satisfies the inequality
+
+                                           m < αx + βy < M
+
+if and only if (x, y) ∈ S.
+     N. B. A sum over the elements of the empty set is assumed to be 0.
+                          √                     √

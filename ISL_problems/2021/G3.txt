@@ -1,0 +1,10 @@
+Version 1. Let n be a fixed positive integer, and let S be the set of points px, y q on the
+Cartesian plane such that both coordinates x and y are nonnegative integers smaller than 2n
+(thus |S| = 4n2 ). Assume that F is a set consisting of n2 quadrilaterals such that all their
+vertices lie in S, and each point in S is a vertex of exactly one of the quadrilaterals in F .
+    Determine the largest possible sum of areas of all n2 quadrilaterals in F .
+Version 2. Let n be a fixed positive integer, and let S be the set of points px, y q on the
+Cartesian plane such that both coordinates x and y are nonnegative integers smaller than 2n
+(thus |S| = 4n2). Assume that F is a set of polygons such that all vertices of polygons in F lie
+in S, and each point in S is a vertex of exactly one of the polygons in F .
+    Determine the largest possible sum of areas of all polygons in F .

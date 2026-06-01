@@ -1,0 +1,6 @@
+Find the smallest positive integer n, or show that no su h n exists, with the following
+property: there are in
+nitely many distin t n-tuples of positive rational numbers pa1 , a2 , . . . , an q
+su h that both
+                        a1 + a2 + ··· + an        and             +   + ···+
+are integers.

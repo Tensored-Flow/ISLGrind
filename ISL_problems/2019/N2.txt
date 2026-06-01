@@ -1,0 +1,1 @@
+Find all triples pa, b, cq of positive integers such that a3 + b3 + c3 = pabcq2 .

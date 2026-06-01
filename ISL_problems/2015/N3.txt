@@ -1,0 +1,3 @@
+Let m and n be positive integers such that m > n. Define xk = pm + kq{pn + kq for k =
+1, 2, . . . , n + 1. Prove that if all the numbers x1 , x2 , . . . , xn+1 are integers, then x1 x2 ··· xn+1 − 1
+is divisible by an odd prime.

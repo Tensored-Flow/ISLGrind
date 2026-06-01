@@ -1,0 +1,6 @@
+Let R be the set of real numbers. We denote by F the set of all functions f : R → R
+such that
+                                    f px + f pyqq = f pxq + f pyq
+for every x, y P R. Find all rational numbers q such that for every function f P F, there exists
+some z P R satisfying f pzq = qz.
+                                                                                    (Indonesia)

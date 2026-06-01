@@ -1,0 +1,9 @@
+Say that an ordered pair px, yq of integers is an              irredu ible latti e point if x and
+y are relatively prime. For any
+nite set S of irredu ible latti e points, show that there is a
+homogenous polynomial in two variables, f px, yq, with integer oe
+ ients, of degree at least 1,
+su h that f px, yq = 1 for ea h px, yq in the set S .
+   Note: A homogenous polynomial of degree n is any nonzero polynomial of the form
+
+                 f px, yq = a0 xn + a1 xn−1 y + a2 xn−2 y 2 + ··· + an−1 xy n−1 + an y n .

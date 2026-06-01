@@ -1,0 +1,5 @@
+Let N be a positive integer and let a1 , a2 , . . . be an infinite sequence of positive
+integers. Suppose that, for each n > N , an is equal to the number of times an−1 appears in the
+list a1 , a2 , . . . , an−1 .
+   Prove that at least one of the sequences a1 , a3 , a5 , . . . and a2 , a4 , a6 , . . . is eventually
+periodic.

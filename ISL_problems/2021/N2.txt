@@ -1,0 +1,3 @@
+Let n ≥ 100 be an integer. The numbers n, n + 1, . . . , 2n are written on n + 1 cards,
+one number per card. The cards are shuffled and divided into two piles. Prove that one of the
+piles contains two cards such that the sum of their numbers is a perfect square.

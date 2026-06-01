@@ -1,0 +1,13 @@
+Let a0 , a1 , a2 , . . . be an infinite strictly increasing sequence of positive integers such
+that for each n ≥ 1 we have
+                                           !a
+                                               n−1 + an+1 ?
+                                                                         )
+                                      an P                 , an−1 · an+1 .
+Let b1 , b2 , . . . be an infinite sequence of letters defined as
+                                           #
+                                             A, if an = 12 pan−1 + an+1 q;
+                                      bn =
+                                             G, otherwise.
+Prove that there exist positive integers n0 and d such that for all n ≥ n0 we have bn+d = bn .
+                                                                               (Czech Republic)

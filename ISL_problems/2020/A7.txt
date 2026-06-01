@@ -1,0 +1,7 @@
+Let n and k be positive integers. Prove that for a1 , . . . , an P r1, 2k s one has
+                                  n                        ?
+                                  ÿ        ai
+                                      a
+                                        2            2
+                                                       ≤ 4  kn.
+                                  i=1  a1 + . . . + ai

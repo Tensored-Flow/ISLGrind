@@ -1,0 +1,15 @@
+Let Z be the set of integers. We consider functions f : Z → Z satisfying
+                                 +             ˘    +         ˘
+                                f f px + yq + y = f f pxq + y
+
+for all integers x and y. For such a function, we say that an integer v is f -rare if the set
+
+                                     Xv = tx P Z : f pxq = vu
+
+is ﬁnite and nonempty.
+
+(a) Prove that there exists such a function f for which there is an f -rare integer.
+
+(b) Prove that no such function f can have more than one f -rare integer.
+
+6                                                              Bath — UK, 11th–22nd July 2019

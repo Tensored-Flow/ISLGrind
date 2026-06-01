@@ -1,0 +1,8 @@
+Find all positive integers n for which all positive divisors of n can be put into the cells
+of a rectangular table under the following constraints:
+
+   • each cell contains a distinct divisor;
+
+   • the sums of all rows are equal; and
+
+   • the sums of all columns are equal.

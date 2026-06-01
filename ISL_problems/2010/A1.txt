@@ -1,0 +1,5 @@
+Determine all functions f : R → R such that the equality
+                                       f prxsy q  f pxqrf py qs.                                 (1)
+holds for all x, y P R. Here, by rxs we denote the greatest integer not exceeding x.
+                                                                                            (France)
+Answer. f pxq  const  C, where C  0 or 1 · C              2.

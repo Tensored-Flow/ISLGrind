@@ -1,0 +1,5 @@
+Let Ω and O be the circumcircle and the circumcentre of an acute-angled triangle ABC
+with AB > BC. The angle bisector of =ABC intersects Ω at M ‰ B. Let Γ be the circle
+with diameter BM. The angle bisectors of =AOB and =BOC intersect Γ at points P and Q,
+respectively. The point R is chosen on the line P Q so that BR = MR. Prove that BR k AC.
+(Here we always assume that an angle bisector is a ray.)

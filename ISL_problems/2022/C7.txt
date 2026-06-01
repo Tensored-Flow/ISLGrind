@@ -1,0 +1,11 @@
+Lucy starts by writing s integer-valued 2022-tuples on a blackboard. After doing that,
+she can take any two (not necessarily distinct) tuples v = pv1 , . . . , v2022 q and w = pw1 , . . . , w2022 q
+that she has already written, and apply one of the following operations to obtain a new tuple:
+
+                             v + w = pv1 + w1 , . . . , v2022 + w2022 q
+                             v _ w = pmaxpv1 , w1 q, . . . , maxpv2022 , w2022 qq
+
+and then write this tuple on the blackboard.
+    It turns out that, in this way, Lucy can write any integer-valued 2022-tuple on the blackboard
+after finitely many steps. What is the smallest possible number s of tuples that she initially
+wrote?

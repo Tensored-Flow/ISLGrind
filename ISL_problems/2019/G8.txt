@@ -1,0 +1,6 @@
+Let L be the set of all lines in the plane and let f be a function that assigns to each
+line ℓ P L a point f pℓq on ℓ. Suppose that for any point X, and for any three lines ℓ1 , ℓ2 , ℓ3
+passing through X, the points f pℓ1 q, f pℓ2 q, f pℓ3 q and X lie on a circle.
+    Prove that there is a unique point P such that f pℓq = P for any line ℓ passing through P .
+
+Shortlisted problems                                                                                     9

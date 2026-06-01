@@ -1,0 +1,5 @@
+Let ABCDE be a convex pentagon such that BC = DE. Assume there is a point
+T inside ABCDE with T B = T D, T C = T E and =T BA = =AET . Let lines CD and CT
+intersect line AB at points P and Q, respectively, and let lines CD and DT intersect line AE
+at points R and S, respectively. Assume that points P, B, A, Q and R, E, A, S respectively, are
+collinear and occur on their lines in this order. Prove that the points P , S, Q, R are concyclic.

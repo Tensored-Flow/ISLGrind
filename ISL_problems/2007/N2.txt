@@ -1,0 +1,3 @@
+Let b, n > 1 be integers. Suppose that for each k > 1 there exists an integer ak such
+that b − ank is divisible by k. Prove that b = An for some integer A.
+                                                                                (Canada)

@@ -1,0 +1,4 @@
+Determine all sequences (x1 , x2 , . . . , x2011 ) of positive integers such that for every positive inte-
+     ger n there is an integer a with
+
+                                     xn1 + 2xn2 + · · · + 2011xn2011 = an+1 + 1.

@@ -1,0 +1,7 @@
+Let A1 A2 A3 A4 be a non-cyclic quadrilateral. Let O1 and r1 be the circumcenter and the
+     circumradius of the triangle A2 A3 A4 . Define O2 , O3 , O4 and r2 , r3 , r4 in a similar way. Prove
+     that
+                             1              1             1              1
+                                    +              +             +                = 0.
+                        O1 A1 − r1 O2 A2 − r2 O3 A3 − r3 O4 A4 − r42
+                             2    2         2    2        2    2         2

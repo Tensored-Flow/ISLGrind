@@ -1,0 +1,11 @@
+Find the maximal value of
+                              c          c       c       c
+                               3   a     3  b    3  c    3  d
+                          S=           +       +       +       ,
+                                 b+7       c+7     d+7     a+7
+where a, b, c, d are nonnegative real numbers whi h satisfy a + b + c + d = 100.
+                                                                                                             (Taiwan)
+
+4                                                     Cluj-Napo a  Romania, 314 July 2018
+
+Combinatori s

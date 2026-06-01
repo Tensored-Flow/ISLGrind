@@ -1,0 +1,3 @@
+For x ∈ (0, 1) let y ∈ (0, 1) be the number whose nth digit after the decimal point is the
+(2n )th digit after the decimal point of x. Show that if x is rational then so is y.
+                                                                                        (Canada)

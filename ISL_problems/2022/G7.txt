@@ -1,0 +1,4 @@
+Let ABC and A1 B 1 C 1 be two triangles having the same circumcircle ω, and the same
+orthocentre H. Let Ω be the circumcircle of the triangle determined by the lines AA1 , BB 1
+and CC 1 . Prove that H, the centre of ω, and the centre of Ω are collinear.
+                                                                                    (Denmark)

@@ -1,0 +1,6 @@
+Let ABC be an acute-angled triangle with orthocenter H, and let W be a point on
+side BC. Denote by M and N the feet of the altitudes from B and C, respectively. Denote
+by ω1 the circumcircle of BW N, and let X be the point on ω1 which is diametrically opposite
+to W . Analogously, denote by ω2 the circumcircle of CW M, and let Y be the point on ω2 which
+is diametrically opposite to W . Prove that X, Y and H are collinear.
+                                                                                     (Thaliand)

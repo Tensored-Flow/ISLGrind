@@ -1,0 +1,11 @@
+Given a sequence a1 , a2 , . . . , an of real numbers. For each i (1 ≤ i ≤ n) define
+                         di = max{aj : 1 ≤ j ≤ i} − min{aj : i ≤ j ≤ n}
+
+and let
+                                    d = max{di : 1 ≤ i ≤ n}.
+(a) Prove that for arbitrary real numbers x1 ≤ x2 ≤ . . . ≤ xn ,
+                                                           d
+                                max |xi − ai | : 1 ≤ i ≤ n ≥ .                               (1)
+(b) Show that there exists a sequence x1 ≤ x2 ≤ . . . ≤ xn of real numbers such that we have
+equality in (1).
+                                                                              (New Zealand)

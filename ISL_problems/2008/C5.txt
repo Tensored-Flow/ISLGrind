@@ -1,0 +1,13 @@
+Let S = {x1 , x2 , . . . , xk+`} be a (k + `)-element set of real numbers contained in the
+interval [0, 1]; k and ` are positive integers. A k-element subset A ⊂ S is called nice if
+
+                                      1 X         1 X      k+`
+                                             xi −     xj ≤     .
+                                      k x ∈A      `        2k`
+                                          i           xj ∈S\A
+
+                                                          
+                                                   2   k+`
+Prove that the number of nice subsets is at least            .
+                                                  k+`   k
+                                                                1 X         1 X             k+`

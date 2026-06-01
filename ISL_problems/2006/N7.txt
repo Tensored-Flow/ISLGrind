@@ -1,0 +1,3 @@
+Prove that, for every positive integer n, there exists an integer m such that 2m + m is
+divisible by n.
+                                                                                                  (Estonia)

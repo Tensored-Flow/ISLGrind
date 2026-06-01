@@ -1,0 +1,6 @@
+Let P be a point on the circumcircle of an acute-angled triangle ABC. Let D,
+E, and F be the reflections of P in the midlines of triangle ABC parallel to BC, CA, and AB,
+respectively. Denote by ωA , ωB , and ωC the circumcircles of triangles ADP , BEP , and CF P ,
+respectively. Denote by ω the circumcircle of the triangle formed by the perpendicular bisectors
+of segments AD, BE and CF .
+    Show that ωA , ωB , ωC , and ω have a common point.

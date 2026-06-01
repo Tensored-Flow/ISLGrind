@@ -1,0 +1,3 @@
+Let a0 , a1 , a2 , . . . be a sequence of positive integers such that the greatest common divisor
+of any two consecutive terms is greater than the preceding term; in symbols, gcd(ai , ai+1 ) > ai−1 .
+Prove that an ≥ 2n for all n ≥ 0.

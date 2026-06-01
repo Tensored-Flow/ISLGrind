@@ -1,0 +1,6 @@
+A sequence of real numbers a0 , a1 , a2 , . . . is defined by the formula
+                                     ai+1 = bai c · hai i     for i ≥ 0;
+
+here a0 is an arbitrary real number, bai c denotes the greatest integer not exceeding ai , and
+hai i = ai − bai c. Prove that ai = ai+2 for i sufficiently large.
+                                                                                    (Estonia)

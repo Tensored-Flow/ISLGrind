@@ -1,0 +1,3 @@
+Determine all integers n ≥ 2 with the following property: every n pairwise distinct
+integers whose sum is not divisible by n can be arranged in some order a1 , a2 , . . . , an so that
+n divides 1 · a1 + 2 · a2 + ··· + n · an .

@@ -1,0 +1,6 @@
+Let n be a positive integer. De
+ne a       hameleon to be any sequen e of 3n letters, with
+exa tly n o    urren es of ea h of the letters a, b, and c. De
+ne a   swap to be the transposition of
+two adja ent letters in a hameleon. Prove that for any hameleon X , there exists a hameleon Y
+su h that X annot be hanged to Y using fewer than 3n {2 swaps.

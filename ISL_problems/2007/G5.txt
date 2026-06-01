@@ -1,0 +1,6 @@
+Let ABC be a fixed triangle, and let A1 , B1 , C1 be the midpoints of sides BC, CA, AB,
+respectively. Let P be a variable point on the circumcircle. Let lines P A1 , P B1 , P C1 meet the
+circumcircle again at A0 , B 0 , C 0 respectively. Assume that the points A, B, C, A0 , B 0 , C 0 are
+distinct, and lines AA0 , BB 0 , CC 0 form a triangle. Prove that the area of this triangle does not
+depend on P .
+                                                                                 (United Kingdom)

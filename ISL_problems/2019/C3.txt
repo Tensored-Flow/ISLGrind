@@ -1,0 +1,8 @@
+Let n be a positive integer. Harry has n coins lined up on his desk, each showing
+heads or tails. He repeatedly does the following operation: if there are k coins showing heads
+and k > 0, then he ﬂips the k th coin over; otherwise he stops the process. (For example, the
+process starting with T HT would be T HT → HHT → HT T → T T T , which takes three
+steps.)
+    Letting C denote the initial conﬁguration (a sequence of n H’s and T ’s), write ℓpCq for the
+number of steps needed before all coins show T . Show that this number ℓpCq is ﬁnite, and
+determine its average value over all 2n possible initial conﬁgurations C.

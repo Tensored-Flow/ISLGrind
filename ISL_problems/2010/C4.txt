@@ -1,0 +1,12 @@
+Six stacks S1 , . . . , S6 of coins are standing in a row. In the beginning every stack contains
+a single coin. There are two types of allowed moves:
+ Move 1 : If stack Sk with 1 · k · 5 contains at least one coin, you may remove one coin
+          from Sk and add two coins to Sk 1 .
+ Move 2 : If stack Sk with 1 · k · 4 contains at least one coin, then you may remove
+          one coin from Sk and exchange stacks Sk 1 and Sk 2 .
+Decide whether it is possible to achieve by a sequence of such moves that the first five stacks
+are empty, whereas the sixth stack S6 contains exactly 20102010     coins.
+     1                                                            2010
+C4 . Same as Problem C4, but the constant 20102010                        is replaced by 20102010 .
+                                                                                                  (Netherlands)
+Answer. Yes (in both variants of the problem). There exists such a sequence of moves.

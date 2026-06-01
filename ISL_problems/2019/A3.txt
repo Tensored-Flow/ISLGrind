@@ -1,0 +1,13 @@
+Let n ≥ 3 be a positive integer and let pa1 , a2 , . . . , an q be a strictly increasing
+sequence of n positive real numbers with sum equal to 2. Let X be a subset of t1, 2, . . . , nu
+such that the value of                  ˇ           ˇ
+                                        ˇ    ÿ      ˇ
+                                        ˇ           ˇ
+                                        ˇ1 −     ai ˇ
+                                        ˇ    iPX
+is minimised. Prove that there exists a strictly increasing sequence of n positive real numbers
+pb1 , b2 , . . . , bn q with sum equal to 2 such that
+                                                      bi = 1.
+                                                   iPX
+
+                                                                                          (New Zealand)

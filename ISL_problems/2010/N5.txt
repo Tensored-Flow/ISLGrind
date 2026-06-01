@@ -1,0 +1,4 @@
+Let N be the set of all positive integers. Find all functions f : N → N such that the
+number f pmq      n m      f pnq is a square for all m, n P N.
+                                                                                            (U.S.A.)
+Answer. All functions of the form f pnq  n        c, where c P N Y t0u.

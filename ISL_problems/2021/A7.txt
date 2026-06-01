@@ -1,0 +1,5 @@
+Let n ≥ 1 be an integer, and let x , x , . . . , x + be n + 2 non-negative real numbers
+                                                         0       1            n 1
+that satisfy xi xi+1 − x2i−1 ≥ 1 for all i = 1, 2, . . . , n. Show that
+                                                                               ˆ         ˙3{2
+                                    x0 + x1 + ··· + xn + xn+1 >

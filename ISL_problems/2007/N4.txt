@@ -1,0 +1,8 @@
+For every integer k ≥ 2, prove that 23k divides the number
+                                               k+1  k 
+                                               2       2
+                                                    − k−1                                                      (1)
+                                                2     2
+
+but 23k+1 does not.
+                                                                                                         (Poland)

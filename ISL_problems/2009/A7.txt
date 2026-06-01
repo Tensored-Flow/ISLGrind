@@ -1,0 +1,6 @@
+Find all functions f from the set of real numbers into the set of real numbers which satisfy for
+all real x, y the identity
+
+                                      f (xf (x + y)) = f (yf (x)) + x2 .
+
+Combinatorics                                 Problem Shortlist                                 50th IMO 2009

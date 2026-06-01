@@ -1,0 +1,5 @@
+A onvex quadrilateral ABCD satis
+es AB · CD = BC · DA. A point X is hosen
+inside the quadrilateral so that =XAB = =XCD and =XBC = =XDA. Prove that =AXB +
+=CXD = 180˝.
+                                                                                         (Poland)

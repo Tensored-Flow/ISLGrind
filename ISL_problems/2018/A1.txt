@@ -1,0 +1,5 @@
+Let Q>0 denote the set of all positive rational numbers. Determine all fun tions
+f : Q>0 → Q>0 satisfying          +        ˘
+                                f x2 f pyq2 = f pxq2 f pyq
+for all x, y P Q>0 .
+                                                                                                      (Switzerland)

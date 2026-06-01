@@ -1,0 +1,7 @@
+Determine all functions f : Z → Z satisfying
+                             +         ˘
+                            f f pmq + n + f pmq = f pnq + f p3mq + 2014
+for all integers m and n.
+                                                                                    (Netherlands)
+
+Shortlisted problems                                                                            5

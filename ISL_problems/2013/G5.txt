@@ -1,0 +1,3 @@
+Let ABCDEF be a convex hexagon with AB = DE, BC = EF , CD = F A, and
+=A − =D = =C − =F = =E − =B. Prove that the diagonals AD, BE, and CF are concurrent.
+                                                                                       (Ukraine)

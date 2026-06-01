@@ -1,0 +1,10 @@
+Let x1 , x2 , . . . , xn be diﬀerent real numbers. Prove that
+                                                        #
+                                     ÿ ź 1 − xi xj        0, if n is even;
+                                                      =
+                                    1≤i≤n j‰i
+                                              xi − xj     1, if n is odd.
+
+                                                                                           (Kazakhstan)
+
+Shortlisted problems                                                                               5

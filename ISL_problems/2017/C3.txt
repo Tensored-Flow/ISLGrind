@@ -1,0 +1,14 @@
+Sir Alex plays the following game on a row of 9        ells. Initially, all   ells are empty. In
+ea h move, Sir Alex is allowed to perform exa tly one of the following two operations:
+
+    (1) Choose any number of the form 2 , where j is a non-negative integer, and put it into an
+       empty    ell.
+
+    (2) Choose two (not ne essarily adja ent) ells with the same number in them; denote that
+                   j                                               j+1
+        number by 2 . Repla e the number in one of the ells with 2     and erase the number in
+       the other   ell.
+
+     At the end of the game, one      ell   ontains the number 2 , where n is a given positive integer,
+while the other        ells are empty. Determine the maximum number of moves that Sir Alex            ould
+have made, in terms of n.

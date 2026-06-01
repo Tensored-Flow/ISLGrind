@@ -1,0 +1,3 @@
+Determine all finite, nonempty sets S of positive integers such that for every a, b P S
+there exists c P S with a | b + 2c.
+                                                                                   (Netherlands)

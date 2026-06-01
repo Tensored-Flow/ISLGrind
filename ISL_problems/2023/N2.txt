@@ -1,0 +1,3 @@
+Determine all pairs pa, pq of positive integers with p prime such that pa +a4 is a perfect
+square.
+                                                                                                (Bangladesh)

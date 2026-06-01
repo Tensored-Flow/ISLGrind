@@ -1,0 +1,4 @@
+Let n be a positive integer. Find the number of permutations a1 , a2 , . . . , an of the
+sequence 1, 2, . . . , n satisfying
+
+                                     a1 ≤ 2a2 ≤ 3a3 ≤ . . . ≤ nan .

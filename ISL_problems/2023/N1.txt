@@ -1,0 +1,4 @@
+Determine all positive, composite integers n that satisfy the following property: if
+the positive divisors of n are 1 = d1 < d2 < ··· < dk = n, then di divides di+1 + di+2 for every
+1 ≤ i ≤ k − 2.
+                                                                                      (Colombia)

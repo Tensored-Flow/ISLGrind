@@ -1,0 +1,5 @@
+Let n be a fixed positive integer. Find the maximum possible value of
+                                                  ps − r − nqxr xs ,
+                                        1≤r<s≤2n
+
+where −1 ≤ xi ≤ 1 for all i = 1, 2, . . . , 2n.

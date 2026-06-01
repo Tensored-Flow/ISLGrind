@@ -1,0 +1,3 @@
+Let a1 < a2 < a3 < ··· be positive integers such that ak+1 divides 2pa1 + a2 + ··· + ak q
+for every k ≥ 1. Suppose that for infinitely many primes p, there exists k such that p divides
+ak . Prove that for every positive integer n, there exists k such that n divides ak .

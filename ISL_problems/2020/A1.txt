@@ -1,0 +1,9 @@
+Version 1. Let n be a positive integer, and set N = 2n . Determine the smallest real
+number an such that, for all real x,
+                                  c
+                                            ≤ an px − 1q2 + x.
+
+    Version 2. For every positive integer N, determine the smallest real number bN such that,
+for all real x,                  c
+                                             ≤ bN px − 1q2 + x.
+                                                                                    (Ireland)

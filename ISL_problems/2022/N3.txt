@@ -1,0 +1,7 @@
+Let a > 1 be a positive integer, and let d > 1 be a positive integer coprime to a. Let
+x1 = 1 and, for k ≥ 1, define
+                                     xk + d if a doesn’t divide xk ,
+                            xk+1 =
+                                     xk {a   if a divides xk .
+Find the greatest positive integer n for which there exists an index k such that xk is divisible
+by an .

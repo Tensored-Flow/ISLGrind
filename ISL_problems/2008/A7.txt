@@ -1,0 +1,5 @@
+Prove that for any four positive real numbers a, b, c, d the inequality
+                (a − b)(a − c) (b − c)(b − d) (c − d)(c − a) (d − a)(d − b)
+                              +              +              +               ≥0
+                   a+b+c          b+c+d          c+d+a          d+a+b
+holds. Determine all cases of equality.

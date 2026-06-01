@@ -1,0 +1,5 @@
+Find the smallest real constant C such that for any positive real numbers a1 , a2 , a3 , a4
+and a5 (not necessarily distinct), one can always choose distinct subscripts i, j, k and l such
+                                         ai   ak
+                                            −    ⩽ C.
+                                         aj   al

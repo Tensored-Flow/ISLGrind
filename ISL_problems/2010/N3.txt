@@ -1,0 +1,6 @@
+Find the smallest number n such that there exist polynomials f1 , f2 , . . . , fn with rational
+coefficients satisfying
+                         x2 7  f1 pxq2 f2 pxq2    fn pxq2 .
+
+                                                                                                                                       (Poland)
+Answer. The smallest n is 5.

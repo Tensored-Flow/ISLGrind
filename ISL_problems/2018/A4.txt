@@ -1,0 +1,6 @@
+Let a0 , a1 , a2 , . . . be a sequen e of real numbers su h that a0 = 0, a1 = 1, and for
+every n ≥ 2 there exists 1 ≤ k ≤ n satisfying
+                                               an−1 + ··· + an−k
+                                          an =                     .
+Find the maximal possible value of a2018 − a2017 .
+                                                                                                             (Belgium)

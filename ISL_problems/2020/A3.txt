@@ -1,0 +1,6 @@
+Suppose that a, b, c, d are positive real numbers satisfying pa + cqpb + dq = ac + bd.
+Find the smallest possible value of
+                                       a b c d
+                                         + + + .
+                                       b c d a
+                                                                                        (Israel)

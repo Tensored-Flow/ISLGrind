@@ -1,0 +1,6 @@
+Determine all fun tions f : p0, 8q → R satisfying
+                                  ˆ        ˙                    −y¯
+                                    x+       f pyq = f pxyq + f
+                                         x                       x
+for all x, y > 0.
+                                                                                                     (South Korea)

@@ -1,0 +1,3 @@
+Let panqn≥1 be a sequence of positive real numbers with the property that
+                                  pan+1 q2 + an an+2 ≤ an + an+2
+for all positive integers n. Show that a2022 ≤ 1.

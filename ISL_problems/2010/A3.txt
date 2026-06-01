@@ -1,0 +1,7 @@
+Let x1 , . . . , x100 be nonnegative real numbers such that xi xi 1 xi 2 · 1 for all
+i  1, . . . , 100 (we put x101  x1 , x102  x2 ). Find the maximal possible value of the sum
+                                                          S          xi xi 2 .
+
+                                                                                                                                                (Russia)
+Answer.        .
+                                                                                                                                           2

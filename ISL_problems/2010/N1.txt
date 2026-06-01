@@ -1,0 +1,16 @@
+Find the least positive integer n for which there exists a set ts1 , s2 , . . . , snu consisting of
+n distinct positive integers such that
+                                                        
+                              1
+                                 s1
+                                              1
+                                                 s2
+                                                        ... 1 
+                                                                  sn
+                                                                        2010
+
+                                                         51                  42
+N1 . Same as Problem N1, but the constant                    is replaced by      .
+                                                        2010                2010
+                                                                                                    (Canada)
+Answer for Problem N1. n  39.

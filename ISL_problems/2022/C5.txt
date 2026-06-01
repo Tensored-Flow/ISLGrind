@@ -1,0 +1,9 @@
+Let m, n ≥ 2 be integers, let X be a set with n elements, and let X1 , X2 , . . . , Xm
+be pairwise distinct non-empty, not necessary disjoint subsets of X. A function f : X →
+t1, 2, . . . , n + 1u is called nice if there exists an index k such that
+                                     ÿ            ÿ
+                                          f pxq >     f pxq for all i ‰ k.
+                                  xPXk          xPXi
+
+Prove that the number of nice functions is at least nn .
+                                                                                                 (Germany)

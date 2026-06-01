@@ -1,0 +1,8 @@
+Let P (x) and Q(x) be two polynomials with integer coefficients such that no nonconstant
+     polynomial with rational coefficients divides both P (x) and Q(x). Suppose that for every
+     positive integer n the integers P (n) and Q(n) are positive, and 2Q(n) − 1 divides 3P (n) − 1.
+     Prove that Q(x) is a constant polynomial.
+
+52nd IMO 2011                                 Problem shortlist                             Number Theory
+
+                                                                                                                   N7

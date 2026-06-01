@@ -1,0 +1,5 @@
+Let the sides AD and BC of the quadrilateral ABCD (such that AB is not parallel to CD)
+intersect at point P . Points O1 and O2 are the circumcenters and points H1 and H2 are the
+orthocenters of triangles ABP and DCP , respectively. Denote the midpoints of segments
+O1 H1 and O2 H2 by E1 and E2 , respectively. Prove that the perpendicular from E1 on CD, the
+perpendicular from E2 on AB and the line H1 H2 are concurrent.

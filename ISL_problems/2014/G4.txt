@@ -1,0 +1,5 @@
+Consider a fixed circle Γ with three fixed points A, B, and C on it. Also, let us fix
+a real number λ P p0, 1q. For a variable point P R tA, B, Cu on Γ, let M be the point on
+the segment CP such that CM = λ · CP . Let Q be the second point of intersection of the
+circumcircles of the triangles AMP and BMC. Prove that as P varies, the point Q lies on a
+fixed circle.

@@ -1,0 +1,5 @@
+Let S be a
+nite set, and let A be the set of all fun tions from S to S . Let f be an
+element of A, and let T = f pSq be the image of S under f . Suppose that f ˝ g ˝ f ‰ g ˝ f ˝ g
+for every g in A with g ‰ f . Show that f pT q = T .
+                                                                                                  (India)

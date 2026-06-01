@@ -1,0 +1,4 @@
+Given a positive integer k, show that there exists a prime p such that one can choose
+distinct integers a1 , a2 , . . . , ak+3 P t1, 2, . . . , p − 1u such that p divides ai ai+1 ai+2 ai+3 − i for all
+i = 1, 2, . . . , k.
+                                                                                                 (South Africa)

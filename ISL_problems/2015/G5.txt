@@ -1,0 +1,6 @@
+Let ABC be a triangle with CA ‰ CB. Let D, F , and G be the midpoints of the
+sides AB, AC, and BC, respectively. A circle Γ passing through C and tangent to AB at D
+meets the segments AF and BG at H and I, respectively. The points H 1 and I 1 are symmetric
+to H and I about F and G, respectively. The line H 1 I 1 meets CD and F G at Q and M,
+respectively. The line CM meets Γ again at P . Prove that CQ = QP .
+                                                                                    (El Salvador)

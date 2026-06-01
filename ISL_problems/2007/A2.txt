@@ -1,0 +1,6 @@
+Consider those functions f : N → N which satisfy the condition
+                                  f (m + n) ≥ f (m) + f f (n) − 1                                 (1)
+for all m, n ∈ N. Find all possible values of f (2007).
+    (N denotes the set of all positive integers.)
+                                                                                          (Bulgaria)
+Answer. 1, 2, . . . , 2008.

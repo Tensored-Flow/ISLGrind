@@ -1,0 +1,4 @@
+Let ABC be an acute triangle, and let M be the midpoint of AC. A circle ω passing
+through B and M meets the sides AB and BC again at P and Q, respectively. Let T be
+the point such that the quadrilateral BP T Q is a parallelogram. Suppose that T lies on the
+circumcircle of the triangle ABC. Determine all possible values of BT {BM.

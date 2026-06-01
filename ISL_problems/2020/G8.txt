@@ -1,0 +1,6 @@
+Let Γ and I be the circumcircle and the incenter of an acute-angled triangle ABC.
+Two circles ωB and ωC passing through B and C, respectively, are tangent at I. Let ωB meet
+the shorter arc AB of Γ and segment AB again at P and M, respectively. Similarly, let ωC
+meet the shorter arc AC of Γ and segment AC again at Q and N, respectively. The rays P M
+and QN meet at X, and the tangents to ωB and ωC at B and C, respectively, meet at Y .
+   Prove that the points A, X, and Y are collinear.

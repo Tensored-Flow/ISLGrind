@@ -1,0 +1,16 @@
+For every real number x, let }x} denote the distance between x and the nearest integer.
+Prove that for every pair pa, bq of positive integers there exist an odd prime p and a positive
+integer k satisfying                    › › › › ›          ›
+                                        › a › › b › ›a + b›
+                                        › ›+› ›+›
+                                        › pk › › pk › › pk › = 1.
+                                                           ›
+
+10                                                                            IMO 2014 South Africa
+
+                                        Solutions
+
+A1.     Let z0 < z1 < z2 < ··· be an infinite sequence of positive integers. Prove that there
+exists a unique integer n ≥ 1 such that
+                                          z0 + z1 + ··· + zn
+                                   zn <                        ≤ zn+1 .                            p1q

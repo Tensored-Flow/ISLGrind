@@ -1,0 +1,5 @@
+Let a, b and c be positive real numbers such that min {ab, bc, ca} ⩾ 1. Prove that
+                                                                 Ç           å2
+                           »
+                                                                     a+b+c
+                                (a2 + 1)(b2 + 1)(c2 + 1) ⩽                        + 1.

@@ -1,0 +1,3 @@
+Determine all pairs pn, kq of distin t positive integers su h that there exists a positive
+integer s for whi h the numbers of divisors of sn and of sk are equal.
+                                                                                                   (Ukraine)

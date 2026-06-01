@@ -1,0 +1,4 @@
+Find all functions f : R → R that satisfy the conditions
+                        f (1 + xy) − f (x + y) = f (x)f (y) for all x, y ∈ R
+
+and f (−1) 6= 0.

@@ -1,0 +1,2 @@
+Find all integer solutions of the equation
+                                                = y 5 − 1.

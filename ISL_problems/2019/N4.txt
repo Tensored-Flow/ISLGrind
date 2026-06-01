@@ -1,0 +1,4 @@
+Let Z>0 be the set of positive integers. A positive integer constant C is given. Find
+all functions f : Z>0 → Z>0 such that, for all positive integers a and b satisfying a + b > C,
+
+                                         a + f pbq | a2 + b f paq.

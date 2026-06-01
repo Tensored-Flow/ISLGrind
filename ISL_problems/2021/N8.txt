@@ -1,0 +1,15 @@
+For a polynomial P pxq with integer coefficients let P 1pxq = P pxq and P k+1pxq =
+P pP k pxqq for k ≥ 1. Find all positive integers n for which there exists a polynomial P pxq with
+integer coefficients such that for every integer m ≥ 1, the numbers P mp1q, . . . , P mpnq leave
+exactly rn{2m s distinct remainders when divided by n.
+
+Shortlisted problems – solutions                                       11
+
+12   Saint-Petersburg — Russia, 16th–24th July 2021
+
+Shortlisted problems – solutions                                                                 13
+
+                                       Solutions
+A1. Let n be an integer, and let A be a subset of t0, 1, 2, 3, . . . , 5 u consisting of 4n + 2
+
+numbers. Prove that there exist a, b, c P A such that a < b < c and c + 2a > 3b.

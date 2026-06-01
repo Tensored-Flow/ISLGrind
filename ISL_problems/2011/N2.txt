@@ -1,0 +1,3 @@
+Consider a polynomial P (x) = (x + d1 )(x + d2 ) · . . . · (x + d9 ), where d1 , d2 , . . . , d9 are nine
+     distinct integers. Prove that there exists an integer N such that for all integers x ≥ N the
+     number P (x) is divisible by a prime number greater than 20.

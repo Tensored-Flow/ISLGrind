@@ -1,0 +1,9 @@
+Let r be a positive integer, and let a0 , a1 , . . . be an infinite sequence of real numbers.
+Assume that for all nonnegative integers m and s there exists a positive integer n P rm + 1, m + rs
+such that
+                           am + am+1 + ··· + am+s = an + an+1 + ··· + an+s .
+
+Prove that the sequence is periodic, i. e. there exists some p ≥ 1 such that an+p = an for all n ≥ 0.
+                                                                                                     (India)
+
+Shortlisted problems                                                                                  5

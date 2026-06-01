@@ -1,0 +1,13 @@
+Let n be a positive integer. Given a sequence ε1 , . . . , εn−1 with εi = 0 or εi = 1 for each
+i = 1, . . . , n − 1, the sequences a0 , . . . , an and b0 , . . . , bn are constructed by the following rules:
+
+                                        a0 = b0 = 1,     a1 = b1 = 7,
+
+                          2ai−1 + 3ai ,         if εi = 0,
+                  ai+1 =                                       for each i = 1, . . . , n − 1,
+                          3ai−1 + ai ,          if εi = 1,
+                          2bi−1 + 3bi ,         if εn−i = 0,
+                  bi+1 =                                       for each i = 1, . . . , n − 1.
+                          3bi−1 + bi ,          if εn−i = 1,
+
+Prove that an = bn .

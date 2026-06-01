@@ -1,0 +1,3 @@
+The Fibonacci numbers F0 , F1 , F2 , . . . are defined inductively by F0 = 0, F1 = 1, and
+Fn+1 = Fn + Fn−1 for n ≥ 1. Given an integer n ≥ 2, determine the smallest size of a set S of
+integers such that for every k = 2, 3, . . . , n there exist some x, y P S such that x − y = Fk .

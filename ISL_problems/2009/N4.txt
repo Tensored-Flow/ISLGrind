@@ -1,0 +1,6 @@
+Find all positive integers n such that there exists a sequence of positive integers a1 , a2 , . . . , an
+satisfying
+                                               a2 + 1
+                                      ak+1 = k         −1
+                                              ak−1 + 1
+for every k with 2 ≤ k ≤ n − 1.

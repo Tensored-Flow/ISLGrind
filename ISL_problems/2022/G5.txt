@@ -1,0 +1,6 @@
+Let ABC be a triangle, and let +1 and +2 be two parallel lines. For i = 1, 2, let +i
+meet the lines BC, CA, and AB at Xi , Yi , and Zi , respectively. Suppose that the line through
+Xi perpendicular to BC, the line through Yi perpendicular to CA, and finally the line through
+Zi perpendicular to AB, determine a non-degenerate triangle ∆i .
+   Show that the circumcircles of ∆1 and ∆2 are tangent to each other.
+                                                                                     (Vietnam)

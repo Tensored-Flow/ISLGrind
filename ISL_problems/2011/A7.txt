@@ -1,0 +1,8 @@
+Let a, b, and c be positive real numbers satisfying min(a+b, b+c, c+a) >         2 and a2 +b2 +c2 = 3.
+Prove that
+
+                            a              b               c            3
+                                                                    ≥        .
+                      (b + c − a)     (c + a − b)     (a + b − c)     (abc)2
+
+     Combinatorics                            Problem shortlist                          52nd IMO 2011

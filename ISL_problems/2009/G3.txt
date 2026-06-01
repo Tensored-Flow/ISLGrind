@@ -1,0 +1,4 @@
+Let ABC be a triangle. The incircle of ABC touches the sides AB and AC at the points Z
+and Y , respectively. Let G be the point where the lines BY and CZ meet, and let R and S be
+points such that the two quadrilaterals BCY R and BCSZ are parallelograms.
+Prove that GR = GS.

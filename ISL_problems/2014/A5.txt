@@ -1,0 +1,6 @@
+Consider all polynomials P pxq with real coefficients that have the following property:
+for any two real numbers x and y one has
+
+                   |y 2 − P pxq| ≤ 2 |x| if and only if |x2 − P pyq| ≤ 2 |y| .
+
+   Determine all possible values of P p0q.

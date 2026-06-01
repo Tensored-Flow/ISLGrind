@@ -1,0 +1,7 @@
+For any odd prime p and any integer n, let dp pnq P t0, 1, . . . , p − 1u denote the
+remainder when n is divided by p. We say that pa0 , a1 , a2 , . . .q is a p-sequence, if a0 is a positive
+integer coprime to p, and an+1 = an + dp pan q for n ≥ 0.
+(a) Do there exist infinitely many primes p for which there exist p-sequences pa0 , a1 , a2 , . . .q and
+pb0 , b1 , b2 , . . .q such that an > bn for infinitely many n, and bn > an for infinitely many n?
+(b) Do there exist infinitely many primes p for which there exist p-sequences pa0 , a1 , a2 , . . .q and
+pb0 , b1 , b2 , . . .q such that a0 < b0 , but an > bn for all n ≥ 1?

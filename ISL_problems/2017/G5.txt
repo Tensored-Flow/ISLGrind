@@ -1,0 +1,4 @@
+Let ABCC1 B1 A1 be a     onvex hexagon su h that AB = BC , and suppose that the
+line segments AA1 , BB1 , and CC1 have the same perpendi ular bise tor.             Let the diagonals
+AC1 and A1 C meet at D , and denote by ω the ir le ABC . Let ω interse t the               ir le A1 BC1
+again at E ‰ B . Prove that the lines BB1 and DE interse t on ω .

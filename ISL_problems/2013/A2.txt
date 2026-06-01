@@ -1,0 +1,7 @@
+Prove that in any set of 2000 distinct real numbers there exist two pairs a > b and c > d
+with a ‰ c or b ‰ d, such that    ˇ          ˇ
+                                  ˇa − b     ˇ     1
+                                  ˇ c − d − 1ˇ < 100000 .
+                                  ˇ          ˇ
+
+                                                                                 (Lithuania)

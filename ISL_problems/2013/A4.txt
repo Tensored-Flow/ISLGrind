@@ -1,0 +1,6 @@
+Let n be a positive integer, and consider a sequence a1 , a2 , . . . , an of positive integers.
+Extend it periodically to an infinite sequence a1 , a2 , . . . by defining an+i = ai for all i ≥ 1. If
+                                       a1 ≤ a2 ≤ ··· ≤ an ≤ a1 + n
+                                aai ≤ n + i − 1        for i = 1, 2, . . . , n,
+prove that
+                                           a1 + ··· + an ≤ n2 .

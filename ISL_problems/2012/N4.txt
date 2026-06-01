@@ -1,0 +1,6 @@
+An integer a is called friendly if the equation (m2 + n)(n2 + m) = a(m − n)3 has a
+solution over the positive integers.
+
+  a) Prove that there are at least 500 friendly integers in the set {1, 2, . . . , 2012}.
+
+  b) Decide whether a = 2 is friendly.

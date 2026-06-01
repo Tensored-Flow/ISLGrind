@@ -1,0 +1,5 @@
+Let ABC be a triangle with AB = AC , and let M be the midpoint of BC . Let P be
+a point su h that P B < P C and P A is parallel to BC . Let X and Y be points on the lines
+P B and P C , respe tively, so that B lies on the segment P X , C lies on the segment P Y , and
+=P XM = =P Y M . Prove that the quadrilateral AP XY is y li .
+                                                                                       (Australia)

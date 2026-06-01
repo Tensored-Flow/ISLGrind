@@ -1,0 +1,20 @@
+For every positive integer n with prime factorization n = i=1 pi , define
+                                     ℧pnq =            αi .
+                                                      i : pi >10100
+
+That is, ℧pnq is the number of prime factors of n greater than 10100 , counted with multiplicity.
+  Find all strictly increasing functions f : Z → Z such that
+              ℧ f paq − f pbq ≤ ℧pa − bq       for all integers a and b with a > b.
+
+                                                                                                       (Brazil)
+
+8                                                                                         IMO 2015 Thailand
+
+                                            Solutions
+
+A1. Suppose that a sequence a1 , a2 , . . . of positive real numbers satisfies
+                                                         kak
+                                            ak+1 ≥    2
+                                                                                                           (1)
+                                                     ak + pk − 1q
+for every positive integer k. Prove that a1 + a2 + ··· + an ≥ n for every n ≥ 2.

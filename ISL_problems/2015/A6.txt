@@ -1,0 +1,11 @@
+Let n be a fixed integer with n ≥ 2. We say that two polynomials P and Q with real
+coefficients are block-similar if for each i P t1, 2, . . . , nu the sequences
+
+                          P p2015iq, P p2015i − 1q, . . . , P p2015i − 2014q   and
+                          Qp2015iq, Qp2015i − 1q, . . . , Qp2015i − 2014q
+
+are permutations of each other.
+paq Prove that there exist distinct block-similar polynomials of degree n + 1.
+pbq Prove that there do not exist distinct block-similar polynomials of degree n.
+
+4                                                                             IMO 2015 Thailand

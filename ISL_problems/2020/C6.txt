@@ -1,0 +1,6 @@
+4n coins of weights 1, 2, 3, . . . , 4n are given. Each coin is colored in one of n colors
+and there are four coins of each color. Show that all these coins can be partitioned into two
+sets with the same total weight, such that each set contains two coins of each color.
+                                                                                           (Hungary)
+
+Shortlisted problems                                                                             7

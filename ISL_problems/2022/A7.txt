@@ -1,0 +1,5 @@
+For a positive integer n we denote by spnq the sum of the digits of n. Let P pxq =
+xn + an−1 xn−1 + ··· + a1 x + a0 be a polynomial, where n ≥ 2 and ai is a positive integer for all
+0 ≤ i ≤ n − 1. Could it be the case that, for all positive integers k, spkq and spP pkqq have the
+same parity?
+                                                                                         (Belarus)

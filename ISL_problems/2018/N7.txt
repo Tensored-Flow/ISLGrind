@@ -1,0 +1,19 @@
+Let n ≥ 2018 be an integer, and let a1 , a2 , . . . , an , b1 , b2 , . . . , bn be pairwise distin t
+positive integers not ex eeding 5n. Suppose that the sequen e
+                                              a1 a2      an
+                                                , , ...,
+                                              b1 b2      bn
+forms an arithmeti progression. Prove that the terms of the sequen e are equal.
+                                                                                                  (Thailand)
+
+8   Cluj-Napo a  Romania, 314 July 2018
+
+Shortlisted problems  solutions                                                                              9
+
+                                            Solutions
+A1.      Let Q>0 denote the set of all positive rational numbers. Determine all fun tions
+f : Q>0 → Q>0 satisfying          +        ˘
+                                f x2 f pyq2 = f pxq2 f pyq                            p˚q
+for all x, y P Q>0 .
+                                                                                               (Switzerland)
+Answer: f pxq = 1 for all x P Q>0 .

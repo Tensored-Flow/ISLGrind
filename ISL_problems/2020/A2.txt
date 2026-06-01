@@ -1,0 +1,8 @@
+Let A denote the set of all polynomials in three variables x, y, z with integer
+coefficients. Let B denote the subset of A formed by all polynomials which can be expressed as
+
+                 px + y + zqP px, y, zq + pxy + yz + zxqQpx, y, zq + xyzRpx, y, zq
+
+with P, Q, R P A. Find the smallest non-negative integer n such that xi y j z k P B for all non-
+negative integers i, j, k satisfying i + j + k ≥ n.
+                                                                                   (Venezuela)

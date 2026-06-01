@@ -1,0 +1,6 @@
+Let ABC be a triangle with =C = 900, and let H be the foot of the altitude from C.
+A point D is chosen inside the triangle CBH so that CH bisects AD. Let P be the intersection
+point of the lines BD and CH. Let ω be the semicircle with diameter BD that meets the
+segment CB at an interior point. A line through P is tangent to ω at Q. Prove that the
+lines CQ and AD meet on ω.
+                                                                                         (Georgia)

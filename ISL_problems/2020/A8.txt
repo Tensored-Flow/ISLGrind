@@ -1,0 +1,5 @@
+Let R+ be the set of positive real numbers. Determine all functions f : R+ → R+
+such that, for all positive real numbers x and y,
+                                 f x + f pxyq + y = f pxqf pyq + 1.
+
+6                                          Saint-Petersburg — Russia, 18th–28th September 2020

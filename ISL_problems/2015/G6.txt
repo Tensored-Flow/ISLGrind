@@ -1,0 +1,5 @@
+Let ABC be an acute triangle with AB > AC, and let Γ be its circumcircle. Let H,
+M, and F be the orthocenter of the triangle, the midpoint of BC, and the foot of the altitude
+from A, respectively. Let Q and K be the two points on Γ that satisfy =AQH = 900 and
+=QKH = 900 . Prove that the circumcircles of the triangles KQH and KF M are tangent to
+each other.

@@ -1,0 +1,11 @@
+Let $n$ be a positive integer. Given a sequence $\varepsilon_1, \ldots, \varepsilon_{n-1}$ with $\varepsilon_i = 0$ or $\varepsilon_i = 1$ for each $i = 1, \ldots, n-1$, the sequences $a_0, \ldots, a_n$ and $b_0, \ldots, b_n$ are constructed by the following rules:
+\[
+a_0 = b_0 = 1, \quad a_1 = b_1 = 7,
+\]
+\[
+a_{i+1} = \begin{cases} 2a_{i-1} + 3a_i, & \text{if } \varepsilon_i = 0, \\ 3a_{i-1} + a_i, & \text{if } \varepsilon_i = 1, \end{cases} \qquad \text{for each } i = 1, \ldots, n-1,
+\]
+\[
+b_{i+1} = \begin{cases} 2b_{i-1} + 3b_i, & \text{if } \varepsilon_{n-i} = 0, \\ 3b_{i-1} + b_i, & \text{if } \varepsilon_{n-i} = 1, \end{cases} \qquad \text{for each } i = 1, \ldots, n-1.
+\]
+Prove that $a_n = b_n$.

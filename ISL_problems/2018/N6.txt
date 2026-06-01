@@ -1,0 +1,4 @@
+Let f : t1, 2, 3, . . .u → t2, 3, . . .u be a fun tion su h that f pm + nq | f pmq + f pnq for
+all pairs m, n of positive integers. Prove that there exists a positive integer c > 1 whi h divides
+all values of f .
+                                                                                                    (Mexi o)

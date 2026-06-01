@@ -1,0 +1,13 @@
+An integer n ≥ 3 is given. We          all an n-tuple of real numbers px1 , x2 , . . . , xn q    Shiny
+if for ea h permutation y1 , y2 , . . . , yn of these numbers we have
+
+                               yi yi+1 = y1 y2 + y2 y3 + y3 y4 + ··· + yn−1 yn ≥ −1.
+                         i=1
+
+Find the largest     onstant K = Kpnq su h that
+
+                                                         xi xj ≥ K
+                                              1≤i<j≤n
+
+holds for every Shiny n-tuple px1 , x2 , . . . , xn q.
+                                                                                                          (Serbia)

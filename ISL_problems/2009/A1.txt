@@ -1,0 +1,11 @@
+Find the largest possible integer k, such that the following statement is true:
+Let 2009 arbitrary non-degenerated triangles be given. In every triangle the three sides are
+colored, such that one is blue, one is red and one is white. Now, for every color separately, let
+us sort the lengths of the sides. We obtain
+
+                        b1 ≤ b2 ≤ . . . ≤ b2009      the lengths of the blue sides,
+                        r1 ≤ r2 ≤ . . . ≤ r2009      the lengths of the red sides,
+              and       w1 ≤ w2 ≤ . . . ≤ w2009      the lengths of the white sides.
+
+Then there exist k indices j such that we can form a non-degenerated triangle with side lengths
+bj , rj , wj .

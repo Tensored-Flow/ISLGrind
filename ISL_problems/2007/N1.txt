@@ -1,0 +1,3 @@
+Find all pairs (k, n) of positive integers for which 7k − 3n divides k4 + n2 .
+                                                                                        (Austria)
+Answer. (2, 4).

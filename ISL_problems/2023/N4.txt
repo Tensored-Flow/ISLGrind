@@ -1,0 +1,8 @@
+Let a1 , a2 , . . . , an , b1 , b2 , . . . , bn be 2n positive integers such that the n + 1 products
+                                               a1 a2 a3 ··· an ,
+                                               b 1 a2 a3 ··· an ,
+                                               b 1 b 2 a3 ··· an ,
+                                                         ..
+                                                b1 b2 b 3 ··· bn
+form a strictly increasing arithmetic progression in that order. Determine the smallest positive
+integer that could be the common difference of such an arithmetic progression.

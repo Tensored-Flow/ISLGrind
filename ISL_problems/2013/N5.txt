@@ -1,0 +1,10 @@
+Fix an integer k ≥ 2. Two players, called Ana and Banana, play the following game of
+numbers: Initially, some integer n ≥ k gets written on the blackboard. Then they take moves
+in turn, with Ana beginning. A player making a move erases the number m just written on the
+blackboard and replaces it by some number m1 with k ≤ m1 < m that is coprime to m. The first
+player who cannot move anymore loses.
+    An integer n ≥ k is called good if Banana has a winning strategy when the initial number is n,
+and bad otherwise.
+    Consider two integers n, n1 ≥ k with the property that each prime number p ≤ k divides n if
+and only if it divides n1 . Prove that either both n and n1 are good or both are bad.
+                                                                                                 (Italy)

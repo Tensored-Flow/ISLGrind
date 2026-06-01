@@ -1,0 +1,6 @@
+In an acute-angled triangle ABC, point H is the foot of the altitude from A. Let
+P be a moving point such that the bisectors k and + of angles P BC and P CB, respectively,
+intersect each other on the line segment AH. Let k and AC meet at E, let + and AB meet
+at F , and let EF and AH meet at Q. Prove that, as P varies, the line P Q passes through a
+fixed point.
+                                                                                      (Iran)

@@ -1,0 +1,6 @@
+Determine all functions f : R → R that satisfy
+       +               ˘+                ˘+                  ˘
+        f paq − f pbq       f pbq − f pcq   f pcq − f paq        = f pab2 + bc2 + ca2 q − f pa2b + b2 c + c2aq
+for all real numbers a, b, c.
+
+6                                               Saint-Petersburg — Russia, 16th–24th July 2021

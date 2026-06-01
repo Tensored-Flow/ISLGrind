@@ -1,0 +1,8 @@
+We say that a function f : Rk → R is a metapolynomial if, for some positive integers m
+and n, it can be represented in the form
+
+                           f (x1 , . . . , xk ) = max    min Pi,j (x1 , . . . , xk )
+                                              i=1,...,m j=1,...,n
+
+where Pi,j are multivariate polynomials. Prove that the product of two metapolynomials is also
+a metapolynomial.

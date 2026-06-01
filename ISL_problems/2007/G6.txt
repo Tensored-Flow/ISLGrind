@@ -1,0 +1,7 @@
+Determine the smallest positive real number k with the following property.
+    Let ABCD be a convex quadrilateral, and let points A1 , B1 , C1 and D1 lie on sides AB, BC,
+CD and DA, respectively. Consider the areas of triangles AA1 D1 , BB1 A1 , CC1 B1 , and DD1 C1 ;
+let S be the sum of the two smallest ones, and let S1 be the area of quadrilateral A1 B1 C1 D1 .
+Then we always have kS1 ≥ S.
+                                                                                        (U.S.A.)
+Answer. k = 1.

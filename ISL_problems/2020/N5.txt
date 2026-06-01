@@ -1,0 +1,5 @@
+Determine all functions f defined on the set of all positive integers and taking
+non-negative integer values, satisfying the three conditions:
+piq f pnq ‰ 0 for at least one n;
+piiq f pxyq = f pxq + f pyq for every positive integers x and y;
+piiiq there are infinitely many positive integers n such that f pkq = f pn − kq for all k < n.

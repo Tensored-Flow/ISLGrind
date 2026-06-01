@@ -1,0 +1,5 @@
+In triangle ABC, let J be the centre of the excircle tangent to side BC at A1 and to
+the extensions of sides AC and AB at B1 and C1 , respectively. Suppose that the lines A1 B1
+and AB are perpendicular and intersect at D. Let E be the foot of the perpendicular from C1
+to line DJ. Determine the angles ∠BEA1 and ∠AEB1 .
+                                                                                   (Greece)

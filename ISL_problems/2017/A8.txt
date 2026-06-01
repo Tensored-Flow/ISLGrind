@@ -1,0 +1,12 @@
+Assume that a fun tion f : R → R satis
+es the following               ondition:
+
+                                         +          ˘+          ˘
+      For every x, y P R su h that f pxq + y f pyq + x > 0, we have f pxq + y = f pyq + x.
+
+Prove that f pxq + y ≤ f pyq + x whenever x > y .
+                                                                                                (Netherlands)
+
+6                                                                            IMO 2017, Rio de Janeiro
+
+Combinatori s

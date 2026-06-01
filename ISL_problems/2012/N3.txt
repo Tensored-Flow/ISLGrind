@@ -1,0 +1,3 @@
+Determine all integers m ≥ 2 such that every n with m3 ≤ n ≤ m2 divides the binomial
+coefficient   m−2n
+                   .

@@ -1,0 +1,8 @@
+The sequence f (1), f (2), f (3), . . . is defined by
+                                        1 j n k j n k       j n k
+                              f (n) =           +      +···+        ,
+                                        n    1     2           n
+where bxc denotes the integer part of x.
+   (a) Prove that f (n + 1) > f (n) infinitely often.
+   (b) Prove that f (n + 1) < f (n) infinitely often.
+                                                                                     (South Africa)

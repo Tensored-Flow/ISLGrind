@@ -1,0 +1,6 @@
+For every n ∈ N let d(n) denote the number of (positive) divisors of n. Find all func-
+tions f : N → N with the following properties:
+
+   (i) d(f (x)) = x for all x ∈ N;
+
+  (ii) f (xy) divides (x − 1)y xy−1f (x) for all x, y ∈ N.

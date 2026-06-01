@@ -1,0 +1,4 @@
+In an acute triangle ABC the points D, E and F are the feet of the altitudes through A,
+B and C respectively. The incenters of the triangles AEF and BDF are I1 and I2 respectively;
+the circumcenters of the triangles ACI1 and BCI2 are O1 and O2 respectively. Prove that I1 I2
+and O1 O2 are parallel.

@@ -1,0 +1,2 @@
+Determine whether there exists an infinite sequence of nonzero digits a1 , a2 , a3 , . . . and a
+positive integer N such that for every integer k > N, the number ak ak−1 . . . a1 is a perfect square.

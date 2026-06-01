@@ -1,0 +1,4 @@
+We say that a set S of integers is rootiful if, for any positive integer n and any
+a0 , a1 , . . . , an P S, all integer roots of the polynomial a0 + a1 x + ··· + an xn are also in S. Find
+all rootiful sets of integers that contain all numbers of the form 2a − 2b for positive integers
+a and b.

@@ -1,0 +1,6 @@
+Let a1 , a2 , . . ., an , . . . be a sequen e of positive integers su h that
+                                       a1 a2        an−1 an
+                                         +   + ···+     +
+                                       a2 a3         an   a1
+is an integer for all n ≥ k , where k is some positive integer. Prove that there exists a positive
+integer m su h that an = an+1 for all n ≥ m.

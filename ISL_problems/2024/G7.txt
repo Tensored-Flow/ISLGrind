@@ -1,0 +1,6 @@
+Let ABC be a triangle with incentre I such that AB < AC < BC. The second
+intersections of AI, BI, and CI with the circumcircle of triangle ABC are MA , MB , and MC ,
+respectively. Lines AI and BC intersect at D and lines BMC and CMB intersect at X. Suppose
+the circumcircles of triangles XMB MC and XBC intersect again at S ‰ X. Lines BX and CX
+intersect the circumcircle of triangle SXMA again at P ‰ X and Q ‰ X, respectively.
+     Prove that the circumcentre of triangle SID lies on P Q.

@@ -1,0 +1,12 @@
+Let B = (−1, 0) and C = (1, 0) be fixed points on the coordinate plane. A nonempty,
+bounded subset S of the plane is said to be nice if
+
+ (i) there is a point T in S such that for every point Q in S, the segment T Q lies entirely
+     in S; and
+
+ (ii) for any triangle P1 P2 P3 , there exists a unique point A in S and a permutation σ of the
+      indices {1, 2, 3} for which triangles ABC and Pσ(1) Pσ(2) Pσ(3) are similar.
+
+   Prove that there exist two distinct nice subsets S and S 0 of the set {(x, y) : x ⩾ 0, y ⩾ 0}
+such that if A ∈ S and A0 ∈ S 0 are the unique choices of points in (ii), then the product
+BA · BA0 is a constant independent of the triangle P1 P2 P3 .

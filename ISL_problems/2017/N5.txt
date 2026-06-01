@@ -1,0 +1,8 @@
+Find all pairs pp, qq of prime numbers with p > q for whi h the number
+
+                                          pp + qqp+q pp − qqp−q − 1
+                                          pp + qqp−q pp − qqp+q − 1
+is an integer.
+                                                                                                          (Japan)
+
+Shortlisted problems                                                                                      11

@@ -1,0 +1,5 @@
+Let n ≥ 3 be an integer, and let x1 , x2 , ..., xn be real numbers in the interval r0, 1s.
+Let s = x1 + x2 + . . . + xn , and assume that s ≥ 3. Prove that there exist integers i and j with
+1 ≤ i < j ≤ n such that
+                                          2j−i xi xj > 2s−3 .
+                                                                           (Trinidad and Tobago)

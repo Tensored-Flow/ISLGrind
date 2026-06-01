@@ -1,0 +1,8 @@
+The sequence of real numbers a0 , a1 , a2 , . . . is defined recursively by
+                                               n
+                                               X an−k
+                               a0 = −1,                   = 0 for n ≥ 1.
+                                                   k+1
+
+Show that an > 0 for n ≥ 1.
+                                                                                                   (Poland)

@@ -1,0 +1,14 @@
+For a sequence x1 , x2 , . . . , xn of real numbers, we define its price as
+                                         max |x1 + ··· + xi |.
+                                         1≤i≤n
+
+    Given n real numbers, Dave and George want to arrange them into a sequence with a
+low price. Diligent Dave checks all possible ways and finds the minimum possible price D.
+Greedy George, on the other hand, chooses x1 such that |x1 | is as small as possible; among
+the remaining numbers, he chooses x2 such that |x1 + x2 | is as small as possible, and so on.
+Thus, in the ith step he chooses xi among the remaining numbers so as to minimise the value
+of |x1 + x2 + ··· + xi |. In each step, if several numbers provide the same value, George chooses
+one at random. Finally he gets a sequence with price G.
+    Find the least possible constant c such that for every positive integer n, for every collection
+of n real numbers, and for every possible sequence that George might obtain, the resulting
+values satisfy the inequality G ≤ cD.

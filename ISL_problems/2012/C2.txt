@@ -1,0 +1,2 @@
+Let n ≥ 1 be an integer. What is the maximum number of disjoint pairs of elements of the
+set {1, 2, . . . , n} such that the sums of the different pairs are different integers not exceeding n?

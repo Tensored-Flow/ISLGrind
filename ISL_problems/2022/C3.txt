@@ -1,0 +1,14 @@
+In each square of a garden shaped like a 2022 ˆ 2022 board, there is initially a tree
+of height 0. A gardener and a lumberjack alternate turns playing the following game, with the
+gardener taking the first turn:
+
+     • The gardener chooses a square in the garden. Each tree on that square and all the
+       surrounding squares (of which there are at most eight) then becomes one unit taller.
+
+     • The lumberjack then chooses four different squares on the board. Each tree of positive
+       height on those squares then becomes one unit shorter.
+
+   We say that a tree is majestic if its height is at least 106 . Determine the largest number K
+such that the gardener can ensure there are eventually K majestic trees on the board, no matter
+how the lumberjack plays.
+                                                                                       (Colombia)

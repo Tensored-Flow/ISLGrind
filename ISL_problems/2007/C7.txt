@@ -1,0 +1,4 @@
+Let α <                   be a positive real number. Prove that there exist positive integers n
+and p > α · 2 for which one can select 2p pairwise distinct subsets S1 , . . . , Sp , T1 , . . . , Tp of
+the set {1, 2, . . . , n} such that Si ∩ Tj 6= ∅ for all 1 ≤ i, j ≤ p.
+                                                                                           (Austria)

@@ -1,0 +1,7 @@
+A polynomial P px, y, zq in three variables with real coeﬃcients satisﬁes the identities
+
+                P px, y, zq = P px, y, xy − zq = P px, zx − y, zq = P pyz − x, y, zq.
+
+Prove that there exists a polynomial F ptq in one variable such that
+
+                               P px, y, zq = F px2 + y 2 + z 2 − xyzq.

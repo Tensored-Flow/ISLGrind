@@ -1,0 +1,14 @@
+Let p ≥ 2 be a prime number. Eduardo and Fernando play the following game making
+moves alternately: in ea h move, the            urrent player hooses an index i in the set t0, 1, . . . , p−1u
+that was not     hosen before by either of the two players and then                  hooses an element ai of the
+set t0, 1, 2, 3, 4, 5, 6, 7, 8, 9u. Eduardo has the
+rst move. The game ends after all the indi es
+i P t0, 1, . . . , p − 1u have been   hosen. Then the following number is                omputed:
+
+                          M = a0 + 10 · a1 + ··· + 10     p−1
+                                                                  · ap−1 =         aj · 10j .
+
+The goal of Eduardo is to make the number M divisible by p, and the goal of Fernando is to
+prevent this.
+     Prove that Eduardo has a winning strategy.
+                                                                                                        (Moro o)

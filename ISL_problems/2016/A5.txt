@@ -1,0 +1,9 @@
+(a) Prove that for every positive integer n, there exists a fraction ab where a and b are integers
+                       √            √           √
+    satisfying 0 < b ⩽ n + 1 and n ⩽ ab ⩽ n + 1.
+
+(b) Prove that there are infinitely many positive integers n such that there is no fraction ab
+                                                  √        √         √
+    where a and b are integers satisfying 0 < b ⩽ n and n ⩽ ab ⩽ n + 1.
+
+4                                                                               IMO 2016 Hong Kong

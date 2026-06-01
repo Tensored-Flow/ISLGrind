@@ -1,0 +1,7 @@
+The vertices X, Y , Z of an equilateral triangle XY Z lie respectively on the sides BC,
+CA, AB of an acute-angled triangle ABC. Prove that the incenter of triangle ABC lies inside
+triangle XY Z.
+G6 .     The vertices X, Y , Z of an equilateral triangle XY Z lie respectively on the sides
+BC, CA, AB of a triangle ABC. Prove that if the incenter of triangle ABC lies outside
+triangle XY Z, then one of the angles of triangle ABC is greater than 120 .
+                                                                                                      (Bulgaria)

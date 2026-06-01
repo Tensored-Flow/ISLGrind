@@ -1,0 +1,10 @@
+Variant 1. A grasshopper jumps along the real axis. He starts at point 0 and makes 2009
+jumps to the right with lengths 1, 2, . . . , 2009 in an arbitrary order. Let M be a set of 2008
+positive integers less than 1005 · 2009. Prove that the grasshopper can arrange his jumps in
+such a way that he never lands on a point from M .
+
+Variant 2. Let n be a nonnegative integer. A grasshopper jumps along the real axis. He starts
+at point 0 and makes n + 1 jumps to the right with pairwise different positive integral lengths
+a1 , a2 , . . . , an+1 in an arbitrary order. Let M be a set of n positive integers in the interval (0, s),
+where s = a1 + a2 + · · · + an+1 . Prove that the grasshopper can arrange his jumps in such a
+way that he never lands on a point from M .

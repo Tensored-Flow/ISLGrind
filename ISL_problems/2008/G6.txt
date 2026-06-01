@@ -1,0 +1,6 @@
+There is given a convex quadrilateral ABCD. Prove that there exists a point P inside
+the quadrilateral such that
+
+   ∠P AB + ∠P DC = ∠P BC + ∠P AD = ∠P CD + ∠P BA = ∠P DA + ∠P CB = 90◦                      (1)
+
+if and only if the diagonals AC and BD are perpendicular.

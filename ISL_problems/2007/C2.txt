@@ -1,0 +1,5 @@
+A unit square is dissected into n > 1 rectangles such that their sides are parallel to the
+sides of the square. Any line, parallel to a side of the square and intersecting its interior, also
+intersects the interior of some rectangle. Prove that in this dissection, there exists a rectangle
+having no point on the boundary of the square.
+                                                                                          (Japan)

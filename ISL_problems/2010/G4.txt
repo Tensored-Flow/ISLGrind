@@ -1,0 +1,6 @@
+Let I be the incenter of a triangle ABC and Γ be its circumcircle. Let the line AI
+intersect Γ at a point D  A. Let F and E be points on side BC and arc BDC respectively
+such that =BAF  =CAE          1
+                                 =BAC. Finally, let G be the midpoint of the segment IF .
+Prove that the lines DG and EI intersect on Γ.
+                                                                                       (Hong Kong)

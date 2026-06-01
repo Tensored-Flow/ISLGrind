@@ -1,0 +1,7 @@
+Prove that for any pair of positive integers k and n there exist k positive integers
+m1 , m2 , . . . , mk such that
+                               2k − 1
+                                       ˆ        ˙ˆ         ˙ ˆ         ˙
+                                             1           1           1
+                            1+        = 1+         1+       ··· 1 +      .
+                                  n         m1          m2          mk

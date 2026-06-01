@@ -1,0 +1,4 @@
+Let ABCD be a convex quadrilateral, and let P , Q, R, and S be points on the sides
+AB, BC, CD, and DA, respectively. Let the line segments P R and QS meet at O. Suppose
+that each of the quadrilaterals AP OS, BQOP , CROQ, and DSOR has an incircle. Prove that
+the lines AC, P Q, and RS are either concurrent or parallel to each other.

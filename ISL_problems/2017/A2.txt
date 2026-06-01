@@ -1,0 +1,14 @@
+Let q be a real number. Gugu has a napkin with ten distin t real numbers written
+on it, and he writes the following three lines of real numbers on the bla kboard:
+
+    • In the
+rst line, Gugu writes down every number of the form a − b, where a and b are two
+      (not ne essarily distin t) numbers on his napkin.
+
+    • In the se ond line, Gugu writes down every number of the form qab, where a and b are
+      two (not ne essarily distin t) numbers from the
+    • In the third line, Gugu writes down every number of the form a2 + b2 − c2 − d2 , where
+      a, b, c, d are four (not ne essarily distin t) numbers from the
+
+    Determine all values of q su h that, regardless of the numbers on Gugu's napkin, every
+number in the se ond line is also a number in the third line.

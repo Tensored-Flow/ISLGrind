@@ -1,0 +1,4 @@
+For positive integers n and k ≥ 2 define Ek pnq as the greatest exponent r such that
+k r divides n!. Prove that there are infinitely many n such that E10 pnq > E9 pnq and infinitely
+many m such that E10 pmq < E9 pmq.
+                                                                                        (Brazil)

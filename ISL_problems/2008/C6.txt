@@ -1,0 +1,4 @@
+For n ≥ 2, let S1 , S2 , . . . , S2n be 2n subsets of A = {1, 2, 3, . . . , 2n+1 } that satisfy the
+following property: There do not exist indices a and b with a < b and elements x, y, z ∈ A with
+x < y < z such that y, z ∈ Sa and x, z ∈ Sb . Prove that at least one of the sets S1 , S2 , . . . , S2n
+contains no more than 4n elements.

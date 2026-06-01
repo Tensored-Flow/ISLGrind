@@ -1,0 +1,7 @@
+Let ABC be an a ute-angled triangle with ir um ir le Γ. Let D and E be points on
+the segments AB and AC , respe tively, su h that AD = AE . The perpendi ular bise tors of
+the segments BD and CE interse t the small ar s AB
+                                                Ŋ and AC
+                                                       Ŋ at points F and G respe tively.
+Prove that DE k F G.
+                                                                                          (Gree e)

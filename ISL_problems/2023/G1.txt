@@ -1,0 +1,4 @@
+Let ABCDE be a convex pentagon such that =ABC = =AED = 90˝ . Suppose
+that the midpoint of CD is the circumcentre of triangle ABE. Let O be the circumcentre of
+triangle ACD.
+   Prove that line AO passes through the midpoint of segment BE.

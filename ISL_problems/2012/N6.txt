@@ -1,0 +1,2 @@
+Let x and y be positive integers. If x2 − 1 is divisible by 2n y + 1 for every positive
+integer n, prove that x = 1.

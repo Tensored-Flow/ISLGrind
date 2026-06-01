@@ -1,0 +1,16 @@
+Find all polynomials P (x) of odd degree d and with integer coefficients satisfying the
+following property: for each positive integer n, there exist n positive integers x1 , x2 , . . . , xn
+such that 21 < PP (x
+                        < 2 and PP (x
+                                         is the d-th power of a rational number for every pair of
+indices i and j with 1 ⩽ i, j ⩽ n.
+
+Shortlisted problems                                                                                                11
+
+                                               Solutions
+
+A1. Let a, b and c be positive real numbers such that min {ab, bc, ca} ⩾ 1. Prove that
+                                                                   Ç              å2
+                           »
+                                                                       a+b+c
+                               (a2 + 1)(b2 + 1)(c2 + 1) ⩽                              + 1.                         (1)

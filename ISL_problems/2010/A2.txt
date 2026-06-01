@@ -1,0 +1,5 @@
+Let the real numbers a, b, c, d satisfy the relations a b c d  6 and a2 b2 c2 d2  12.
+Prove that
+                       36 · 4pa3           b3       c3        d3 q  pa4         b4         c4         d4 q · 48.
+
+                                                                                                                              (Ukraine)

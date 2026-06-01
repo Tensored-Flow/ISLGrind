@@ -1,0 +1,4 @@
+Suppose that f and g are two functions defined on the set of positive integers and taking
+positive integer values. Suppose also that the equations f pg pnqq  f pnq 1 and g pf pnqq 
+g pnq 1 hold for all positive integers. Prove that f pnq  g pnq for all positive integer n.
+                                                                                             (Germany)

@@ -1,0 +1,7 @@
+Let AA1 BCC 1 B 1 be a convex cyclic hexagon such that AC is tangent to the incircle
+of the triangle A1 B 1 C 1 , and A1 C 1 is tangent to the incircle of the triangle ABC. Let the lines
+AB and A1 B 1 meet at X and let the lines BC and B 1 C 1 meet at Y .
+    Prove that if XBY B 1 is a convex quadrilateral, then it has an incircle.
+                                                                                         (Australia)
+
+Shortlisted problems                                                                          7

@@ -1,0 +1,6 @@
+Let ABCD be a cyclic quadrilateral whose sides have pairwise different lengths. Let
+O be the circumcentre of ABCD . The internal angle bisectors of =ABC and =ADC meet AC
+at B1 and D1, respectively. Let OB be the centre of the circle which passes through B and is
+tangent to AC at D1. Similarly, let OD be the centre of the circle which passes through D and
+is tangent to AC at B1 .
+    Assume that BD1 k DB1. Prove that O lies on the line OB OD .

@@ -1,0 +1,11 @@
+Consider an infinite sequence a1 , a2 , . . . of positive integers with ai ≤ 2015 for all i ≥ 1.
+Suppose that for any two distinct indices i and j we have i + ai ‰ j + aj .
+   Prove that there exist two positive integers b and N such that
+                                    ˇ               ˇ
+                                    ˇ ÿn            ˇ
+                                           pa  − bq ˇ ≤ 10072
+                                    ˇ               ˇ
+                                    ˇ        i
+                                    ˇi=m+1          ˇ
+
+whenever n > m ≥ N.

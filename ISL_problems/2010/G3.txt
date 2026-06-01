@@ -1,0 +1,13 @@
+Let A1 A2 . . . An be a convex polygon. Point P inside this polygon is chosen so that its
+projections P1 , . . . , Pn onto lines A1 A2 , . . . , An A1 respectively lie on the sides of the polygon.
+Prove that for arbitrary points X1 , . . . , Xn on sides A1 A2 , . . . , An A1 respectively,
+                                          "                       *
+                                   max
+                                       X 1 X2
+                                       P1 P2
+                                              ,...,
+                                                    X n X1
+                                                    Pn P1
+                                                                      © 1.
+
+                                                                                               (Armenia)

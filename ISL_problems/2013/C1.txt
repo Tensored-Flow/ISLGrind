@@ -1,0 +1,5 @@
+Let n be a positive integer. Find the smallest integer k with the following property: Given
+any real numbers a1 , . . . , ad such that a1 + a2 + ··· + ad = n and 0 ≤ ai ≤ 1 for i = 1, 2, . . . , d, it
+is possible to partition these numbers into k groups (some of which may be empty) such that the
+sum of the numbers in each group is at most 1.
+                                                                                                   (Poland)

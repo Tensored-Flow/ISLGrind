@@ -1,0 +1,5 @@
+Find all positive integers n ≥ 3 for whi h there exist real numbers a1 , a2 , . . . , an ,
+an+1 = a1 , an+2 = a2 su h that
+                                        ai ai+1 + 1 = ai+2
+for all i = 1, 2, . . . , n.
+                                                                                                             (Slovakia)

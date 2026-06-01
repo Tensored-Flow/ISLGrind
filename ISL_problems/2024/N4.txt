@@ -1,0 +1,2 @@
+Determine all positive integers a and b such that there exists a positive integer g such
+that gcdpan + b, bn + aq = g for all sufficiently large n.

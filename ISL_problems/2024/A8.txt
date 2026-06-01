@@ -1,0 +1,7 @@
+Let p ‰ q be coprime positive integers. Determine all infinite sequences a1 , a2 , . . . of
+positive integers such that the following conditions hold for all n ≥ 1:
+
+                 maxpan , an+1 , . . . , an+p q − minpan , an+1 , . . . , an+p q = p    and
+                 maxpan , an+1 , . . . , an+q q − minpan , an+1 , . . . , an+q q = q.
+
+Shortlisted problems                                                                                5

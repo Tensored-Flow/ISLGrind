@@ -1,0 +1,5 @@
+Find all pairs pm, nq of positive integers satisfying the equation
+
+                            p2n − 1qp2n − 2qp2n − 4q ··· p2n − 2n−1 q = m!
+
+                                                                                           (El Salvador)

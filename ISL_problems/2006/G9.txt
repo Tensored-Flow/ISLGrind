@@ -1,0 +1,5 @@
+Points A1 , B1 , C1 are chosen on the sides BC, CA, AB of a triangle ABC, respectively.
+The circumcircles of triangles AB1 C1 , BC1 A1 , CA1 B1 intersect the circumcircle of triangle
+ABC again at points A2 , B2 , C2 , respectively (A2 6= A, B2 6= B, C2 6= C). Points A3 , B3 , C3 are
+symmetric to A1 , B1 , C1 with respect to the midpoints of the sides BC, CA, AB respectively.
+Prove that the triangles A2 B2 C2 and A3 B3 C3 are similar.

@@ -1,0 +1,4 @@
+In triangle ABC , let ω be the ex ir le opposite A. Let D , E , and F be the points
+where ω is tangent to lines BC , CA, and AB , respe tively. The        ir le AEF interse ts line BC
+at P and Q. Let M be the midpoint of AD . Prove that the           ir le MP Q is tangent to ω .
+                                                                                             (Denmark)

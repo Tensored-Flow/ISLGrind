@@ -1,0 +1,4 @@
+Let ABC be an acute triangle. Let ω be a circle whose center L lies on the side BC. Suppose
+     that ω is tangent to AB at B ′ and to AC at C ′ . Suppose also that the circumcenter O of the
+     triangle ABC lies on the shorter arc B ′ C ′ of ω. Prove that the circumcircle of ABC and ω
+     meet at two points.

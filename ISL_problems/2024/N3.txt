@@ -1,0 +1,7 @@
+Determine all sequences a1 , a2 , . . . of positive integers such that, for any pair of
+positive integers m ≤ n, the arithmetic and geometric means
+                       am + am+1 + ··· + an                            1
+                                                and pam am+1 ··· an q n−m+1
+                            n−m+1
+are both integers.
+                                                                                       (Singapore)

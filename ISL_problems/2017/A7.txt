@@ -1,0 +1,7 @@
+Let a0 , a1 , a2 , . . . be a sequen e of integers and b0 , b1 , b2 , . . . be a sequen e of   positive
+integers su h that a0 = 0, a1 = 1, and
+                              an bn + an−1 ,         if bn−1 = 1
+                      an+1 =                                          for n = 1, 2, . . ..
+                              an bn − an−1 ,         if bn−1 > 1
+
+Prove that at least one of the two numbers a2017 and a2018 must be greater than or equal to 2017.

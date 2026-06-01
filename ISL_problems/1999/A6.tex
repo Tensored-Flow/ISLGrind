@@ -1,0 +1,9 @@
+% country: SWE
+For $n \geq 3$ and $a_1 \leq a_2 \leq \cdots \leq a_n$ given real numbers we have the following instructions:
+\begin{itemize}
+\item[(1)] place the numbers in some order in a circle;
+\item[(2)] delete one of the numbers from the circle;
+\item[(3)] if just two numbers are remaining in the circle, let $S$ be the sum of these two numbers. Otherwise, if there are more than two numbers in the circle, replace $(x_1, x_2, x_3, \ldots, x_{p-1}, x_p)$ with $(x_1 + x_2, x_2 + x_3, \ldots, x_{p-1} + x_p, x_p + x_1)$. Afterwards, start again with step (2).
+\end{itemize}
+Show that the largest sum $S$ that can result in this way is given by the formula
+\[ S_{\max} = \sum_{k=2}^{n} \binom{n-2}{\lfloor \frac{k}{2} \rfloor - 1} a_k. \]

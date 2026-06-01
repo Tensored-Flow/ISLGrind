@@ -1,0 +1,13 @@
+For any
+nite sets X and Y of positive integers, denote by fX pkq the k
+                                                                                                              smallest
+positive integer not in X , and let
+
+                                      X ˚ Y = X Y tfX pyq : y P Y u.
+
+Let A be a set of a > 0 positive integers, and let B be a set of b > 0 positive integers. Prove
+that if A ˚ B = B ˚ A, then
+
+                A  ˚ pA ˚ ··· ˚ pA ˚ pA ˚ Aqq . . . q = looooooooooooooooooomooooooooooooooooooon
+                looooooooooooooooooomooooooooooooooooooon B ˚ pB ˚ ··· ˚ pB ˚ pB ˚ Bqq . . . q .
+                          A appears b times                          B appears a times

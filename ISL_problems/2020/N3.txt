@@ -1,0 +1,4 @@
+Let n be an integer with n ≥ 2. Does there exist a sequence pa1 , . . . , an q of positive
+integers with not all terms being equal such that the arithmetic mean of every two terms is
+equal to the geometric mean of some (one or more) terms in this sequence?
+                                                                                           (Estonia)

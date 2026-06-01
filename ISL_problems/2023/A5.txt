@@ -1,0 +1,12 @@
+Let a1 , a2 , . . . , a2023 be positive integers such that
+
+    • a1 , a2 , . . . , a2023 is a permutation of 1, 2, . . . , 2023, and
+
+   • |a1 − a2 |, |a2 − a3 |, . . . , |a2022 − a2023 | is a permutation of 1, 2, . . . , 2022.
+
+Prove that max a1 , a2023 ≥ 507.
+                  +          ˘
+
+                                                                                                  (Australia)
+
+4                                                                    Chiba, Japan, 2nd–13th July 2023

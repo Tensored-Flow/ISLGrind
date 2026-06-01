@@ -1,0 +1,7 @@
+Let ω be the circumcircle of a triangle ABC , and let Ω be its excircle which is tangent
+to the segment BC . Let X and Y be the intersection points of ω and ΩA . Let P and Q be the
+projections of A onto the tangent lines to ΩA at X and Y , respectively. The tangent line at P
+to the circumcircle of the triangle AP X intersects the tangent line at Q to the circumcircle of
+the triangle AQY at a point R. Prove that AR K BC .
+
+10                                                   Saint-Petersburg — Russia, 16th–24th July 2021

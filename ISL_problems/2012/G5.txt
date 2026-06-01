@@ -1,0 +1,4 @@
+Let ABC be a triangle with ∠BCA = 90◦ , and let C0 be the foot of the altitude
+from C. Choose a point X in the interior of the segment CC0 , and let K, L be the points on
+the segments AX, BX for which BK = BC and AL = AC respectively. Denote by M the
+intersection of AL and BK. Show that MK = ML.

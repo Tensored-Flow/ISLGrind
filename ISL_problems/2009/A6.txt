@@ -1,0 +1,6 @@
+Suppose that s1 , s2 , s3 , . . . is a strictly increasing sequence of positive integers such that the
+subsequences
+
+                       ss1 , ss2 , ss3 , . . .      and     ss1 +1 , ss2 +1 , ss3 +1 , . . .
+
+are both arithmetic progressions. Prove that s1 , s2 , s3 , . . . is itself an arithmetic progression.

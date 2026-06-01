@@ -1,0 +1,20 @@
+Let a and b be two positive integers. Prove that the integer
+                                               R 2V
+                                            2    4a
+                                          a +
+
+is not a square. (Here rzs denotes the least integer greater than or equal to z.)
+
+10                                                                Bath — UK, 11th–22nd July 2019
+
+                                         Solutions
+
+ A1.        Let Z be the set of integers. Determine all functions f : Z → Z such that, for all
+integers a and b,
+                                 f p2aq + 2f pbq = f pf pa + bqq.                         (1)
+                                                                                     (South Africa)
+
+Answer: The solutions are f pnq = 0 and f pnq = 2n + K for any constant K P Z.
+
+Common remarks. Most solutions to this problem ﬁrst prove that f must be linear, before
+determining all linear functions satisfying (1).

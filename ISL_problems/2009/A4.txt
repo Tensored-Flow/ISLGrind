@@ -1,0 +1,7 @@
+Let a, b, c be positive real numbers such that ab + bc + ca ≤ 3abc. Prove that
+
+                                                   √ √           √
+          r             r            r
+             a2 + b 2     b2 + c 2     c 2 + a2                            √   
+                      +            +            +3≤ 2     a+b+ b+c+ c+a .
+              a+b          b+c          c+a

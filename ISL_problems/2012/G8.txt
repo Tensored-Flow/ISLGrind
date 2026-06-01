@@ -1,0 +1,4 @@
+Let ABC be a triangle with circumcircle ω and ℓ a line without common points with ω.
+Denote by P the foot of the perpendicular from the center of ω to ℓ. The side-lines BC, CA, AB
+intersect ℓ at the points X, Y, Z different from P . Prove that the circumcircles of the triangles
+AXP, BY P and CZP have a common point different from P or are mutually tangent at P .

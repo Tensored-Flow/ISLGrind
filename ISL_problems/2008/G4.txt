@@ -1,0 +1,4 @@
+In an acute triangle ABC segments BE and CF are altitudes. Two circles passing
+through the points A and F are tangent to the line BC at the points P and Q so that B lies
+between C and Q. Prove that the lines P E and QF intersect on the circumcircle of triangle
+AEF .

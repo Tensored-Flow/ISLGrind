@@ -1,0 +1,10 @@
+Let k and n be fixed positive integers. In the liar’s guessing game, Amy chooses integers
+x and N with 1 ≤ x ≤ N. She tells Ben what N is, but not what x is. Ben may then repeatedly
+ask Amy whether x ∈ S for arbitrary sets S of integers. Amy will always answer with yes or no,
+but she might lie. The only restriction is that she can lie at most k times in a row. After he
+has asked as many questions as he wants, Ben must specify a set of at most n positive integers.
+If x is in this set he wins; otherwise, he loses. Prove that:
+
+  a) If n ≥ 2k then Ben can always win.
+
+  b) For sufficiently large k there exist n ≥ 1.99k such that Ben cannot guarantee a win.

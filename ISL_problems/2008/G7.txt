@@ -1,0 +1,4 @@
+Let ABCD be a convex quadrilateral with AB 6= BC. Denote by ω1 and ω2 the incircles
+of triangles ABC and ADC. Suppose that there exists a circle ω inscribed in angle ABC,
+tangent to the extensions of line segments AD and CD. Prove that the common external
+tangents of ω1 and ω2 intersect on ω.

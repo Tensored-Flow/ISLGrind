@@ -1,0 +1,3 @@
+Find all positive integers n with the following property: the k positive divisors of n
+have a permutation pd1, d2, . . . , dk q such that for every i = 1, 2, . . . , k, the number d1 + ··· + di
+is a perfect square.

@@ -1,0 +1,6 @@
+Let R be the set of real numbers. Let f : R → R be a function such that
+
+                                     f px + yqf px − yq ≥ f pxq2 − f pyq2
+
+for every x, y P R. Assume that the inequality is strict for some x0 , y0 P R.
+    Prove that f pxq ≥ 0 for every x P R or f pxq ≤ 0 for every x P R.

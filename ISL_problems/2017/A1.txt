@@ -1,0 +1,9 @@
+Let a1 , a2 , . . . , an , k , and M be positive integers su h that
+
+                           +   + ···+    =k            and    a1 a2 . . . an = M.
+If M > 1, prove that the polynomial
+
+                         P pxq = Mpx + 1qk − px + a1 qpx + a2 q ··· px + an q
+
+has no positive roots.
+                                                                                    (Trinidad and Tobago)

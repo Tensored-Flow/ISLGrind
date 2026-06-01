@@ -1,0 +1,5 @@
+Let Z>0 denote the set of positive
+                                     +       integers. For˘ any positive integer k, a function
+f : Z>0 → Z>0 is called k-good if gcd f pmq + n, f pnq + m ≤ k for all m ‰ n. Find all k such
+that there exists a k-good function.
+                                                                śk αi

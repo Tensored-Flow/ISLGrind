@@ -1,0 +1,4 @@
+Let ABC be an acute-angled triangle with circumcircle ω and circumcentre O. Points
+D ‰ B and E ‰ C lie on ω such that BD K AC and CE K AB. Let CO meet AB at X, and
+BO meet AC at Y .
+   Prove that the circumcircles of triangles BXD and CY E have an intersection on line AO.

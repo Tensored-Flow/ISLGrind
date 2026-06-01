@@ -1,0 +1,5 @@
+Given an isosceles triangle ABC with AB = AC. The midpoint of side BC is denoted
+by M. Let X be a variable point on the shorter arc MA of the circumcircle of triangle ABM.
+Let T be the point in the angle domain BMA, for which ∠T MX = 90◦ and T X = BX. Prove
+that ∠MT B − ∠CT M does not depend on X.
+                                                                                   (Canada)

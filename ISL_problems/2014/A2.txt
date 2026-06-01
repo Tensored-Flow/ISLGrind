@@ -1,0 +1,10 @@
+Define the function f : p0, 1q → p0, 1q by
+                                              x + 12     if x < 21 ,
+                                     f pxq =
+                                              x2         if x ≥ 21 .
+
+Let a and b be two real numbers such that 0 < a < b < 1. We define the sequences an and bn
+by a0 = a, b0 = b, and an = f pan−1 q, bn = f pbn−1 q for n > 0. Show that there exists a positive
+integer n such that
+                                  pan − an−1 qpbn − bn−1 q < 0.
+                                                                                       (Denmark)

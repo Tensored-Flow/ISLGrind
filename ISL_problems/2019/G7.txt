@@ -1,0 +1,5 @@
+The incircle ω of acute-angled scalene triangle ABC has centre I and meets sides BC,
+CA, and AB at D, E, and F , respectively. The line through D perpendicular to EF meets ω
+again at R. Line AR meets ω again at P . The circumcircles of triangles P CE and P BF meet
+again at Q ‰ P . Prove that lines DI and P Q meet on the external bisector of angle BAC.
+                                                                                        (India)

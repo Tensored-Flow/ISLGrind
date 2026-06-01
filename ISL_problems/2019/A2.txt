@@ -1,0 +1,7 @@
+Let u1 , u2 , . . . , u2019 be real numbers satisfying
+
+                     u1 + u2 + ··· + u2019 = 0 and u21 + u22 + ··· + u22019 = 1.
+
+Let a = minpu1 , u2 , . . . , u2019 q and b = maxpu1 , u2 , . . . , u2019 q. Prove that
+                                                 ab ≤ −          .
+                                                                                             (Germany)

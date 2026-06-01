@@ -1,0 +1,5 @@
+Let n ⩾ 3 be a positive integer. Find the maximum number of diagonals of a regular
+n-gon one can select, so that any two of them do not intersect in the interior or they are
+perpendicular to each other.
+
+6                                                                       IMO 2016 Hong Kong

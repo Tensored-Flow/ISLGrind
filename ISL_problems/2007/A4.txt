@@ -1,0 +1,7 @@
+Find all functions f : R+ → R+ such that
+                                f x + f (y) = f (x + y) + f (y)                              (1)
+
+for all x, y ∈ R+ . (Symbol R+ denotes the set of all positive real numbers.)
+                                                                                     (Thaliand)
+Answer. f (x) = 2x.
+                                                            +

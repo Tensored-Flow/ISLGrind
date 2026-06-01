@@ -1,0 +1,7 @@
+Let ABCD be a convex quadrilateral. Suppose that P is a point in the interior of
+ABCD such that
+
+               =P AD : =P BA : =DP A = 1 : 2 : 3 = =CBP : =BAP : =BP C.
+
+The internal bisectors of angles ADP and P CB meet at a point Q inside the triangle ABP .
+Prove that AQ = BQ.

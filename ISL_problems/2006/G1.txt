@@ -1,0 +1,5 @@
+Let ABC be a triangle with incentre I. A point P in the interior of the triangle satisfies
+                            ∠P BA + ∠P CA = ∠P BC + ∠P CB.
+
+Show that AP ≥ AI and that equality holds if and only if P coincides with I.
+                                                                                      (Korea)

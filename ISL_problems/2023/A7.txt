@@ -1,0 +1,8 @@
+Let N be a positive integer. Prove that there exist three permutations a1 , a2 , . . . , aN ;
+b1 , b2 , . . . , bN ; and c1 , c2 , . . . , cN of 1, 2, . . . , N such that
+                                               ?       a          ?       ?
+                                                 ak + bk + ck − 2 N < 2023
+
+for every k = 1, 2, . . . , N .
+
+Shortlisted problems                                                                               5

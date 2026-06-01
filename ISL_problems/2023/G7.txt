@@ -1,0 +1,4 @@
+Let ABC be an acute, scalene triangle with orthocentre H. Let +a be the line through
+the reflection of B with respect to CH and the reflection of C with respect to BH. Lines +b
+and +c are defined similarly. Suppose lines +a , +b , and +c determine a triangle T .
+     Prove that the orthocentre of T , the circumcentre of T and H are collinear.

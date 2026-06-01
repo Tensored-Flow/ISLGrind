@@ -1,0 +1,4 @@
+In a triangle ABC, let D and E be the feet of the angle bisectors of angles A and B,
+respectively. A rhombus is inscribed into the quadrilateral AEDB (all vertices of the rhombus
+lie on different sides of AEDB). Let ϕ be the non-obtuse angle of the rhombus. Prove that
+ϕ ≤ maxt=BAC, =ABCu.

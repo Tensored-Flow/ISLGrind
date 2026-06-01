@@ -1,0 +1,6 @@
+A sequence of integers a0 , a1 , a2 , . . . is called kawaii, if a0 = 0, a1 = 1, and, for any
+positive integer n, we have
+                           pan+1 − 3an + 2an−1 qpan+1 − 4an + 3an−1 q = 0.
+An integer is called kawaii if it belongs to a kawaii sequence.
+   Suppose that two consecutive positive integers m and m + 1 are both kawaii (not necessarily
+belonging to the same kawaii sequence). Prove that 3 divides m, and that m{3 is kawaii.

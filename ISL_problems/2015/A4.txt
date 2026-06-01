@@ -1,0 +1,5 @@
+Find all functions f : R → R satisfying the equation
+                           f x + f px + yq + f pxyq = x + f px + yq + yf pxq
+
+for all real numbers x and y.
+                                                                                  (Albania)

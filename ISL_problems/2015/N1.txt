@@ -1,0 +1,4 @@
+Determine all positive integers M for which the sequence a0 , a1 , a2 , . . .,              defined by
+    2M +1
+a0 = 2 and ak+1 = ak tak u for k = 0, 1, 2, . . ., contains at least one integer term.
+                                                                                                (Luxembourg)

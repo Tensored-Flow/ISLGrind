@@ -1,0 +1,7 @@
+Let f be a function from the set of real numbers to itself that satisfies
+
+                                  f (x + y) ≤ yf (x) + f (f (x))
+
+for all real numbers x and y. Prove that f (x) = 0 for all x ≤ 0.
+
+                                                                                                         A7

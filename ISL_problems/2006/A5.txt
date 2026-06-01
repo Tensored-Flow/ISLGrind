@@ -1,0 +1,9 @@
+Let a, b, c be the sides of a triangle. Prove that
+                          √        √          √
+                          b+c−a      c+a−b      a+b−c
+                       √   √  √ +√    √  √ +√    √  √ ≤ 3.
+                         b+ c− a   c+ a− b    a+ b− c
+
+                                                                                                        (Korea)
+
+                                                                     √     √     √         √

@@ -1,0 +1,8 @@
+Let ABC be a triangle with AB < AC < BC, and let D be a point in the interior of
+segment BC. Let E be a point on the circumcircle of triangle ABC such that A and E lie on
+opposite sides of line BC and =BAD = =EAC. Let I, IB , IC , JB , and JC be the incentres of
+triangles ABC, ABD, ADC, ABE, and AEC, respectively.
+     Prove that IB , IC , JB , and JC are concyclic if and only if AI, IB JC , and JB IC concur.
+                                                                                           (Canada)
+
+Shortlisted problems                                                                              9

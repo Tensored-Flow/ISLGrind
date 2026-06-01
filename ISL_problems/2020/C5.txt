@@ -1,0 +1,5 @@
+Let p be an odd prime, and put N = 41 pp3 − pq − 1. The numbers 1, 2, . . . , N are
+painted arbitrarily in two colors, red and blue. For any positive integer n ≤ N, denote by rpnq
+the fraction of integers in t1, 2, . . . , nu that are red.
+   Prove that there exists a positive integer a P t1, 2, . . . , p − 1u such that rpnq ‰ a{p for all
+n = 1, 2, . . . , N.

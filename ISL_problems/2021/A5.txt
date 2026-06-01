@@ -1,0 +1,6 @@
+Let n ≥ 2 be an integer, and let a , a , . . . , a be positive real numbers such that
+                                                             1       2          n
+a1 + a2 + ··· + an = 1. Prove that
+                                           ak
+                                                pa1 + a2 + ··· + ak−1 q2 < .
+                                    k =1

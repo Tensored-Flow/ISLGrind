@@ -1,0 +1,8 @@
+Consider a convex polyhedron without parallel edges and without an edge parallel to
+any face other than the two faces adjacent to it.
+   Call a pair of points of the polyhedron antipodal if there exist two parallel planes passing
+through these points and such that the polyhedron is contained between these planes.
+   Let A be the number of antipodal pairs of vertices, and let B be the number of antipodal
+pairs of midpoints of edges. Determine the difference A − B in terms of the numbers of vertices,
+edges and faces.
+                                                                                       (Japan)

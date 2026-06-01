@@ -1,0 +1,11 @@
+Prove that 5n − 3n is not divisible by 2n + 65 for any positive integer n.
+
+8   Oslo, Norway, 6th–16th July 2022
+
+Shortlisted problems – solutions                                                                 9
+
+                                       Solutions
+ A1. Let panqn≥1 be a sequence of positive real numbers with the property that
+                                   pan+1 q2 + an an+2 ≤ an + an+2
+
+for all positive integers n. Show that a2022 ≤ 1.

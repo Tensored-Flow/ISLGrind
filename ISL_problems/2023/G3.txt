@@ -1,0 +1,4 @@
+Let ABCD be a cyclic quadrilateral with =BAD < =ADC. Let M be the midpoint
+of the arc CD not containing A. Suppose there is a point P inside ABCD such that =ADB =
+=CP D and =ADP = =P CB.
+   Prove that lines AD, P M, BC are concurrent.

@@ -1,0 +1,7 @@
+Denote by Q the set of all positive rational numbers. Determine all functions f : Q                          →Q
+which satisfy the following equation for all x, y P Q :
+                                               f f pxq2 y          x3 f pxyq.                                     (1)
+
+                                                                                                         (Switzerland)
+
+Answer. The only such function is f pxq 

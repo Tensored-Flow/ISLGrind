@@ -1,0 +1,5 @@
+Let the excircle of the triangle ABC lying opposite to A touch its side BC at the point A1 .
+Define the points B1 and C1 analogously. Suppose that the circumcentre of the triangle A1 B1 C1
+lies on the circumcircle of the triangle ABC. Prove that the triangle ABC is right-angled.
+
+Shortlisted problems                                                                                  7

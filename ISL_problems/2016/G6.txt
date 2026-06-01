@@ -1,0 +1,5 @@
+Let ABCD be a convex quadrilateral with ∠ABC = ∠ADC < 90◦ . The internal
+angle bisectors of ∠ABC and ∠ADC meet AC at E and F respectively, and meet each
+other at point P . Let M be the midpoint of AC and let ω be the circumcircle of triangle
+BP D. Segments BM and DM intersect ω again at X and Y respectively. Denote by Q the
+intersection point of lines XE and Y F . Prove that P Q ⊥ AC.

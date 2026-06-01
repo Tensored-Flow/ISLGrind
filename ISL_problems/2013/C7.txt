@@ -1,0 +1,8 @@
+Let n ≥ 2 be an integer. Consider all circular arrangements of the numbers 0, 1, . . . , n; the
+n + 1 rotations of an arrangement are considered to be equal. A circular arrangement is called
+beautiful if, for any four distinct numbers 0 ≤ a, b, c, d ≤ n with a + c = b + d, the chord joining
+numbers a and c does not intersect the chord joining numbers b and d.
+    Let M be the number of beautiful arrangements of 0, 1, . . . , n. Let N be the number of pairs
+px, yq of positive integers such that x + y ≤ n and gcdpx, yq = 1. Prove that
+
+                                             M = N + 1.

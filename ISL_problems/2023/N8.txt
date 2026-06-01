@@ -1,0 +1,22 @@
+Let Z>0 be the set of positive integers. Determine all functions f : Z>0 → Z>0 such
+                                       f bf paq pa + 1q = pa + 1qf pbq
+holds for all a, b P Z>0 , where f k pnq = f pf p··· f pnq ··· qq denotes the composition of f with
+itself k times.
+                                                                                              (Taiwan)
+
+10   Chiba, Japan, 2nd–13th July 2023
+
+Shortlisted problems – solutions                                                                 11
+
+                                        Solutions
+ A1.       Professor Oak is feeding his 100 Pokémon. Each Pokémon has a bowl whose capacity
+is a positive real number of kilograms. These capacities are known to Professor Oak. The total
+capacity of all the bowls is 100 kilograms. Professor Oak distributes 100 kilograms of food in
+such a way that each Pokémon receives a non-negative integer number of kilograms of food
+(which may be larger than the capacity of their bowl). The dissatisfaction level of a Pokémon
+who received N kilograms of food and whose bowl has a capacity of C kilograms is equal to
+|N − C|.
+    Find the smallest real number D such that, regardless of the capacities of the bowls, Pro-
+fessor Oak can distribute the food in a way that the sum of the dissatisfaction levels over all
+the 100 Pokémon is at most D.
+Answer: The answer is D = 50.

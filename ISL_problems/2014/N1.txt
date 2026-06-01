@@ -1,0 +1,5 @@
+Let n ≥ 2 be an integer, and let An be the set
+                                 An = t2n − 2k | k P Z, 0 ≤ k < nu.
+
+Determine the largest positive integer that cannot be written as the sum of one or more (not
+necessarily distinct) elements of An .

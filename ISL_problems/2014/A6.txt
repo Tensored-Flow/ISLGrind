@@ -1,0 +1,6 @@
+Find all functions f : Z → Z such that
+                                    n2 + 4f pnq = f pf pnqq2
+
+for all n P Z.
+
+6                                                                       IMO 2014 South Africa

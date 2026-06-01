@@ -1,0 +1,24 @@
+Let Z>0 denote the set of positive integers. Let f : Z>0 → Z>0 be a function satisfying
+the following property: for m, n P Z>0 , the equation
+
+                               f pmnq2 = f pm2 qf pf pnqqf pmf pnqq
+
+holds if and only if m and n are coprime.
+   For each positive integer n, determine all the possible values of f pnq.
+
+10   Bath, United Kingdom, 10th –22nd July 2024
+
+Shortlisted problems – solutions                                                              11
+
+                                       Solutions
+
+ A1.     Determine all real numbers α such that the number
+
+                                      tαu + t2αu + ··· + tnαu
+
+is a multiple of n for every positive integer n. (Here tzu denotes the greatest integer less than
+or equal to z.)
+                                                                                     (Colombia)
+
+Answer: All even integers satisfy the condition of the problem and no other real number α
+does so.

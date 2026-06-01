@@ -1,0 +1,4 @@
+Let n ≥ 3 be an integer. Prove that there exists a set S of 2n positive integers
+satisfying the following property: For every m = 2, 3, . . . , n the set S an be partitioned into
+two subsets with equal sums of elements, with one of subsets of ardinality m.
+                                                                                       (I eland)

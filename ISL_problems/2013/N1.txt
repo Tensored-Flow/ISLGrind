@@ -1,0 +1,4 @@
+Let Z>0 be the set of positive integers. Find all functions f : Z>0 → Z>0 such that
+                                         m2 + f pnq | mf pmq + n
+for all positive integers m and n.
+                                                                                      (Malaysia)

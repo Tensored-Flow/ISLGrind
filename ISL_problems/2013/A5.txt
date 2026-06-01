@@ -1,0 +1,4 @@
+Let Z≥0 be the set of all nonnegative integers. Find all the functions f : Z≥0 → Z≥0
+satisfying the relation
+                              f pf pf pnqqq = f pn + 1q + 1
+for all n P Z≥0 .

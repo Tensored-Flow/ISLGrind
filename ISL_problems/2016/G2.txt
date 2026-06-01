@@ -1,0 +1,5 @@
+Let ABC be a triangle with circumcircle Γ and incentre I. Let M be the midpoint of
+side BC. Denote by D the foot of perpendicular from I to side BC. The line through I per-
+pendicular to AI meets sides AB and AC at F and E respectively. Suppose the circumcircle
+of triangle AEF intersects Γ at a point X other than A. Prove that lines XD and AM meet
+on Γ.

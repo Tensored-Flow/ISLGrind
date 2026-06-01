@@ -1,0 +1,5 @@
+Determine all real numbers α such that the number
+                                        tαu + t2αu + ··· + tnαu
+is a multiple of n for every positive integer n. (Here tzu denotes the greatest integer less than
+or equal to z.)
+                                                                                     (Colombia)
