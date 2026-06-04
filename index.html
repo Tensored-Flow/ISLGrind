@@ -173,7 +173,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 function loadProfiles(){
   let pm = JSON.parse(lsGet(PKEY) || "null");
   if(!pm || !Array.isArray(pm.profiles) || !pm.profiles.length){
-    pm = { profiles:[{id:"p1", name:"Player 1"}], active:"p1" };
+    pm = { profiles:[{id:"p1", name:"Leon"},{id:"p2", name:"Sheldon"},{id:"p3", name:"Annabel"}], active:"p1" };
     lsSet(PKEY, JSON.stringify(pm));
     const legacy = lsGet(OLD_LS);   // migrate old progress into Player 1
     if(legacy && !lsGet(SKEY("p1"))) lsSet(SKEY("p1"), legacy);
