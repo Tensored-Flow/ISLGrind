@@ -302,6 +302,11 @@
   .noteedit textarea:focus{outline:none;border-color:rgba(227,196,137,.4)}
   .notepreview{height:250px;overflow:auto;background:var(--raise);border:1px solid var(--line-soft);border-radius:10px;padding:13px;font-size:14px;line-height:1.6}
   .modal code{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--gold-2);background:var(--raise);padding:1px 6px;border-radius:5px}
+  .authtabs{display:flex;gap:5px;background:var(--raise);border:1px solid var(--line-soft);border-radius:12px;padding:4px;margin-bottom:18px}
+  .authtabs button{flex:1;cursor:pointer;border:none;background:none;color:var(--dim);font:inherit;font-size:13.5px;font-weight:600;padding:10px;border-radius:9px;transition:.15s}
+  .authtabs button.on{background:linear-gradient(100deg,rgba(227,196,137,.18),rgba(227,196,137,.05));color:var(--ink);box-shadow:0 0 0 1px rgba(227,196,137,.22)}
+  .authswitch{text-align:center;margin-top:14px;font-size:13px;color:var(--dim)}
+  .authswitch a{cursor:pointer;color:var(--gold-2);font-weight:500}
   /* daily goal ring */
   .goalstat{display:flex;align-items:center;gap:11px;cursor:pointer}
   .ring{width:42px;height:42px;transform:rotate(-90deg);flex:0 0 auto}
@@ -594,38 +599,55 @@ function renderAccount(){
       <div class="row"><button class="mini" id="signout">Sign out</button></div>`;
     document.getElementById("signout").onclick=async()=>{ await sb.auth.signOut(); currentUser=null; renderAccount(); toast("Signed out — local only"); };
   } else {
-    el.innerHTML=`<div class="row"><button class="mini" id="signin">☁ Sign in &amp; sync</button></div>`;
-    document.getElementById("signin").onclick=openAuth;
+    el.innerHTML=`<div class="row"><button class="mini" id="signin">Sign in</button><button class="mini" id="signup2">Create account</button></div>
+      <div style="font-size:11px;color:var(--faint);margin-top:7px">☁ sync your progress across devices</div>`;
+    document.getElementById("signin").onclick=()=>openAuth("signin");
+    document.getElementById("signup2").onclick=()=>openAuth("signup");
   }
 }
-function openAuth(){
+function openAuth(mode){
+  mode = mode==="signup" ? "signup" : "signin";
   const m=document.getElementById("modal"), box=document.getElementById("modalbox"); box.className="modal";
-  box.innerHTML=`<h3>Sign in</h3><p class="msub">Sync your progress across devices. New here? Create an account — your current local progress comes with you.</p>
-    <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
-      <input id="aemail" type="email" placeholder="email" autocomplete="email" />
-      <div style="position:relative;display:flex">
-        <input id="apass" type="password" placeholder="password (6+ characters)" autocomplete="current-password" style="flex:1;padding-right:40px" />
-        <button id="aeye" type="button" title="Show / hide password" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
+  let lastEmail="";
+  function render(){
+    const signup = mode==="signup";
+    box.innerHTML=`
+      <div class="authtabs">
+        <button class="${signup?'':'on'}" id="tabin">Sign in</button>
+        <button class="${signup?'on':''}" id="tabup">Create account</button>
       </div>
-    </div>
-    <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 10px;line-height:1.45"></div>
-    <div class="mrow"><button class="mini" id="asignup">Create account</button><span class="spacer"></span><button class="primary" id="asignin">Sign in</button></div>`;
-  const err=(t,good)=>{ const e=document.getElementById("aerr"); e.textContent=t||""; e.style.color=good?"var(--good)":"var(--bad)"; };
-  const pass=document.getElementById("apass"), eye=document.getElementById("aeye");
-  eye.onclick=()=>{ const hidden=pass.type==="password"; pass.type=hidden?"text":"password"; eye.textContent=hidden?"🙈":"👁"; pass.focus(); };
-  const creds=()=>({ email:document.getElementById("aemail").value.trim(), password:document.getElementById("apass").value });
-  document.getElementById("asignin").onclick=async()=>{ const c=creds(); if(!c.email||!c.password) return err("Enter your email and password.");
-    err("Signing in…",true); const {error}=await sb.auth.signInWithPassword(c);
-    if(error) return err(/confirm/i.test(error.message)?"Email not confirmed yet — confirm via the email link, or turn off 'Confirm email' in Supabase.":error.message);
-    await afterAuth(); };
-  document.getElementById("asignup").onclick=async()=>{ const c=creds(); if(!c.email||!c.password) return err("Enter an email and a password (6+ chars).");
-    err("Creating account…",true); const {data,error}=await sb.auth.signUp(c);
-    if(error) return err(error.message);
-    if(data.session){ await afterAuth(); }
-    else err("Account created, but this project requires email confirmation — and the built-in email is unreliable. Owner fix: Supabase → Authentication → Sign In/Providers → Email → turn OFF 'Confirm email'. Then Create account again.");
-  };
-  m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m){ m.style.display="none"; m.onclick=null; } };
-  document.getElementById("aemail").focus();
+      <h3>${signup?"Create your account":"Welcome back"}</h3>
+      <p class="msub">${signup?"Your current local progress comes with you and syncs across devices.":"Sign in to sync your progress across devices."}</p>
+      <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
+        <input id="aemail" type="email" placeholder="email" autocomplete="email" value="${esc(lastEmail)}" />
+        <div style="position:relative;display:flex">
+          <input id="apass" type="password" placeholder="${signup?'choose a password (6+ characters)':'password'}" autocomplete="${signup?'new-password':'current-password'}" style="flex:1;padding-right:40px" />
+          <button id="aeye" type="button" title="Show / hide password" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
+        </div>
+      </div>
+      <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 6px;line-height:1.45"></div>
+      <div class="mrow"><span class="spacer"></span><button class="primary" id="ago">${signup?"Create account":"Sign in"}</button></div>
+      <div class="authswitch">${signup?`Already have an account? <a id="swap">Sign in</a>`:`New here? <a id="swap">Create an account</a>`}</div>`;
+    const err=(t,good)=>{ const e=document.getElementById("aerr"); e.textContent=t||""; e.style.color=good?"var(--good)":"var(--bad)"; };
+    const pass=document.getElementById("apass"), eye=document.getElementById("aeye");
+    eye.onclick=()=>{ const hidden=pass.type==="password"; pass.type=hidden?"text":"password"; eye.textContent=hidden?"🙈":"👁"; pass.focus(); };
+    const creds=()=>({ email:document.getElementById("aemail").value.trim(), password:pass.value });
+    const swap=to=>{ lastEmail=document.getElementById("aemail").value; mode=to; render(); };
+    document.getElementById("tabin").onclick=()=>swap("signin");
+    document.getElementById("tabup").onclick=()=>swap("signup");
+    document.getElementById("swap").onclick=()=>swap(signup?"signin":"signup");
+    document.getElementById("ago").onclick=async()=>{ const c=creds();
+      if(!c.email||!c.password) return err(signup?"Enter an email and a password (6+ chars).":"Enter your email and password.");
+      if(signup){ err("Creating account…",true); const {data,error}=await sb.auth.signUp(c); if(error) return err(error.message);
+        if(data.session) await afterAuth();
+        else err("Account created, but this project requires email confirmation (and the built-in email is unreliable). Owner fix: Supabase → Authentication → Providers → Email → turn OFF 'Confirm email', then try again."); }
+      else { err("Signing in…",true); const {error}=await sb.auth.signInWithPassword(c);
+        if(error) return err(/confirm/i.test(error.message)?"Email not confirmed yet — confirm via the link, or (owner) turn off 'Confirm email' in Supabase.":error.message);
+        await afterAuth(); }
+    };
+    document.getElementById("aemail").focus();
+  }
+  render(); m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m){ m.style.display="none"; m.onclick=null; } };
 }
 async function afterAuth(){ const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null;
   document.getElementById("modal").style.display="none"; renderAccount(); if(currentUser){ await syncOnLogin(); toast("Signed in ✓"); } }
@@ -1153,7 +1175,8 @@ window.addEventListener("load", ()=>{
     sb.auth.getSession().then(({data})=>{ currentUser=data.session?.user||null; renderAccount(); if(currentUser) syncOnLogin(); });
     sb.auth.onAuthStateChange((_e,session)=>{ currentUser=session?.user||null; renderAccount(); });
   }
-  { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h); }
+  { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h);
+    else if((h==="signin"||h==="signup") && sb) openAuth(h); }
   setInterval(updateTimers, 1000);
   if(!storageOK) setTimeout(()=>toast("This browser won't save progress here — use ⬇ Backup to keep it"), 700);
   if("serviceWorker" in navigator && location.protocol!=="file:") navigator.serviceWorker.register("sw.js").catch(()=>{});
