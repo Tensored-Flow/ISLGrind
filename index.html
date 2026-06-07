@@ -597,10 +597,17 @@ function renderAccount(){
     el.innerHTML=`<div style="font-size:12px;color:var(--ink-soft);word-break:break-all;margin-bottom:6px">☁ ${esc(currentUser.email||"signed in")}</div>
       <div id="syncstat" style="font-size:11px;color:var(--faint);margin-bottom:8px">synced ✓</div>
       <div class="row"><button class="mini" id="signout">Sign out</button></div>`;
-    document.getElementById("signout").onclick=async()=>{ await sb.auth.signOut(); currentUser=null; renderAccount(); toast("Signed out — local only"); };
+    document.getElementById("signout").onclick=async()=>{
+      if(!confirm(`Sign out of ${currentUser.email||"your account"}?\n\nYour progress is saved to your account, and this device will be reset to a clean guest (so the next person starts fresh).`)) return;
+      try{ await cloudPush(); }catch(e){}
+      try{ await sb.auth.signOut(); }catch(e){}
+      PM.profiles.forEach(p=>lsDel(SKEY(p.id))); lsDel(PKEY); lsDel(OLD_LS); lsDel("isl_trainer_t");
+      location.reload();
+    };
   } else {
-    el.innerHTML=`<div class="row"><button class="mini" id="signin">Sign in</button><button class="mini" id="signup2">Create account</button></div>
-      <div style="font-size:11px;color:var(--faint);margin-top:7px">☁ sync your progress across devices</div>`;
+    el.innerHTML=`<div style="font-size:12px;color:var(--dim);margin-bottom:7px">Guest · saved on this device</div>
+      <div class="row"><button class="mini" id="signin">Sign in</button><button class="mini" id="signup2">Create account</button></div>
+      <div style="font-size:11px;color:var(--faint);margin-top:7px">☁ Sign in to sync across devices &amp; back up</div>`;
     document.getElementById("signin").onclick=()=>openAuth("signin");
     document.getElementById("signup2").onclick=()=>openAuth("signup");
   }
