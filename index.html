@@ -271,6 +271,25 @@
   .mnew input{flex:1;background:var(--raise);border:1px solid var(--line-soft);border-radius:10px;
     padding:9px 12px;color:var(--ink);font:inherit}
   .mrow{display:flex;gap:8px;justify-content:flex-end}
+  /* database / browse */
+  .dbcontrols{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .dbsearch{flex:1;min-width:220px;background:var(--raise);border:1px solid var(--line-soft);border-radius:10px;padding:11px 15px;color:var(--ink);font:inherit;font-size:14px}
+  .dbsearch:focus{outline:none;border-color:rgba(227,196,137,.45)}
+  .dbsel{background:var(--raise);border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;color:var(--ink-soft);font:inherit;font-size:13px;cursor:pointer}
+  .dbcount{color:var(--dim);font-size:13px;margin-bottom:10px}
+  .dblist{display:flex;flex-direction:column;gap:6px}
+  .dbrow{display:grid;grid-template-columns:58px 132px 52px 40px 1fr auto;gap:12px;align-items:center;
+    background:var(--panel);border:1px solid var(--line-soft);border-radius:11px;padding:10px 14px;cursor:pointer;transition:.13s}
+  .dbrow:hover{border-color:rgba(227,196,137,.4);transform:translateX(3px)}
+  @media(max-width:780px){.dbrow{grid-template-columns:54px 1fr auto}.dbrow .dbsnip,.dbrow .dbyear,.dbrow .dblvl{display:none}}
+  .dbcode{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--gold-2)}
+  .dbyear{font-family:"JetBrains Mono",monospace;color:var(--dim);font-size:13px}
+  .dblvl{font-size:12px;color:var(--faint)}
+  .dbsnip{color:var(--ink-soft);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dbtags{display:flex;gap:7px;align-items:center}
+  .dbdot{width:8px;height:8px;border-radius:50%;background:var(--line);flex:0 0 auto}
+  .dbdot.solved{background:var(--good);box-shadow:0 0 5px rgba(134,224,182,.6)}
+  .dbdot.review{background:var(--bad)}
   /* notes */
   .noteshow{margin:2px 0;padding:10px 13px;border:1px solid var(--line-soft);border-radius:10px;background:rgba(227,196,137,.05)}
   .notelab{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}
@@ -316,6 +335,9 @@
       <button class="navbtn active" data-view="practice">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
         Practice</button>
+      <button class="navbtn" data-view="db">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+        Browse</button>
       <button class="navbtn" data-view="mock">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M12 3v3M5 13a7 7 0 1014 0 7 7 0 00-14 0zM12 11v2.5l1.6 1"/></svg>
         Mock exam</button>
@@ -402,6 +424,7 @@
       </div>
     </section>
 
+    <section id="view-db" style="display:none"></section>
     <section id="view-mock" style="display:none"></section>
     <section id="view-gyms" style="display:none"></section>
   </main>
@@ -580,16 +603,29 @@ function openAuth(){
   box.innerHTML=`<h3>Sign in</h3><p class="msub">Sync your progress across devices. New here? Create an account — your current local progress comes with you.</p>
     <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
       <input id="aemail" type="email" placeholder="email" autocomplete="email" />
-      <input id="apass" type="password" placeholder="password (6+ characters)" autocomplete="current-password" />
+      <div style="position:relative;display:flex">
+        <input id="apass" type="password" placeholder="password (6+ characters)" autocomplete="current-password" style="flex:1;padding-right:40px" />
+        <button id="aeye" type="button" title="Show / hide password" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
+      </div>
     </div>
-    <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:4px 0 10px"></div>
+    <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 10px;line-height:1.45"></div>
     <div class="mrow"><button class="mini" id="asignup">Create account</button><span class="spacer"></span><button class="primary" id="asignin">Sign in</button></div>`;
-  const err=t=>{ document.getElementById("aerr").textContent=t||""; };
+  const err=(t,good)=>{ const e=document.getElementById("aerr"); e.textContent=t||""; e.style.color=good?"var(--good)":"var(--bad)"; };
+  const pass=document.getElementById("apass"), eye=document.getElementById("aeye");
+  eye.onclick=()=>{ const hidden=pass.type==="password"; pass.type=hidden?"text":"password"; eye.textContent=hidden?"🙈":"👁"; pass.focus(); };
   const creds=()=>({ email:document.getElementById("aemail").value.trim(), password:document.getElementById("apass").value });
-  document.getElementById("asignin").onclick=async()=>{ err("…"); const {error}=await sb.auth.signInWithPassword(creds()); if(error) return err(error.message); await afterAuth(); };
-  document.getElementById("asignup").onclick=async()=>{ err("…"); const {data,error}=await sb.auth.signUp(creds()); if(error) return err(error.message);
-    if(data.session) await afterAuth(); else err("Account created — check your email to confirm, then Sign in."); };
+  document.getElementById("asignin").onclick=async()=>{ const c=creds(); if(!c.email||!c.password) return err("Enter your email and password.");
+    err("Signing in…",true); const {error}=await sb.auth.signInWithPassword(c);
+    if(error) return err(/confirm/i.test(error.message)?"Email not confirmed yet — confirm via the email link, or turn off 'Confirm email' in Supabase.":error.message);
+    await afterAuth(); };
+  document.getElementById("asignup").onclick=async()=>{ const c=creds(); if(!c.email||!c.password) return err("Enter an email and a password (6+ chars).");
+    err("Creating account…",true); const {data,error}=await sb.auth.signUp(c);
+    if(error) return err(error.message);
+    if(data.session){ await afterAuth(); }
+    else err("Account created, but this project requires email confirmation — and the built-in email is unreliable. Owner fix: Supabase → Authentication → Sign In/Providers → Email → turn OFF 'Confirm email'. Then Create account again.");
+  };
   m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m){ m.style.display="none"; m.onclick=null; } };
+  document.getElementById("aemail").focus();
 }
 async function afterAuth(){ const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null;
   document.getElementById("modal").style.display="none"; renderAccount(); if(currentUser){ await syncOnLogin(); toast("Signed in ✓"); } }
@@ -967,6 +1003,7 @@ function refreshNoteButtons(id){
   if(document.getElementById("view-practice").style.display!=="none"){ for(let i=0;i<4;i++){ if(board[i]&&board[i].id===id) renderSlot(i); } }
   if(document.getElementById("view-mock").style.display!=="none") renderMock();
   if(document.getElementById("view-gyms").style.display!=="none") renderGyms();
+  if(document.getElementById("view-db").style.display!=="none") renderDBList();
 }
 function openGymPicker(p){
   const m=document.getElementById("modal"), box=document.getElementById("modalbox");
@@ -987,15 +1024,100 @@ function openGymPicker(p){
     for(let i=0;i<4;i++){ const card=g&&g.children[i], bp=board[i]; if(card&&bp){ const s=card.querySelector(".star"); if(s){ s.textContent=inAnyGym(bp.id)?'★':'☆'; s.classList.toggle('on',inAnyGym(bp.id)); } } }
     if(document.getElementById("view-mock").style.display!=="none") renderMock();
     if(document.getElementById("view-gyms").style.display!=="none") renderGyms();
+    if(document.getElementById("view-db").style.display!=="none") renderDBList();
   }
+  draw(); m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m) close(); };
+}
+
+/* ===== database / browse ===== */
+let dbQ="", dbSubj="all", dbStat="all";
+function stripLatex(s){ return s.replace(/\\\[[\s\S]*?\\\]/g," ").replace(/\$[^$]*\$/g," ")
+  .replace(/\\begin\{[^}]*\}|\\end\{[^}]*\}/g," ").replace(/\\[a-zA-Z]+\*?/g," ").replace(/[{}\\]/g,"").replace(/\s+/g," ").trim(); }
+function dbMatches(){
+  const q=dbQ.trim().toLowerCase();
+  return BANK.filter(p=>{
+    if(dbSubj!=="all" && p.subject!==dbSubj) return false;
+    if(dbStat==="solved" && !state.solved[p.id]) return false;
+    if(dbStat==="unsolved" && state.solved[p.id]) return false;
+    if(dbStat==="review" && !state.review[p.id]) return false;
+    if(dbStat==="noted" && !hasNote(p.id)) return false;
+    if(dbStat==="gym" && !inAnyGym(p.id)) return false;
+    if(q){ if(!((p.code+" "+p.year+" "+p.subject+" "+(p.country||"")+" "+p.body).toLowerCase().includes(q))) return false; }
+    return true;
+  });
+}
+function renderDB(){
+  const el=document.getElementById("view-db");
+  el.innerHTML=`<div class="dbcontrols">
+      <input class="dbsearch" id="dbsearch" placeholder="Search 1,004 problems — code, year, country, or keyword…" value="${esc(dbQ)}" />
+      <select class="dbsel" id="dbsubj">${["all","Algebra","Combinatorics","Geometry","Number Theory"].map(s=>`<option value="${s}" ${dbSubj===s?"selected":""}>${s==="all"?"All topics":s}</option>`).join("")}</select>
+      <select class="dbsel" id="dbstat">${[["all","Any status"],["unsolved","Unsolved"],["solved","Solved"],["review","To review"],["noted","Has note"],["gym","In a gym"]].map(([v,l])=>`<option value="${v}" ${dbStat===v?"selected":""}>${l}</option>`).join("")}</select>
+    </div>
+    <div class="dbcount" id="dbcount"></div>
+    <div class="dblist" id="dblist"></div>`;
+  const s=document.getElementById("dbsearch");
+  s.oninput=()=>{ dbQ=s.value; renderDBList(); };
+  document.getElementById("dbsubj").onchange=e=>{ dbSubj=e.target.value; renderDBList(); };
+  document.getElementById("dbstat").onchange=e=>{ dbStat=e.target.value; renderDBList(); };
+  renderDBList();
+}
+function renderDBList(){
+  const m=dbMatches(), CAP=400, shown=m.slice(0,CAP);
+  document.getElementById("dbcount").textContent=`${m.length} problem${m.length===1?"":"s"}${m.length>CAP?` · showing first ${CAP}`:""}`;
+  const list=document.getElementById("dblist");
+  list.innerHTML=shown.map(p=>{
+    const st=state.solved[p.id]?"solved":state.review[p.id]?"review":"";
+    return `<div class="dbrow" data-id="${p.id}">
+      <span class="dbcode">${p.code}</span>
+      <span><span class="pill ${p.code[0]}">${p.subject}</span></span>
+      <span class="dbyear">${p.year}</span>
+      <span class="dblvl">L${p.level}</span>
+      <span class="dbsnip">${esc(stripLatex(p.body).slice(0,120))}</span>
+      <span class="dbtags"><span class="dbdot ${st}" title="${st||"unattempted"}"></span>
+        <button class="star ${inAnyGym(p.id)?"on":""} dbstar" title="Add to gym">${inAnyGym(p.id)?"★":"☆"}</button>
+        <button class="star ${hasNote(p.id)?"on":""} dbnote" title="Notes">✎</button></span></div>`;
+  }).join("");
+  list.querySelectorAll(".dbrow").forEach(row=>{ const p=byId(row.dataset.id);
+    row.onclick=(e)=>{ if(e.target.closest(".dbstar")||e.target.closest(".dbnote")) return; openProblem(p); };
+    row.querySelector(".dbstar").onclick=(e)=>{ e.stopPropagation(); openGymPicker(p); };
+    row.querySelector(".dbnote").onclick=(e)=>{ e.stopPropagation(); openNote(p); };
+  });
+}
+function openProblem(p){
+  const m=document.getElementById("modal"), box=document.getElementById("modalbox");
+  function draw(){
+    box.className="modal wide";
+    const done=!!state.solved[p.id];
+    box.innerHTML=`<h3>ISL ${p.year} · ${p.code}</h3>
+      <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""} · ${solLink(p)} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></p>
+      <div class="stmt" id="pbstmt" style="max-height:44vh;overflow:auto;margin-bottom:12px"></div>
+      ${hasNote(p.id)?`<div class="noteshow"><span class="notelab">📝 your note</span><div class="notebody" id="pbnote"></div></div>`:""}
+      <div class="mrow" style="margin-top:14px">
+        <button class="mini" id="pbnotebtn">✎ Note</button>
+        <button class="mini" id="pbgymbtn">${inAnyGym(p.id)?"★ Gyms":"☆ Add to gym"}</button>
+        <span class="spacer"></span>
+        ${done?'<span class="msub" style="margin:0;color:var(--good)">solved ✓</span> <button class="mini" id="pbclose">Close</button>'
+              :'<button class="sbtn" id="pbfail">✗ Not solved</button><button class="primary" id="pbsolve">✓ Solved</button>'}
+      </div>`;
+    fillStatement(document.getElementById("pbstmt"), p);
+    if(hasNote(p.id)) fillMath(document.getElementById("pbnote"), state.notes[p.id]);
+    document.getElementById("pbnotebtn").onclick=()=>openNote(p);
+    document.getElementById("pbgymbtn").onclick=()=>openGymPicker(p);
+    const sv=document.getElementById("pbsolve"), fl=document.getElementById("pbfail"), cl=document.getElementById("pbclose");
+    if(sv) sv.onclick=()=>{ const r=applyResult(p,true,0); refresh(); renderDBList(); draw(); toast(`${p.subject} ✓ · ${r.th.toFixed(1)} → ${r.nth.toFixed(1)}`); };
+    if(fl) fl.onclick=()=>{ applyResult(p,false,0); refresh(); renderDBList(); draw(); toast(`${p.subject} ✗ · saved for review`); };
+    if(cl) cl.onclick=close;
+  }
+  function close(){ m.style.display="none"; m.onclick=null; renderDBList(); }
   draw(); m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m) close(); };
 }
 
 /* ---------- view switching ---------- */
 function showView(v){
   document.querySelectorAll('.navbtn').forEach(n=>n.classList.toggle('active', n.dataset.view===v));
-  ['practice','progress','mock','gyms'].forEach(x=>{ const s=document.getElementById('view-'+x); if(s) s.style.display = x===v?'':'none'; });
+  ['practice','db','progress','mock','gyms'].forEach(x=>{ const s=document.getElementById('view-'+x); if(s) s.style.display = x===v?'':'none'; });
   const T={practice:["Practice","Four problems, one per topic — solve any; only that card refreshes."],
+    db:["Browse","All 1,004 shortlist problems — search, filter, and jump to any."],
     progress:["Progress","Your calibration, activity, and timing — all on this device."],
     mock:["Mock exam","An IMO-format paper — six problems over two days, tiered by difficulty."],
     gyms:["Gyms","Your own collections — group problems and drill them."]};
@@ -1004,6 +1126,7 @@ function showView(v){
   if(v==='progress') renderProgress();
   if(v==='mock') renderMock();
   if(v==='gyms'){ gymOpen=null; renderGyms(); }
+  if(v==='db') renderDB();
 }
 
 /* ---------- init ---------- */
@@ -1030,7 +1153,7 @@ window.addEventListener("load", ()=>{
     sb.auth.getSession().then(({data})=>{ currentUser=data.session?.user||null; renderAccount(); if(currentUser) syncOnLogin(); });
     sb.auth.onAuthStateChange((_e,session)=>{ currentUser=session?.user||null; renderAccount(); });
   }
-  { const h=location.hash.slice(1); if(['progress','mock','gyms'].includes(h)) showView(h); }
+  { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h); }
   setInterval(updateTimers, 1000);
   if(!storageOK) setTimeout(()=>toast("This browser won't save progress here — use ⬇ Backup to keep it"), 700);
   if("serviceWorker" in navigator && location.protocol!=="file:") navigator.serviceWorker.register("sw.js").catch(()=>{});
