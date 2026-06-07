@@ -638,11 +638,15 @@ function openAuth(mode){
     document.getElementById("swap").onclick=()=>swap(signup?"signin":"signup");
     document.getElementById("ago").onclick=async()=>{ const c=creds();
       if(!c.email||!c.password) return err(signup?"Enter an email and a password (6+ chars).":"Enter your email and password.");
-      if(signup){ err("Creating account…",true); const {data,error}=await sb.auth.signUp(c); if(error) return err(error.message);
+      if(signup){ err("Creating account…",true); const {data,error}=await sb.auth.signUp(c);
+        if(error){ if(/registered|already|exists/i.test(error.message)){ lastEmail=c.email; mode="signin"; render(); err("That email already has an account — just sign in below.",true); }
+          else err(error.message); return; }
         if(data.session) await afterAuth();
-        else err("Account created, but this project requires email confirmation (and the built-in email is unreliable). Owner fix: Supabase → Authentication → Providers → Email → turn OFF 'Confirm email', then try again."); }
+        else err("Account created — confirm it via the email link to finish (or owner: turn OFF 'Confirm email' in Supabase → Authentication → Providers → Email)."); }
       else { err("Signing in…",true); const {error}=await sb.auth.signInWithPassword(c);
-        if(error) return err(/confirm/i.test(error.message)?"Email not confirmed yet — confirm via the link, or (owner) turn off 'Confirm email' in Supabase.":error.message);
+        if(error){ const msg = /confirm/i.test(error.message) ? "This account isn't confirmed yet — confirm it in Supabase → Authentication → Users, or make a new account."
+          : /invalid/i.test(error.message) ? "Wrong email or password."
+          : error.message; return err(msg); }
         await afterAuth(); }
     };
     document.getElementById("aemail").focus();
