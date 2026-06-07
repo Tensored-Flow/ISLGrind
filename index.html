@@ -345,6 +345,10 @@
       <div class="row"><button class="mini danger" id="reset">Reset this profile</button></div>
       <div class="warn" id="storagewarn" style="display:none">⚠ This browser isn't saving progress here — use Backup.</div>
     </div>
+    <div class="side-section">
+      <div class="side-label">Account</div>
+      <div id="account"></div>
+    </div>
   </aside>
 
   <main class="main">
@@ -405,6 +409,7 @@
 <div class="modal-bg" id="modal" style="display:none"><div class="modal" id="modalbox"></div></div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="bank.js"></script>
 <script>
 const BANK = window.ISL_BANK || [];
@@ -465,7 +470,7 @@ function loadState(id){
   return s;
 }
 let state = loadState(activeId);
-function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); }
+function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); if(!applying){ markLocalT(); scheduleCloudPush(); } }
 function activeName(){ const p=PM.profiles.find(x=>x.id===activeId); return p?p.name:"?"; }
 
 /* ---------- profiles ---------- */
@@ -508,29 +513,86 @@ function syncFilterChips(){
   document.querySelectorAll('.chip[data-s]').forEach(c=>c.classList.toggle('active', c.dataset.s===state.filter));
 }
 
-/* ---------- backup / restore ---------- */
-function exportProgress(){
+/* ---------- backup / restore (shared with cloud sync) ---------- */
+let applying=false;   // guard so applying a dump doesn't trigger a cloud re-push loop
+function buildDump(){
   save();
-  const dump={ _app:"islgrind", _v:1, [PKEY]:lsGet(PKEY) };
+  const dump={ _app:"islgrind", _v:1, _t: localT||Date.now(), [PKEY]:lsGet(PKEY) };
   PM.profiles.forEach(p=>{ dump[SKEY(p.id)]=lsGet(SKEY(p.id)); });
-  const blob=new Blob([JSON.stringify(dump,null,1)],{type:"application/json"});
+  return dump;
+}
+function applyDump(dump){
+  if(!dump || dump._app!=="islgrind" || !dump[PKEY]) return false;
+  applying=true;
+  Object.keys(dump).forEach(k=>{ if((k===PKEY||k.indexOf("isl_trainer_state_v1:")===0)&&dump[k]!=null) lsSet(k,dump[k]); });
+  PM=loadProfiles(); activeId=(PM.active&&PM.profiles.some(p=>p.id===PM.active))?PM.active:PM.profiles[0].id;
+  state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
+  applying=false; return true;
+}
+function exportProgress(){
+  const blob=new Blob([JSON.stringify(buildDump(),null,1)],{type:"application/json"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="islgrind-progress.json";
   document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   toast("Backed up to islgrind-progress.json");
 }
 function importProgress(file){
-  if(!file) return;
-  const r=new FileReader();
-  r.onload=()=>{ try{
-    const dump=JSON.parse(r.result);
-    if(dump._app!=="islgrind"||!dump[PKEY]) throw 0;
-    Object.keys(dump).forEach(k=>{ if((k===PKEY||k.indexOf("isl_trainer_state_v1:")===0)&&dump[k]!=null) lsSet(k,dump[k]); });
-    PM=loadProfiles(); activeId=(PM.active&&PM.profiles.some(p=>p.id===PM.active))?PM.active:PM.profiles[0].id;
-    state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
-    toast("Progress restored ✓");
-  }catch(e){ alert("That file doesn't look like an ISLGrind backup."); } };
+  if(!file) return; const r=new FileReader();
+  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))) toast("Progress restored ✓"); else throw 0; }
+    catch(e){ alert("That file doesn't look like an ISLGrind backup."); } };
   r.readAsText(file);
 }
+
+/* ---------- cloud sync (Supabase) ---------- */
+const SUPA_URL="https://gdktuzpnepymlrhqlxit.supabase.co";
+const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdka3R1enBuZXB5bWxyaHFseGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDAzMTksImV4cCI6MjA5NjQxNjMxOX0.xRzHylSBGI9wYU7_Lx8_ID7R_mkWZPV_wLIctEnxtL8";
+let sb=null, currentUser=null, cloudTimer=null, localT=+(lsGet("isl_trainer_t")||0);
+try{ if(window.supabase) sb=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){ sb=null; }
+function setSyncStatus(s){ const e=document.getElementById("syncstat"); if(e) e.textContent=s; }
+function markLocalT(){ localT=Date.now(); lsSet("isl_trainer_t",String(localT)); }
+async function cloudPull(){ if(!sb||!currentUser) return null;
+  try{ const {data}=await sb.from("progress").select("data").eq("user_id",currentUser.id).maybeSingle(); return data?data.data:null; }catch(e){ return null; } }
+async function cloudPush(){ if(!sb||!currentUser) return;
+  const dump=buildDump();
+  await sb.from("progress").upsert({user_id:currentUser.id, data:dump, updated_at:new Date().toISOString()}); }
+function scheduleCloudPush(){ if(!sb||!currentUser) return; setSyncStatus("syncing…"); clearTimeout(cloudTimer);
+  cloudTimer=setTimeout(async()=>{ try{ await cloudPush(); setSyncStatus("synced ✓"); }catch(e){ setSyncStatus("offline — will retry"); } },1200); }
+async function syncOnLogin(){
+  const cloud=await cloudPull();
+  if(cloud && (cloud._t||0) > localT){ applyDump(cloud); localT=cloud._t||Date.now(); lsSet("isl_trainer_t",String(localT)); toast("Synced from your account ✓"); }
+  else { await cloudPush().catch(()=>{}); }
+  setSyncStatus("synced ✓");
+}
+function renderAccount(){
+  const el=document.getElementById("account"); if(!el) return;
+  if(!sb){ el.innerHTML='<div class="warn" style="color:var(--faint)">cloud unavailable offline</div>'; return; }
+  if(currentUser){
+    el.innerHTML=`<div style="font-size:12px;color:var(--ink-soft);word-break:break-all;margin-bottom:6px">☁ ${esc(currentUser.email||"signed in")}</div>
+      <div id="syncstat" style="font-size:11px;color:var(--faint);margin-bottom:8px">synced ✓</div>
+      <div class="row"><button class="mini" id="signout">Sign out</button></div>`;
+    document.getElementById("signout").onclick=async()=>{ await sb.auth.signOut(); currentUser=null; renderAccount(); toast("Signed out — local only"); };
+  } else {
+    el.innerHTML=`<div class="row"><button class="mini" id="signin">☁ Sign in &amp; sync</button></div>`;
+    document.getElementById("signin").onclick=openAuth;
+  }
+}
+function openAuth(){
+  const m=document.getElementById("modal"), box=document.getElementById("modalbox"); box.className="modal";
+  box.innerHTML=`<h3>Sign in</h3><p class="msub">Sync your progress across devices. New here? Create an account — your current local progress comes with you.</p>
+    <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
+      <input id="aemail" type="email" placeholder="email" autocomplete="email" />
+      <input id="apass" type="password" placeholder="password (6+ characters)" autocomplete="current-password" />
+    </div>
+    <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:4px 0 10px"></div>
+    <div class="mrow"><button class="mini" id="asignup">Create account</button><span class="spacer"></span><button class="primary" id="asignin">Sign in</button></div>`;
+  const err=t=>{ document.getElementById("aerr").textContent=t||""; };
+  const creds=()=>({ email:document.getElementById("aemail").value.trim(), password:document.getElementById("apass").value });
+  document.getElementById("asignin").onclick=async()=>{ err("…"); const {error}=await sb.auth.signInWithPassword(creds()); if(error) return err(error.message); await afterAuth(); };
+  document.getElementById("asignup").onclick=async()=>{ err("…"); const {data,error}=await sb.auth.signUp(creds()); if(error) return err(error.message);
+    if(data.session) await afterAuth(); else err("Account created — check your email to confirm, then Sign in."); };
+  m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m){ m.style.display="none"; m.onclick=null; } };
+}
+async function afterAuth(){ const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null;
+  document.getElementById("modal").style.display="none"; renderAccount(); if(currentUser){ await syncOnLogin(); toast("Signed in ✓"); } }
 
 /* ===== adaptive engine: per-topic ability (θ) + zone-of-proximal-development ===== */
 const W=1.1, K0=0.9, KHALF=6, ZPD=0.4;
@@ -962,7 +1024,12 @@ document.getElementById("reset").onclick=()=>{ if(confirm(`Reset progress for �
 document.getElementById("goalstat").onclick=()=>{ const v=parseInt(prompt("Daily goal — problems per day:", state.goal),10); if(v>0){ state.goal=v; save(); headerStats(); } };
 
 window.addEventListener("load", ()=>{
-  renderProfiles(); syncFilterChips(); restoreBoard();
+  applying=true; renderProfiles(); syncFilterChips(); restoreBoard(); applying=false;  // don't count initial restore as a change
+  renderAccount();
+  if(sb){
+    sb.auth.getSession().then(({data})=>{ currentUser=data.session?.user||null; renderAccount(); if(currentUser) syncOnLogin(); });
+    sb.auth.onAuthStateChange((_e,session)=>{ currentUser=session?.user||null; renderAccount(); });
+  }
   { const h=location.hash.slice(1); if(['progress','mock','gyms'].includes(h)) showView(h); }
   setInterval(updateTimers, 1000);
   if(!storageOK) setTimeout(()=>toast("This browser won't save progress here — use ⬇ Backup to keep it"), 700);
