@@ -745,13 +745,25 @@ const KATEX_DELIMS=[{left:"$$",right:"$$",display:true},{left:"\\[",right:"\\]",
 function fillStatement(el,p){ if(p.format==='text') el.textContent=p.body; else fillMath(el,p.body); }
 // AoPS hard-blocks scraping, so we can't store exact thread IDs; this DuckDuckGo "\" (ducky)
 // redirect jumps the user's browser straight to the top AoPS result for the exact problem.
-function aopsLink(p){ return "https://duckduckgo.com/?q="+encodeURIComponent("\\ artofproblemsolving.com IMO Shortlist "+p.year+" "+p.code); }
+// AoPS blocks scraping, so we can't store exact thread IDs. Key the search on the year + a
+// distinctive snippet of the PROBLEM TEXT (not the code — codes are synthetic for 1990-93/97/98),
+// constrained to AoPS, via DuckDuckGo's "\" jump-to-top-result (degrades to results if unsure).
+function aopsLink(p){
+  const snip = p.body
+    .replace(/\\\[|\\\]|\\\(|\\\)|\$/g," ")   // drop math delimiters but keep the symbols inside
+    .replace(/\\[a-zA-Z]+\*?/g," ")           // drop \commands
+    .replace(/[{}_^]/g," ").replace(/\s+/g," ").trim()
+    .split(" ").slice(0,11).join(" ");
+  return "https://duckduckgo.com/?q="+encodeURIComponent("\\ site:artofproblemsolving.com IMO Shortlist "+p.year+" "+snip);
+}
+// Official solutions: the year's shortlist booklet (problems + full solutions). Only 2006+ are
+// published online; 1990-2005 solutions live in the (offline) Compendium, so we point those to AoPS.
 function solLink(p){ return p.year>=2006
-  ? `<a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank" rel="noopener">official solution</a>`
-  : `<a href="https://www.imomath.com/index.cgi?page=imo${p.year}" target="_blank" rel="noopener">compendium</a>`; }
+  ? `<a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank" rel="noopener">official solution</a>` : ""; }
 function srcHTML(p,shown){
   if(!shown) return `<span class="src">ISL · level ${p.level}</span>`;
-  return `<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''} · ${solLink(p)} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></span>`;
+  const sol=solLink(p);
+  return `<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''}${sol?` · ${sol}`:''} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></span>`;
 }
 function fillMath(el, text){
   el.innerHTML = prepBody(text);
@@ -1111,7 +1123,7 @@ function openProblem(p){
     box.className="modal wide";
     const done=!!state.solved[p.id];
     box.innerHTML=`<h3>ISL ${p.year} · ${p.code}</h3>
-      <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""} · ${solLink(p)} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></p>
+      <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""}${solLink(p)?` · ${solLink(p)}`:""} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></p>
       <div class="stmt" id="pbstmt" style="max-height:44vh;overflow:auto;margin-bottom:12px"></div>
       ${hasNote(p.id)?`<div class="noteshow"><span class="notelab">📝 your note</span><div class="notebody" id="pbnote"></div></div>`:""}
       <div class="mrow" style="margin-top:14px">
