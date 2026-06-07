@@ -596,7 +596,9 @@ function renderAccount(){
   if(currentUser){
     el.innerHTML=`<div style="font-size:12px;color:var(--ink-soft);word-break:break-all;margin-bottom:6px">☁ ${esc(currentUser.email||"signed in")}</div>
       <div id="syncstat" style="font-size:11px;color:var(--faint);margin-bottom:8px">synced ✓</div>
+      <div class="row"><button class="mini" id="chgpw">Change password</button></div>
       <div class="row"><button class="mini" id="signout">Sign out</button></div>`;
+    document.getElementById("chgpw").onclick=()=>{ sendReset(currentUser.email); };
     document.getElementById("signout").onclick=async()=>{
       if(!confirm(`Sign out of ${currentUser.email||"your account"}?\n\nYour progress is saved to your account, and this device will be reset to a clean guest (so the next person starts fresh).`)) return;
       try{ await cloudPush(); }catch(e){}
@@ -632,6 +634,7 @@ function openAuth(mode){
           <button id="aeye" type="button" title="Show / hide password" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
         </div>
       </div>
+      ${signup?'':`<div style="text-align:right;margin:4px 0 0"><a id="forgot" style="cursor:pointer;color:var(--gold-2);font-size:12.5px">Forgot password?</a></div>`}
       <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 6px;line-height:1.45"></div>
       <div class="mrow"><span class="spacer"></span><button class="primary" id="ago">${signup?"Create account":"Sign in"}</button></div>
       <div class="authswitch">${signup?`Already have an account? <a id="swap">Sign in</a>`:`New here? <a id="swap">Create an account</a>`}</div>`;
@@ -643,6 +646,8 @@ function openAuth(mode){
     document.getElementById("tabin").onclick=()=>swap("signin");
     document.getElementById("tabup").onclick=()=>swap("signup");
     document.getElementById("swap").onclick=()=>swap(signup?"signin":"signup");
+    { const f=document.getElementById("forgot"); if(f) f.onclick=()=>{ const em=document.getElementById("aemail").value.trim();
+      if(!em) return err("Enter your email above, then tap Forgot password."); err("Sending reset link…",true); sendReset(em); }; }
     document.getElementById("ago").onclick=async()=>{ const c=creds();
       if(!c.email||!c.password) return err(signup?"Enter an email and a password (6+ chars).":"Enter your email and password.");
       if(signup){ err("Creating account…",true); const {data,error}=await sb.auth.signUp(c);
@@ -662,6 +667,34 @@ function openAuth(mode){
 }
 async function afterAuth(){ const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null;
   document.getElementById("modal").style.display="none"; renderAccount(); if(currentUser){ await syncOnLogin(); toast("Signed in ✓"); } }
+async function sendReset(email){
+  if(!email) return toast("Enter your email first.");
+  try{ const {error}=await sb.auth.resetPasswordForEmail(email,{ redirectTo: location.origin+location.pathname });
+    if(error) toast("Couldn't send reset: "+error.message);
+    else toast("Reset link sent to "+email+" — check inbox & spam.");
+  }catch(e){ toast("Couldn't send the reset email."); }
+}
+// when the user clicks the email link, Supabase fires PASSWORD_RECOVERY → let them set a new password
+function openNewPassword(){
+  const m=document.getElementById("modal"), box=document.getElementById("modalbox"); box.className="modal";
+  box.innerHTML=`<h3>Set a new password</h3><p class="msub">Verified via your email link — choose a new password.</p>
+    <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
+      <div style="position:relative;display:flex">
+        <input id="np" type="password" placeholder="new password (6+ characters)" autocomplete="new-password" style="flex:1;padding-right:40px" />
+        <button id="npeye" type="button" title="Show / hide" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
+      </div>
+    </div>
+    <div id="nperr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 6px"></div>
+    <div class="mrow"><span class="spacer"></span><button class="primary" id="npgo">Update password</button></div>`;
+  const np=document.getElementById("np"), eye=document.getElementById("npeye");
+  eye.onclick=()=>{ const h=np.type==="password"; np.type=h?"text":"password"; eye.textContent=h?"🙈":"👁"; np.focus(); };
+  const err=(t,g)=>{ const e=document.getElementById("nperr"); e.textContent=t||""; e.style.color=g?"var(--good)":"var(--bad)"; };
+  document.getElementById("npgo").onclick=async()=>{ if(np.value.length<6) return err("At least 6 characters.");
+    err("Updating…",true); const {error}=await sb.auth.updateUser({password:np.value}); if(error) return err(error.message);
+    try{ history.replaceState(null,"",location.pathname); }catch(e){}
+    m.style.display="none"; m.onclick=null; const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null; renderAccount(); toast("Password updated ✓ — you're signed in."); };
+  m.style.display="grid"; m.onclick=null; np.focus();
+}
 
 /* ===== adaptive engine: per-topic ability (θ) + zone-of-proximal-development ===== */
 const W=1.1, K0=0.9, KHALF=6, ZPD=0.4;
@@ -1196,7 +1229,7 @@ window.addEventListener("load", ()=>{
   renderAccount();
   if(sb){
     sb.auth.getSession().then(({data})=>{ currentUser=data.session?.user||null; renderAccount(); if(currentUser) syncOnLogin(); });
-    sb.auth.onAuthStateChange((_e,session)=>{ currentUser=session?.user||null; renderAccount(); });
+    sb.auth.onAuthStateChange((event,session)=>{ currentUser=session?.user||null; renderAccount(); if(event==="PASSWORD_RECOVERY") openNewPassword(); });
   }
   { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h);
     else if((h==="signin"||h==="signup") && sb) openAuth(h); }
