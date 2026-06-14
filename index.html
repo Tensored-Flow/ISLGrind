@@ -475,7 +475,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 function loadProfiles(){
   let pm = JSON.parse(lsGet(PKEY) || "null");
   if(!pm || !Array.isArray(pm.profiles) || !pm.profiles.length){
-    pm = { profiles:[{id:"p1",name:"Leon"},{id:"p2",name:"Sheldon"},{id:"p3",name:"Annabel"}], active:"p1" };
+    pm = { profiles:[{id:"p1",name:"Player 1"}], active:"p1" };
     lsSet(PKEY, JSON.stringify(pm));
     const legacy = lsGet(OLD_LS);
     if(legacy && !lsGet(SKEY("p1"))) lsSet(SKEY("p1"), legacy);
@@ -520,7 +520,7 @@ function addProfile(){
 function renameProfile(){
   const p=PM.profiles.find(x=>x.id===activeId);
   const nm=(prompt("Rename profile:",p.name)||"").trim();
-  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); }
+  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); markLocalT(); scheduleCloudPush(); }
 }
 function deleteProfile(){
   if(PM.profiles.length<=1){ alert("Keep at least one profile."); return; }
@@ -529,6 +529,7 @@ function deleteProfile(){
   PM.profiles=PM.profiles.filter(p=>p.id!==activeId);
   activeId=PM.profiles[0].id; PM.active=activeId; lsSet(PKEY, JSON.stringify(PM));
   state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
+  markLocalT(); scheduleCloudPush();
 }
 function renderProfiles(){
   const bar=document.getElementById("profilebar");
@@ -547,7 +548,7 @@ function syncFilterChips(){
 /* ---------- backup / restore (shared with cloud sync) ---------- */
 let applying=false;   // guard so applying a dump doesn't trigger a cloud re-push loop
 function buildDump(){
-  save();
+  const wa=applying; applying=true; save(); applying=wa;   // flush current state WITHOUT re-arming a push (else cloudPush→buildDump→save→scheduleCloudPush loops forever, writing to Supabase every 1.2s)
   const dump={ _app:"islgrind", _v:1, _t: localT||Date.now(), [PKEY]:lsGet(PKEY) };
   PM.profiles.forEach(p=>{ dump[SKEY(p.id)]=lsGet(SKEY(p.id)); });
   return dump;
@@ -568,7 +569,7 @@ function exportProgress(){
 }
 function importProgress(file){
   if(!file) return; const r=new FileReader();
-  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))) toast("Progress restored ✓"); else throw 0; }
+  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))){ markLocalT(); scheduleCloudPush(); toast("Progress restored ✓"); } else throw 0; }
     catch(e){ alert("That file doesn't look like an ISLGrind backup."); } };
   r.readAsText(file);
 }
@@ -584,13 +585,61 @@ async function cloudPull(){ if(!sb||!currentUser) return null;
   try{ const {data}=await sb.from("progress").select("data").eq("user_id",currentUser.id).maybeSingle(); return data?data.data:null; }catch(e){ return null; } }
 async function cloudPush(){ if(!sb||!currentUser) return;
   const dump=buildDump();
-  await sb.from("progress").upsert({user_id:currentUser.id, data:dump, updated_at:new Date().toISOString()}); }
+  // Supabase resolves (doesn't reject) on a DB-level error — surface it so callers can tell a push actually landed
+  const {error}=await sb.from("progress").upsert({user_id:currentUser.id, data:dump, updated_at:new Date().toISOString()});
+  if(error) throw error; }
 function scheduleCloudPush(){ if(!sb||!currentUser) return; setSyncStatus("syncing…"); clearTimeout(cloudTimer);
   cloudTimer=setTimeout(async()=>{ try{ await cloudPush(); setSyncStatus("synced ✓"); }catch(e){ setSyncStatus("offline — will retry"); } },1200); }
+// Union local + cloud so neither side ever clobbers the other — solved/notes/gyms/attempts/calibration only ever grow.
+function mergeState(a,b){
+  a=a||{}; b=b||{};
+  const out=Object.assign(defaultState(), a);
+  for(const key of ["solved","attempted","review"]) out[key]=Object.assign({}, a[key], b[key]);
+  out.notes=Object.assign({}, a.notes);
+  for(const id in (b.notes||{})){ const ex=(out.notes[id]||"").trim(), nw=(b.notes[id]||""); if(!ex || nw.trim().length>ex.length) out.notes[id]=nw; }
+  out.theta=Object.assign({}, defaultState().theta, a.theta);
+  out.nSub =Object.assign({}, defaultState().nSub,  a.nSub);
+  for(const s of SUBJECTS){ if(b.theta&&typeof b.theta[s]==="number") out.theta[s]=Math.max(out.theta[s],b.theta[s]);
+    if(b.nSub&&typeof b.nSub[s]==="number") out.nSub[s]=Math.max(out.nSub[s],b.nSub[s]); }
+  const seen=new Set(), all=[];
+  for(const at of [].concat(a.attempts||[], b.attempts||[])){ if(!at) continue;
+    const k=at.t+"|"+at.sub+"|"+at.lvl+"|"+(at.ok?1:0)+"|"+(at.secs||0); if(seen.has(k)) continue; seen.add(k); all.push(at); }
+  all.sort((x,y)=>(x.t||0)-(y.t||0)); out.attempts=all.slice(-6000);
+  out.streak=Math.max(a.streak||0, b.streak||0);
+  const gyms={};
+  for(const g of [].concat(a.gyms||[], b.gyms||[])){ if(!g||!g.id) continue;
+    if(!gyms[g.id]) gyms[g.id]={id:g.id,name:g.name||"Gym",ids:[]};
+    gyms[g.id].ids=[...new Set(gyms[g.id].ids.concat(g.ids||[]))]; if(g.name) gyms[g.id].name=g.name; }
+  out.gyms=Object.values(gyms);
+  if(out.mock===undefined) out.mock=b.mock||null;
+  return out;
+}
+function mergeDumps(localDump, cloudDump){
+  const parse=s=>{ try{ return JSON.parse(s||"null"); }catch(e){ return null; } };
+  const lpm=parse(localDump[PKEY])||{profiles:[],active:null};
+  const cpm=parse(cloudDump[PKEY])||{profiles:[],active:null};
+  const byId={};
+  (lpm.profiles||[]).forEach(p=>{ if(p&&p.id) byId[p.id]={id:p.id,name:p.name||"Player"}; });
+  (cpm.profiles||[]).forEach(p=>{ if(p&&p.id) byId[p.id]={id:p.id,name:p.name||(byId[p.id]&&byId[p.id].name)||"Player"}; }); // cloud name wins
+  const profiles=Object.values(byId); if(!profiles.length) profiles.push({id:"p1",name:"Player 1"});
+  const active=(cpm.active&&profiles.some(p=>p.id===cpm.active))?cpm.active
+              :(lpm.active&&profiles.some(p=>p.id===lpm.active))?lpm.active:profiles[0].id;
+  const merged={ _app:"islgrind", _v:1, _t:Math.max(localDump._t||0, cloudDump._t||0)||Date.now(), [PKEY]:JSON.stringify({profiles,active}) };
+  profiles.forEach(p=>{ const ls=parse(localDump[SKEY(p.id)]), cs=parse(cloudDump[SKEY(p.id)]);
+    merged[SKEY(p.id)]=JSON.stringify((ls&&cs)?mergeState(ls,cs):(ls||cs||defaultState())); });
+  return merged;
+}
 async function syncOnLogin(){
   const cloud=await cloudPull();
-  if(cloud && (cloud._t||0) > localT){ applyDump(cloud); localT=cloud._t||Date.now(); lsSet("isl_trainer_t",String(localT)); toast("Synced from your account ✓"); }
-  else { await cloudPush().catch(()=>{}); }
+  if(cloud && cloud._app==="islgrind" && cloud[PKEY]){
+    // merge (never overwrite): a guest session on a shared device must not wipe the account, and vice-versa
+    const merged=mergeDumps(buildDump(), cloud);
+    applyDump(merged); localT=Date.now(); lsSet("isl_trainer_t",String(localT));
+    try{ await cloudPush(); }catch(e){}   // persist the merged result back to the account
+    toast("Synced with your account ✓");
+  } else {
+    try{ await cloudPush(); }catch(e){}   // first sign-in on this account: seed the cloud from local
+  }
   setSyncStatus("synced ✓");
 }
 function renderAccount(){
@@ -604,7 +653,10 @@ function renderAccount(){
     document.getElementById("chgpw").onclick=()=>{ sendReset(currentUser.email); };
     document.getElementById("signout").onclick=async()=>{
       if(!confirm(`Sign out of ${currentUser.email||"your account"}?\n\nYour progress is saved to your account, and this device will be reset to a clean guest (so the next person starts fresh).`)) return;
-      try{ await cloudPush(); }catch(e){}
+      let pushed=false;
+      try{ await cloudPush(); pushed=true; }catch(e){ pushed=false; }
+      // never wipe the device if the save didn't actually reach the account — otherwise offline sign-out = silent data loss
+      if(!pushed && !confirm("Couldn't reach your account to save your latest progress (you may be offline).\n\nSign out anyway? Anything not already synced will be lost from this device.")) return;
       try{ await sb.auth.signOut(); }catch(e){}
       PM.profiles.forEach(p=>lsDel(SKEY(p.id))); lsDel(PKEY); lsDel(OLD_LS); lsDel("isl_trainer_t");
       location.reload();
@@ -724,7 +776,9 @@ const overallLevel = ()=> SUBJECTS.reduce((a,s)=>a+(state.theta[s]||1),0)/SUBJEC
 
 /* ---------- time helpers ---------- */
 function nowMs(){ return Date.now(); }
-function fmtTime(s){ s=Math.max(0,Math.floor(s)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+function fmtTime(s){ s=Math.max(0,Math.floor(s));
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60;   // roll into h:mm:ss past an hour so long mocks don't read "4320:00"
+  return (h?h+":"+String(m).padStart(2,"0"):m)+":"+String(ss).padStart(2,"0"); }
 function dayKey(ts){ const d=new Date(ts); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function updateTimers(){
   const g=document.getElementById("grid"); if(!g) return;
@@ -883,12 +937,6 @@ function renderSlot(i){
 function renderAll(){ headerStats(); document.getElementById("grid").innerHTML=""; board.forEach((_,i)=>renderSlot(i)); updateTimers(); renderProgress(); }
 function refresh(){ headerStats(); renderProgress(); }
 
-function revealSrc(cardEl,p){
-  const s=cardEl.querySelector(".src"); if(!s) return;
-  const link=p.year>=2006?` · <a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank">solutions PDF</a>`
-                          :` · <a href="https://artofproblemsolving.com/community/c3223_imo_shortlist" target="_blank">AoPS</a>`;
-  s.outerHTML=`<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''}${link}</span>`;
-}
 function resolve(i, ok){
   const p=board[i]; if(!p) return;
   const card=document.getElementById("grid").children[i];
@@ -898,7 +946,7 @@ function resolve(i, ok){
   const {th,nth,exp}=applyResult(p, ok, secs);
   const dir=nth>th+0.02?"↑":nth<th-0.02?"↓":"→";
   const extra=ok?(exp<0.4?" — strong, above your level!":""):(exp>0.6?" — in range, worth review":"");
-  revealSrc(card,p);
+  { const s=card.querySelector(".src"); if(s) s.outerHTML=srcHTML(p,true); }   // same specific source (AoPS search + official solution) as the manual reveal
   card.classList.add(ok?"solved-card":"failed-card");
   card.querySelectorAll(".btns button").forEach(b=>b.disabled=true);
   const w=card.querySelector(".timerwrap"); if(w) w.innerHTML = st ? `<span class="timer done">${fmtTime(secs)}</span>` : '';
@@ -933,7 +981,9 @@ function renderHeatmap(){
       cur.setDate(cur.getDate()+1); }
     grid+='</div>'; }
   grid+='</div>';
-  let streak=0; const dc=new Date(today); while(counts[dayKey(dc.getTime())]){ streak++; dc.setDate(dc.getDate()-1); }
+  let streak=0; const dc=new Date(today);
+  if(!counts[dayKey(dc.getTime())]) dc.setDate(dc.getDate()-1);   // haven't practiced yet today → count through yesterday, don't show 0
+  while(counts[dayKey(dc.getTime())]){ streak++; dc.setDate(dc.getDate()-1); }
   const total=(state.attempts||[]).length;
   const wkStart=new Date(today); wkStart.setDate(wkStart.getDate()-6);
   const wk=(state.attempts||[]).filter(a=>a.t>=wkStart.getTime()).length;
