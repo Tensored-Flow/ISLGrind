@@ -873,7 +873,7 @@ function renderSlot(i){
   card.querySelectorAll(".star")[0].onclick=()=>openGymPicker(p);
   card.querySelector(".notebtn").onclick=()=>openNote(p);
   card.querySelector(".skip").onclick=()=>{
-    state.review[p.id]=true; board[i]=pickProblem(p.subject, boardIds(i)); state.started[i]=nowMs();
+    state.review[p.id]=true; board[i]=pickProblem(p.subject, boardIds(i)); state.started[i]=null;
     persistBoard(); renderSlot(i); toast("Saved for later — it'll come back");
   };
 }
