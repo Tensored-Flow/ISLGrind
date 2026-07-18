@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ISLGrind — adaptive IMO Shortlist practice</title>
-<meta name="description" content="Adaptive practice for IMO Shortlist problems (1990–2024). Per-topic difficulty calibration serves you problems a notch above your level across Algebra, Combinatorics, Geometry, and Number Theory." />
+<meta name="description" content="Adaptive olympiad practice — IMO Shortlist, USAMO, USA TST/TSTST, EGMO, APMO, RMM. Per-topic difficulty calibration serves you problems a notch above your level across Algebra, Combinatorics, Geometry, and Number Theory." />
 <meta name="theme-color" content="#07080c" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="ISLGrind — adaptive IMO Shortlist practice" />
-<meta property="og:description" content="1,004 IMO Shortlist problems (1990–2024) with adaptive, per-topic difficulty calibration." />
+<meta property="og:description" content="1,627 olympiad problems — IMO Shortlist, USAMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
 <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -59,7 +59,7 @@
   .app{display:flex;min-height:100vh}
   .sidebar{flex:0 0 256px;width:256px;padding:22px 18px;display:flex;flex-direction:column;gap:8px;
     border-right:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(12,14,20,.6),rgba(7,8,12,.3));
-    backdrop-filter:blur(8px);position:sticky;top:0;height:100vh}
+    backdrop-filter:blur(8px);position:sticky;top:0;height:100vh;overflow-y:auto}
   .brand{display:flex;align-items:center;gap:12px;padding:4px 6px 2px}
   .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
     font-family:Fraunces,serif;font-size:22px;color:#1a160c;font-weight:600;
@@ -114,6 +114,15 @@
 
   .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
   .filters{display:flex;gap:6px;flex-wrap:wrap}
+  .srcrow{margin-top:-4px;margin-bottom:2px;align-items:center}
+  .srclabel{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .savepanel{margin-bottom:4px}
+  .savenote{font-size:11px;color:var(--faint);margin-top:6px;line-height:1.5}
+  .savenote a{color:var(--gold-2);cursor:pointer;text-decoration:underline}
+  .savenote .dimx{color:var(--faint);opacity:.8}
+  .savestat{font-size:11.5px;color:var(--dim)}
+  .savestat.ok{color:var(--good)}
+  .savestat.bad{color:var(--bad)}
   .chip{cursor:pointer;user-select:none;border:1px solid var(--line-soft);background:var(--raise);
     color:var(--dim);border-radius:999px;padding:7px 14px;font-size:13px;transition:.16s}
   .chip:hover{color:var(--ink)}
@@ -305,11 +314,6 @@
   .noteedit textarea:focus{outline:none;border-color:rgba(227,196,137,.4)}
   .notepreview{height:250px;overflow:auto;background:var(--raise);border:1px solid var(--line-soft);border-radius:10px;padding:13px;font-size:14px;line-height:1.6}
   .modal code{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--gold-2);background:var(--raise);padding:1px 6px;border-radius:5px}
-  .authtabs{display:flex;gap:5px;background:var(--raise);border:1px solid var(--line-soft);border-radius:12px;padding:4px;margin-bottom:18px}
-  .authtabs button{flex:1;cursor:pointer;border:none;background:none;color:var(--dim);font:inherit;font-size:13.5px;font-weight:600;padding:10px;border-radius:9px;transition:.15s}
-  .authtabs button.on{background:linear-gradient(100deg,rgba(227,196,137,.18),rgba(227,196,137,.05));color:var(--ink);box-shadow:0 0 0 1px rgba(227,196,137,.22)}
-  .authswitch{text-align:center;margin-top:14px;font-size:13px;color:var(--dim)}
-  .authswitch a{cursor:pointer;color:var(--gold-2);font-weight:500}
   /* daily goal ring */
   .goalstat{display:flex;align-items:center;gap:11px;cursor:pointer}
   .ring{width:42px;height:42px;transform:rotate(-90deg);flex:0 0 auto}
@@ -367,17 +371,14 @@
     </div>
     <div class="side-section">
       <div class="side-label">Data</div>
-      <div class="row">
+      <div id="savepanel" class="savepanel"></div>
+      <div class="row" style="margin-top:8px">
         <button class="mini" id="exportBtn">⬇ Backup</button>
         <button class="mini" id="importBtn">⬆ Restore</button>
         <input type="file" id="importFile" accept="application/json,.json" hidden />
       </div>
       <div class="row"><button class="mini danger" id="reset">Reset this profile</button></div>
       <div class="warn" id="storagewarn" style="display:none">⚠ This browser isn't saving progress here — use Backup.</div>
-    </div>
-    <div class="side-section">
-      <div class="side-label">Account</div>
-      <div id="account"></div>
     </div>
   </aside>
 
@@ -411,6 +412,10 @@
         <button class="act" id="shuffle">↻ New set</button>
         <button class="act" id="revealAll">👁 Reveal sources</button>
       </div>
+      <div class="controls srcrow">
+        <span class="srclabel">Source</span>
+        <div class="filters" id="srcfilters"></div>
+      </div>
       <div class="grid" id="grid"></div>
     </section>
 
@@ -440,11 +445,17 @@
 <div class="modal-bg" id="modal" style="display:none"><div class="modal" id="modalbox"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="bank.js"></script>
+<script src="bank_extra.js"></script>
 <script>
 const BANK = window.ISL_BANK || [];
 const maxLevel = Math.max(...BANK.map(p=>p.level), 1);
+BANK.forEach(p=>{ if(!p.source) p.source="ISL"; });   // legacy bank.js entries are all ISL
+// distinct sources, ISL first then in a stable preferred order
+const SRC_ORDER = ["ISL","USAMO","USA TST","USA TSTST","EGMO","APMO","RMM"];
+const SOURCES = [...new Set(BANK.map(p=>p.source))].sort((a,b)=>{
+  const ia=SRC_ORDER.indexOf(a), ib=SRC_ORDER.indexOf(b);
+  return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
 const toast = (m)=>{const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2200);};
 
@@ -466,7 +477,7 @@ function defaultState(){
   return {
     theta: {Algebra:1.0, Combinatorics:1.0, Geometry:1.0, "Number Theory":1.0},
     nSub:  {Algebra:0,   Combinatorics:0,   Geometry:0,   "Number Theory":0},
-    solved:{}, attempted:{}, streak:0, filter:"all", revealed:false,
+    solved:{}, attempted:{}, streak:0, filter:"all", srcFilter:"all", revealed:false,
     board:null, started:[null,null,null,null], attempts:[],
     gyms:[], mock:null, review:{}, notes:{}, goal:5
   };
@@ -475,7 +486,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;'
 function loadProfiles(){
   let pm = JSON.parse(lsGet(PKEY) || "null");
   if(!pm || !Array.isArray(pm.profiles) || !pm.profiles.length){
-    pm = { profiles:[{id:"p1",name:"Player 1"}], active:"p1" };
+    pm = { profiles:[{id:"p1",name:"Leon"},{id:"p2",name:"Sheldon"},{id:"p3",name:"Annabel"}], active:"p1" };
     lsSet(PKEY, JSON.stringify(pm));
     const legacy = lsGet(OLD_LS);
     if(legacy && !lsGet(SKEY("p1"))) lsSet(SKEY("p1"), legacy);
@@ -501,7 +512,7 @@ function loadState(id){
   return s;
 }
 let state = loadState(activeId);
-function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); if(!applying){ markLocalT(); scheduleCloudPush(); } }
+function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); if(!applying) scheduleFileWrite(); }
 function activeName(){ const p=PM.profiles.find(x=>x.id===activeId); return p?p.name:"?"; }
 
 /* ---------- profiles ---------- */
@@ -520,7 +531,7 @@ function addProfile(){
 function renameProfile(){
   const p=PM.profiles.find(x=>x.id===activeId);
   const nm=(prompt("Rename profile:",p.name)||"").trim();
-  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); markLocalT(); scheduleCloudPush(); }
+  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); }
 }
 function deleteProfile(){
   if(PM.profiles.length<=1){ alert("Keep at least one profile."); return; }
@@ -529,7 +540,6 @@ function deleteProfile(){
   PM.profiles=PM.profiles.filter(p=>p.id!==activeId);
   activeId=PM.profiles[0].id; PM.active=activeId; lsSet(PKEY, JSON.stringify(PM));
   state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
-  markLocalT(); scheduleCloudPush();
 }
 function renderProfiles(){
   const bar=document.getElementById("profilebar");
@@ -541,15 +551,21 @@ function renderProfiles(){
   const add=document.getElementById("addprof"); if(add) add.onclick=addProfile;
   document.getElementById("storagewarn").style.display = storageOK ? "none" : "block";
 }
+function renderSrcChips(){
+  const el=document.getElementById("srcfilters"); if(!el) return;
+  const chips=[["all","All sources"], ...SOURCES.map(s=>[s,s])];
+  el.innerHTML=chips.map(([v,lab])=>`<span class="chip ${state.srcFilter===v?'active':''}" data-src="${esc(v)}">${esc(lab)}</span>`).join("");
+}
 function syncFilterChips(){
   document.querySelectorAll('.chip[data-s]').forEach(c=>c.classList.toggle('active', c.dataset.s===state.filter));
+  document.querySelectorAll('#srcfilters .chip[data-src]').forEach(c=>c.classList.toggle('active', c.dataset.src===state.srcFilter));
 }
 
-/* ---------- backup / restore (shared with cloud sync) ---------- */
-let applying=false;   // guard so applying a dump doesn't trigger a cloud re-push loop
+/* ---------- backup / restore (local file) ---------- */
+let applying=false;   // guard so applying a dump doesn't recurse through save()
 function buildDump(){
-  const wa=applying; applying=true; save(); applying=wa;   // flush current state WITHOUT re-arming a push (else cloudPush→buildDump→save→scheduleCloudPush loops forever, writing to Supabase every 1.2s)
-  const dump={ _app:"islgrind", _v:1, _t: localT||Date.now(), [PKEY]:lsGet(PKEY) };
+  const wa=applying; applying=true; save(); applying=wa;   // flush current state to storage first
+  const dump={ _app:"islgrind", _v:1, _t: Date.now(), [PKEY]:lsGet(PKEY) };
   PM.profiles.forEach(p=>{ dump[SKEY(p.id)]=lsGet(SKEY(p.id)); });
   return dump;
 }
@@ -569,186 +585,91 @@ function exportProgress(){
 }
 function importProgress(file){
   if(!file) return; const r=new FileReader();
-  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))){ markLocalT(); scheduleCloudPush(); toast("Progress restored ✓"); } else throw 0; }
+  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))){ toast("Progress restored ✓"); } else throw 0; }
     catch(e){ alert("That file doesn't look like an ISLGrind backup."); } };
   r.readAsText(file);
 }
 
-/* ---------- cloud sync (Supabase) ---------- */
-const SUPA_URL="https://gdktuzpnepymlrhqlxit.supabase.co";
-const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdka3R1enBuZXB5bWxyaHFseGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NDAzMTksImV4cCI6MjA5NjQxNjMxOX0.xRzHylSBGI9wYU7_Lx8_ID7R_mkWZPV_wLIctEnxtL8";
-let sb=null, currentUser=null, cloudTimer=null, localT=+(lsGet("isl_trainer_t")||0);
-try{ if(window.supabase) sb=window.supabase.createClient(SUPA_URL,SUPA_KEY); }catch(e){ sb=null; }
-function setSyncStatus(s){ const e=document.getElementById("syncstat"); if(e) e.textContent=s; }
-function markLocalT(){ localT=Date.now(); lsSet("isl_trainer_t",String(localT)); }
-async function cloudPull(){ if(!sb||!currentUser) return null;
-  try{ const {data}=await sb.from("progress").select("data").eq("user_id",currentUser.id).maybeSingle(); return data?data.data:null; }catch(e){ return null; } }
-async function cloudPush(){ if(!sb||!currentUser) return;
-  const dump=buildDump();
-  // Supabase resolves (doesn't reject) on a DB-level error — surface it so callers can tell a push actually landed
-  const {error}=await sb.from("progress").upsert({user_id:currentUser.id, data:dump, updated_at:new Date().toISOString()});
-  if(error) throw error; }
-function scheduleCloudPush(){ if(!sb||!currentUser) return; setSyncStatus("syncing…"); clearTimeout(cloudTimer);
-  cloudTimer=setTimeout(async()=>{ try{ await cloudPush(); setSyncStatus("synced ✓"); }catch(e){ setSyncStatus("offline — will retry"); } },1200); }
-// Union local + cloud so neither side ever clobbers the other — solved/notes/gyms/attempts/calibration only ever grow.
-function mergeState(a,b){
-  a=a||{}; b=b||{};
-  const out=Object.assign(defaultState(), a);
-  for(const key of ["solved","attempted","review"]) out[key]=Object.assign({}, a[key], b[key]);
-  out.notes=Object.assign({}, a.notes);
-  for(const id in (b.notes||{})){ const ex=(out.notes[id]||"").trim(), nw=(b.notes[id]||""); if(!ex || nw.trim().length>ex.length) out.notes[id]=nw; }
-  out.theta=Object.assign({}, defaultState().theta, a.theta);
-  out.nSub =Object.assign({}, defaultState().nSub,  a.nSub);
-  for(const s of SUBJECTS){ if(b.theta&&typeof b.theta[s]==="number") out.theta[s]=Math.max(out.theta[s],b.theta[s]);
-    if(b.nSub&&typeof b.nSub[s]==="number") out.nSub[s]=Math.max(out.nSub[s],b.nSub[s]); }
-  const seen=new Set(), all=[];
-  for(const at of [].concat(a.attempts||[], b.attempts||[])){ if(!at) continue;
-    const k=at.t+"|"+at.sub+"|"+at.lvl+"|"+(at.ok?1:0)+"|"+(at.secs||0); if(seen.has(k)) continue; seen.add(k); all.push(at); }
-  all.sort((x,y)=>(x.t||0)-(y.t||0)); out.attempts=all.slice(-6000);
-  out.streak=Math.max(a.streak||0, b.streak||0);
-  const gyms={};
-  for(const g of [].concat(a.gyms||[], b.gyms||[])){ if(!g||!g.id) continue;
-    if(!gyms[g.id]) gyms[g.id]={id:g.id,name:g.name||"Gym",ids:[]};
-    gyms[g.id].ids=[...new Set(gyms[g.id].ids.concat(g.ids||[]))]; if(g.name) gyms[g.id].name=g.name; }
-  out.gyms=Object.values(gyms);
-  if(out.mock===undefined) out.mock=b.mock||null;
-  return out;
+/* ---------- automatic save to a local file you pick once (File System Access API) ----------
+   Pick a file once; from then on every change is written to it automatically, and it's read
+   back on launch. No download prompts. Chrome/Edge only; elsewhere we fall back to the
+   manual ⬇ Backup button. The linked file handle is remembered in IndexedDB. */
+const FSA_OK = (typeof window!=="undefined") && ("showSaveFilePicker" in window);
+let fileHandle=null, fileWriteTimer=null, fileBusy=false, fileNeedsPerm=false;
+function idbOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open("islgrind_sync",1);
+  r.onupgradeneeded=()=>r.result.createObjectStore("kv"); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+async function idbGet(k){ try{ const db=await idbOpen(); return await new Promise(res=>{ const t=db.transaction("kv").objectStore("kv").get(k); t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+async function idbPut(k,v){ try{ const db=await idbOpen(); await new Promise(res=>{ const t=db.transaction("kv","readwrite"); t.objectStore("kv").put(v,k); t.oncomplete=()=>res(); t.onerror=()=>res(); }); }catch(e){} }
+async function idbDel(k){ try{ const db=await idbOpen(); await new Promise(res=>{ const t=db.transaction("kv","readwrite"); t.objectStore("kv").delete(k); t.oncomplete=()=>res(); t.onerror=()=>res(); }); }catch(e){} }
+async function fsPerm(handle, request){ try{ const o={mode:"readwrite"};
+  if((await handle.queryPermission(o))==="granted") return true;
+  if(request && (await handle.requestPermission(o))==="granted") return true; }catch(e){} return false; }
+function setSaveStatus(t,cls){ const e=document.getElementById("savestat"); if(e){ e.textContent=t||""; e.className="savestat "+(cls||""); } }
+async function fileWriteNow(){
+  if(!fileHandle || fileBusy) return; fileBusy=true;
+  try{ const w=await fileHandle.createWritable(); await w.write(JSON.stringify(buildDump(),null,1)); await w.close();
+       setSaveStatus("Auto-saved to "+fileHandle.name+" ✓","ok"); }
+  catch(e){ setSaveStatus("Couldn't write "+(fileHandle?fileHandle.name:"file")+" — re-link it","bad"); fileNeedsPerm=true; renderDataPanel(); }
+  finally{ fileBusy=false; }
 }
-function mergeDumps(localDump, cloudDump){
-  const parse=s=>{ try{ return JSON.parse(s||"null"); }catch(e){ return null; } };
-  const lpm=parse(localDump[PKEY])||{profiles:[],active:null};
-  const cpm=parse(cloudDump[PKEY])||{profiles:[],active:null};
-  const byId={};
-  (lpm.profiles||[]).forEach(p=>{ if(p&&p.id) byId[p.id]={id:p.id,name:p.name||"Player"}; });
-  (cpm.profiles||[]).forEach(p=>{ if(p&&p.id) byId[p.id]={id:p.id,name:p.name||(byId[p.id]&&byId[p.id].name)||"Player"}; }); // cloud name wins
-  const profiles=Object.values(byId); if(!profiles.length) profiles.push({id:"p1",name:"Player 1"});
-  const active=(cpm.active&&profiles.some(p=>p.id===cpm.active))?cpm.active
-              :(lpm.active&&profiles.some(p=>p.id===lpm.active))?lpm.active:profiles[0].id;
-  const merged={ _app:"islgrind", _v:1, _t:Math.max(localDump._t||0, cloudDump._t||0)||Date.now(), [PKEY]:JSON.stringify({profiles,active}) };
-  profiles.forEach(p=>{ const ls=parse(localDump[SKEY(p.id)]), cs=parse(cloudDump[SKEY(p.id)]);
-    merged[SKEY(p.id)]=JSON.stringify((ls&&cs)?mergeState(ls,cs):(ls||cs||defaultState())); });
-  return merged;
+function scheduleFileWrite(){ if(!fileHandle||applying) return; clearTimeout(fileWriteTimer); setSaveStatus("Saving…"); fileWriteTimer=setTimeout(fileWriteNow,600); }
+async function linkSaveFile(){
+  if(!FSA_OK){ toast("This browser can't auto-save to a file — use ⬇ Backup, or open ISLGrind in Chrome."); return; }
+  try{
+    const h=await window.showSaveFilePicker({ suggestedName:"islgrind-progress.json",
+      types:[{description:"ISLGrind progress",accept:{"application/json":[".json"]}}] });
+    fileHandle=h; fileNeedsPerm=false; await idbPut("handle",h);
+    await fileWriteNow(); renderDataPanel();
+    toast("Auto-saving to "+h.name+" — you're set. No more downloads.");
+  }catch(e){ /* user cancelled the picker */ }
 }
-async function syncOnLogin(){
-  const cloud=await cloudPull();
-  if(cloud && cloud._app==="islgrind" && cloud[PKEY]){
-    // merge (never overwrite): a guest session on a shared device must not wipe the account, and vice-versa
-    const merged=mergeDumps(buildDump(), cloud);
-    applyDump(merged); localT=Date.now(); lsSet("isl_trainer_t",String(localT));
-    try{ await cloudPush(); }catch(e){}   // persist the merged result back to the account
-    toast("Synced with your account ✓");
+async function chooseExistingFile(){
+  if(!FSA_OK) return;
+  try{
+    const [h]=await window.showOpenFilePicker({ types:[{description:"ISLGrind progress",accept:{"application/json":[".json"]}}] });
+    fileHandle=h; fileNeedsPerm=false; await idbPut("handle",h);
+    const f=await h.getFile(); const txt=await f.text();
+    if(txt.trim() && applyDump(JSON.parse(txt))) toast("Loaded progress from "+h.name+" ✓");
+    else await fileWriteNow();
+    renderDataPanel();
+  }catch(e){}
+}
+async function unlinkSaveFile(){ fileHandle=null; fileNeedsPerm=false; await idbDel("handle"); renderDataPanel(); toast("Auto-save file unlinked (progress stays saved on this device)."); }
+async function resumeSaveFile(){   // re-grant permission after a fresh launch, then load the file
+  if(!fileHandle) return;
+  if(await fsPerm(fileHandle,true)){ fileNeedsPerm=false;
+    try{ const f=await fileHandle.getFile(); const txt=await f.text(); if(txt.trim()) applyDump(JSON.parse(txt)); }catch(e){}
+    setSaveStatus("Auto-saving to "+fileHandle.name+" ✓","ok"); renderDataPanel();
+  } else { toast("Permission needed to use your save file."); }
+}
+async function initFileSync(){
+  renderDataPanel();
+  if(!FSA_OK) return;
+  const h=await idbGet("handle"); if(!h){ renderDataPanel(); return; }
+  fileHandle=h;
+  if(await fsPerm(h,false)){                 // already allowed → load from the file (it's the source of truth)
+    try{ const f=await h.getFile(); const txt=await f.text(); if(txt.trim()) applyDump(JSON.parse(txt)); }catch(e){}
+    setSaveStatus("Auto-saving to "+h.name+" ✓","ok");
+  } else { fileNeedsPerm=true; }             // needs one click to re-grant after this launch
+  renderDataPanel();
+}
+function renderDataPanel(){
+  const el=document.getElementById("savepanel"); if(!el) return;
+  if(!FSA_OK){ el.innerHTML=`<div class="savenote">Progress saves automatically on this device. Use ⬇ Backup for a copy you control. <span class="dimx">(Auto-save to a file needs Chrome or Edge.)</span></div>`; return; }
+  if(fileHandle && fileNeedsPerm){
+    el.innerHTML=`<button class="mini" id="resumesave">▶ Resume auto-save to ${esc(fileHandle.name)}</button>
+      <div class="savenote">Click once to reconnect your save file for this session.</div>`;
+    document.getElementById("resumesave").onclick=resumeSaveFile;
+  } else if(fileHandle){
+    el.innerHTML=`<div class="savestat ok" id="savestat">Auto-saving to ${esc(fileHandle.name)} ✓</div>
+      <div class="row"><button class="mini" id="unlinksave">Stop auto-saving</button></div>`;
+    document.getElementById("unlinksave").onclick=unlinkSaveFile;
   } else {
-    try{ await cloudPush(); }catch(e){}   // first sign-in on this account: seed the cloud from local
+    el.innerHTML=`<button class="mini" id="linksave">🔗 Auto-save to a file…</button>
+      <div class="savenote">Pick a file once (anywhere you like); progress then saves there automatically and loads on launch — no downloads. <a id="openexisting">Use an existing file</a></div>`;
+    document.getElementById("linksave").onclick=linkSaveFile;
+    document.getElementById("openexisting").onclick=chooseExistingFile;
   }
-  setSyncStatus("synced ✓");
-}
-function renderAccount(){
-  const el=document.getElementById("account"); if(!el) return;
-  if(!sb){ el.innerHTML='<div class="warn" style="color:var(--faint)">cloud unavailable offline</div>'; return; }
-  if(currentUser){
-    el.innerHTML=`<div style="font-size:12px;color:var(--ink-soft);word-break:break-all;margin-bottom:6px">☁ ${esc(currentUser.email||"signed in")}</div>
-      <div id="syncstat" style="font-size:11px;color:var(--faint);margin-bottom:8px">synced ✓</div>
-      <div class="row"><button class="mini" id="chgpw">Change password</button></div>
-      <div class="row"><button class="mini" id="signout">Sign out</button></div>`;
-    document.getElementById("chgpw").onclick=()=>{ sendReset(currentUser.email); };
-    document.getElementById("signout").onclick=async()=>{
-      if(!confirm(`Sign out of ${currentUser.email||"your account"}?\n\nYour progress is saved to your account, and this device will be reset to a clean guest (so the next person starts fresh).`)) return;
-      let pushed=false;
-      try{ await cloudPush(); pushed=true; }catch(e){ pushed=false; }
-      // never wipe the device if the save didn't actually reach the account — otherwise offline sign-out = silent data loss
-      if(!pushed && !confirm("Couldn't reach your account to save your latest progress (you may be offline).\n\nSign out anyway? Anything not already synced will be lost from this device.")) return;
-      try{ await sb.auth.signOut(); }catch(e){}
-      PM.profiles.forEach(p=>lsDel(SKEY(p.id))); lsDel(PKEY); lsDel(OLD_LS); lsDel("isl_trainer_t");
-      location.reload();
-    };
-  } else {
-    el.innerHTML=`<div style="font-size:12px;color:var(--dim);margin-bottom:7px">Guest · saved on this device</div>
-      <div class="row"><button class="mini" id="signin">Sign in</button><button class="mini" id="signup2">Create account</button></div>
-      <div style="font-size:11px;color:var(--faint);margin-top:7px">☁ Sign in to sync across devices &amp; back up</div>`;
-    document.getElementById("signin").onclick=()=>openAuth("signin");
-    document.getElementById("signup2").onclick=()=>openAuth("signup");
-  }
-}
-function openAuth(mode){
-  mode = mode==="signup" ? "signup" : "signin";
-  const m=document.getElementById("modal"), box=document.getElementById("modalbox"); box.className="modal";
-  let lastEmail="";
-  function render(){
-    const signup = mode==="signup";
-    box.innerHTML=`
-      <div class="authtabs">
-        <button class="${signup?'':'on'}" id="tabin">Sign in</button>
-        <button class="${signup?'on':''}" id="tabup">Create account</button>
-      </div>
-      <h3>${signup?"Create your account":"Welcome back"}</h3>
-      <p class="msub">${signup?"Your current local progress comes with you and syncs across devices.":"Sign in to sync your progress across devices."}</p>
-      <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
-        <input id="aemail" type="email" placeholder="email" autocomplete="email" value="${esc(lastEmail)}" />
-        <div style="position:relative;display:flex">
-          <input id="apass" type="password" placeholder="${signup?'choose a password (6+ characters)':'password'}" autocomplete="${signup?'new-password':'current-password'}" style="flex:1;padding-right:40px" />
-          <button id="aeye" type="button" title="Show / hide password" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
-        </div>
-      </div>
-      ${signup?'':`<div style="text-align:right;margin:4px 0 0"><a id="forgot" style="cursor:pointer;color:var(--gold-2);font-size:12.5px">Forgot password?</a></div>`}
-      <div id="aerr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 6px;line-height:1.45"></div>
-      <div class="mrow"><span class="spacer"></span><button class="primary" id="ago">${signup?"Create account":"Sign in"}</button></div>
-      <div class="authswitch">${signup?`Already have an account? <a id="swap">Sign in</a>`:`New here? <a id="swap">Create an account</a>`}</div>`;
-    const err=(t,good)=>{ const e=document.getElementById("aerr"); e.textContent=t||""; e.style.color=good?"var(--good)":"var(--bad)"; };
-    const pass=document.getElementById("apass"), eye=document.getElementById("aeye");
-    eye.onclick=()=>{ const hidden=pass.type==="password"; pass.type=hidden?"text":"password"; eye.textContent=hidden?"🙈":"👁"; pass.focus(); };
-    const creds=()=>({ email:document.getElementById("aemail").value.trim(), password:pass.value });
-    const swap=to=>{ lastEmail=document.getElementById("aemail").value; mode=to; render(); };
-    document.getElementById("tabin").onclick=()=>swap("signin");
-    document.getElementById("tabup").onclick=()=>swap("signup");
-    document.getElementById("swap").onclick=()=>swap(signup?"signin":"signup");
-    { const f=document.getElementById("forgot"); if(f) f.onclick=()=>{ const em=document.getElementById("aemail").value.trim();
-      if(!em) return err("Enter your email above, then tap Forgot password."); err("Sending reset link…",true); sendReset(em); }; }
-    document.getElementById("ago").onclick=async()=>{ const c=creds();
-      if(!c.email||!c.password) return err(signup?"Enter an email and a password (6+ chars).":"Enter your email and password.");
-      if(signup){ err("Creating account…",true); const {data,error}=await sb.auth.signUp(c);
-        if(error){ if(/registered|already|exists/i.test(error.message)){ lastEmail=c.email; mode="signin"; render(); err("That email already has an account — just sign in below.",true); }
-          else err(error.message); return; }
-        if(data.session) await afterAuth();
-        else err("Account created — confirm it via the email link to finish (or owner: turn OFF 'Confirm email' in Supabase → Authentication → Providers → Email)."); }
-      else { err("Signing in…",true); const {error}=await sb.auth.signInWithPassword(c);
-        if(error){ const msg = /confirm/i.test(error.message) ? "This account isn't confirmed yet — confirm it in Supabase → Authentication → Users, or make a new account."
-          : /invalid/i.test(error.message) ? "Wrong email or password."
-          : error.message; return err(msg); }
-        await afterAuth(); }
-    };
-    document.getElementById("aemail").focus();
-  }
-  render(); m.style.display="grid"; m.onclick=(e)=>{ if(e.target===m){ m.style.display="none"; m.onclick=null; } };
-}
-async function afterAuth(){ const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null;
-  document.getElementById("modal").style.display="none"; renderAccount(); if(currentUser){ await syncOnLogin(); toast("Signed in ✓"); } }
-async function sendReset(email){
-  if(!email) return toast("Enter your email first.");
-  try{ const {error}=await sb.auth.resetPasswordForEmail(email,{ redirectTo: location.origin+location.pathname });
-    if(error) toast("Couldn't send reset: "+error.message);
-    else toast("Reset link sent to "+email+" — check inbox & spam.");
-  }catch(e){ toast("Couldn't send the reset email."); }
-}
-// when the user clicks the email link, Supabase fires PASSWORD_RECOVERY → let them set a new password
-function openNewPassword(){
-  const m=document.getElementById("modal"), box=document.getElementById("modalbox"); box.className="modal";
-  box.innerHTML=`<h3>Set a new password</h3><p class="msub">Verified via your email link — choose a new password.</p>
-    <div class="mnew" style="flex-direction:column;gap:9px;align-items:stretch">
-      <div style="position:relative;display:flex">
-        <input id="np" type="password" placeholder="new password (6+ characters)" autocomplete="new-password" style="flex:1;padding-right:40px" />
-        <button id="npeye" type="button" title="Show / hide" style="position:absolute;right:6px;top:0;bottom:0;background:none;border:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 6px">👁</button>
-      </div>
-    </div>
-    <div id="nperr" style="color:var(--bad);font-size:13px;min-height:18px;margin:8px 0 6px"></div>
-    <div class="mrow"><span class="spacer"></span><button class="primary" id="npgo">Update password</button></div>`;
-  const np=document.getElementById("np"), eye=document.getElementById("npeye");
-  eye.onclick=()=>{ const h=np.type==="password"; np.type=h?"text":"password"; eye.textContent=h?"🙈":"👁"; np.focus(); };
-  const err=(t,g)=>{ const e=document.getElementById("nperr"); e.textContent=t||""; e.style.color=g?"var(--good)":"var(--bad)"; };
-  document.getElementById("npgo").onclick=async()=>{ if(np.value.length<6) return err("At least 6 characters.");
-    err("Updating…",true); const {error}=await sb.auth.updateUser({password:np.value}); if(error) return err(error.message);
-    try{ history.replaceState(null,"",location.pathname); }catch(e){}
-    m.style.display="none"; m.onclick=null; const {data}=await sb.auth.getSession(); currentUser=data.session?.user||null; renderAccount(); toast("Password updated ✓ — you're signed in."); };
-  m.style.display="grid"; m.onclick=null; np.focus();
 }
 
 /* ===== adaptive engine: per-topic ability (θ) + zone-of-proximal-development ===== */
@@ -756,7 +677,8 @@ const W=1.1, K0=0.9, KHALF=6, ZPD=0.4;
 function expectedSolve(theta,d){ return 1/(1+Math.exp(-(theta-d)/W)); }
 function stepSize(n){ return Math.max(0.25, K0*KHALF/(KHALF+n)); }
 function randn(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
-function subjPool(subject){ return BANK.filter(p=>p.subject===subject); }
+function srcMatch(p){ return state.srcFilter==="all" || (p.source||"ISL")===state.srcFilter; }
+function subjPool(subject){ return BANK.filter(p=>p.subject===subject && srcMatch(p)); }
 function zpdTarget(subject){ const th=state.theta[subject]||1; return Math.max(1,Math.min(maxLevel,Math.round(th+ZPD+randn()*0.9))); }
 function pickProblem(subject, exclude){
   const all=subjPool(subject); if(!all.length) return null;
@@ -791,13 +713,24 @@ function updateTimers(){
 
 /* ---------- board ---------- */
 let board=[null,null,null,null];
-function boardSubjects(){ return state.filter!=="all" ? [state.filter,state.filter,state.filter,state.filter] : SUBJECTS.slice().sort(()=>Math.random()-0.5); }
+function boardSubjects(){ return state.filter!=="all" ? [state.filter,state.filter,state.filter,state.filter] : SUBJECTS.slice(); }
 let slotSubjects = boardSubjects();
 function persistBoard(){ state.board=board.map(p=>p?p.id:null); save(); }
 function byId(id){ return BANK.find(p=>p.id===id)||null; }
 function dealAll(){
   slotSubjects=boardSubjects(); board=[null,null,null,null];
   for(let i=0;i<4;i++){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; }
+  persistBoard(); renderAll();
+}
+// applied when a filter changes: keep every card that still fits, swap only the ones that don't
+// (so toggling source/topic and coming back doesn't reshuffle the whole board)
+function redeal(){
+  slotSubjects=boardSubjects();
+  for(let i=0;i<4;i++){
+    const p=board[i];
+    const fits = p && p.subject===slotSubjects[i] && srcMatch(p) && !state.solved[p.id];
+    if(!fits){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; }
+  }
   persistBoard(); renderAll();
 }
 function restoreBoard(){
@@ -849,22 +782,27 @@ function fillStatement(el,p){ if(p.format==='text') el.textContent=p.body; else 
 // AoPS blocks scraping, so we can't store exact thread IDs. Key the search on the year + a
 // distinctive snippet of the PROBLEM TEXT (not the code — codes are synthetic for 1990-93/97/98),
 // constrained to AoPS, via DuckDuckGo's "\" jump-to-top-result (degrades to results if unsure).
+function srcName(p){ return p.source || "ISL"; }
+// "ISL 2015 · A1", "USAMO 2011 · G2", or "APMO · A3" (when the year is unknown)
+function probRef(p){ const s=srcName(p); return p.year ? `${s} ${p.year} · ${p.code}` : `${s} · ${p.code}`; }
 function aopsLink(p){
+  if(p.url) return p.url;                       // AoPS-sourced problems carry their exact wiki page
   const snip = p.body
     .replace(/\\\[|\\\]|\\\(|\\\)|\$/g," ")   // drop math delimiters but keep the symbols inside
     .replace(/\\[a-zA-Z]+\*?/g," ")           // drop \commands
     .replace(/[{}_^]/g," ").replace(/\s+/g," ").trim()
     .split(" ").slice(0,11).join(" ");
-  return "https://duckduckgo.com/?q="+encodeURIComponent("\\ site:artofproblemsolving.com IMO Shortlist "+p.year+" "+snip);
+  const tag = srcName(p)==="ISL" ? "IMO Shortlist" : srcName(p);
+  return "https://duckduckgo.com/?q="+encodeURIComponent("\\ site:artofproblemsolving.com "+tag+(p.year?" "+p.year:"")+" "+snip);
 }
-// Official solutions: the year's shortlist booklet (problems + full solutions). Only 2006+ are
+// Official solutions: the year's shortlist booklet (problems + full solutions). Only 2006+ ISL are
 // published online; 1990-2005 solutions live in the (offline) Compendium, so we point those to AoPS.
-function solLink(p){ return p.year>=2006
+function solLink(p){ return (srcName(p)==="ISL" && p.year>=2006)
   ? `<a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank" rel="noopener">official solution</a>` : ""; }
 function srcHTML(p,shown){
-  if(!shown) return `<span class="src">ISL · level ${p.level}</span>`;
+  if(!shown) return `<span class="src">${srcName(p)} · level ${p.level}</span>`;
   const sol=solLink(p);
-  return `<span class="src shown">ISL ${p.year} · ${p.code}${p.country?` · ${p.country}`:''}${sol?` · ${sol}`:''} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></span>`;
+  return `<span class="src shown">${probRef(p)}${p.country?` · ${p.country}`:''}${sol?` · ${sol}`:''} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></span>`;
 }
 function fillMath(el, text){
   el.innerHTML = prepBody(text);
@@ -1110,7 +1048,7 @@ function renderGyms(){
 function openNote(p){
   const m=document.getElementById("modal"), box=document.getElementById("modalbox");
   box.className="modal wide";
-  box.innerHTML=`<h3>Notes</h3><p class="msub">ISL ${p.year} · ${p.code} · ${p.subject} — write math with <code>$ … $</code> (inline) or <code>\\[ … \\]</code> (display)</p>
+  box.innerHTML=`<h3>Notes</h3><p class="msub">${probRef(p)} · ${p.subject} — write math with <code>$ … $</code> (inline) or <code>\\[ … \\]</code> (display)</p>
     <div class="noteedit">
       <textarea id="noteta" spellcheck="false" placeholder="Your idea, the key lemma, where you got stuck…&#10;&#10;e.g. Set $a_n=a_1+(n-1)d$, then bound&#10;\\[ \\sum_{i=1}^{n} a_i \\le \\frac{n(n+1)}{2}. \\]">${esc(state.notes[p.id]||"")}</textarea>
       <div class="notepreview" id="notepv"></div>
@@ -1140,7 +1078,7 @@ function openGymPicker(p){
   const m=document.getElementById("modal"), box=document.getElementById("modalbox");
   box.className="modal";
   function draw(){
-    box.innerHTML=`<h3>Add to a gym</h3><p class="msub">ISL ${p.year} · ${p.code} · ${p.subject}</p>
+    box.innerHTML=`<h3>Add to a gym</h3><p class="msub">${probRef(p)} · ${p.subject}</p>
       <div class="gpick">${ state.gyms.length ? state.gyms.map(g=>`<label><input type="checkbox" data-g="${g.id}" ${g.ids.includes(p.id)?'checked':''}>${esc(g.name)}<span style="margin-left:auto;color:var(--faint);font-size:12px">${g.ids.length}</span></label>`).join("") : `<div style="color:var(--dim);font-size:13px">No gyms yet — create one below.</div>` }</div>
       <div class="mnew"><input id="newgymname" placeholder="New gym name…" /><button class="act" id="addgym">Create</button></div>
       <div class="mrow"><button class="primary" id="closemodal">Done</button></div>`;
@@ -1161,26 +1099,28 @@ function openGymPicker(p){
 }
 
 /* ===== database / browse ===== */
-let dbQ="", dbSubj="all", dbStat="all";
+let dbQ="", dbSubj="all", dbStat="all", dbSrc="all";
 function stripLatex(s){ return s.replace(/\\\[[\s\S]*?\\\]/g," ").replace(/\$[^$]*\$/g," ")
   .replace(/\\begin\{[^}]*\}|\\end\{[^}]*\}/g," ").replace(/\\[a-zA-Z]+\*?/g," ").replace(/[{}\\]/g,"").replace(/\s+/g," ").trim(); }
 function dbMatches(){
   const q=dbQ.trim().toLowerCase();
   return BANK.filter(p=>{
     if(dbSubj!=="all" && p.subject!==dbSubj) return false;
+    if(dbSrc!=="all" && srcName(p)!==dbSrc) return false;
     if(dbStat==="solved" && !state.solved[p.id]) return false;
     if(dbStat==="unsolved" && state.solved[p.id]) return false;
     if(dbStat==="review" && !state.review[p.id]) return false;
     if(dbStat==="noted" && !hasNote(p.id)) return false;
     if(dbStat==="gym" && !inAnyGym(p.id)) return false;
-    if(q){ if(!((p.code+" "+p.year+" "+p.subject+" "+(p.country||"")+" "+p.body).toLowerCase().includes(q))) return false; }
+    if(q){ if(!((srcName(p)+" "+p.code+" "+(p.year||"")+" "+p.subject+" "+(p.country||"")+" "+p.body).toLowerCase().includes(q))) return false; }
     return true;
   });
 }
 function renderDB(){
   const el=document.getElementById("view-db");
   el.innerHTML=`<div class="dbcontrols">
-      <input class="dbsearch" id="dbsearch" placeholder="Search 1,004 problems — code, year, country, or keyword…" value="${esc(dbQ)}" />
+      <input class="dbsearch" id="dbsearch" placeholder="Search ${BANK.length} problems — source, code, year, or keyword…" value="${esc(dbQ)}" />
+      <select class="dbsel" id="dbsrc">${["all",...SOURCES].map(s=>`<option value="${esc(s)}" ${dbSrc===s?"selected":""}>${s==="all"?"All sources":esc(s)}</option>`).join("")}</select>
       <select class="dbsel" id="dbsubj">${["all","Algebra","Combinatorics","Geometry","Number Theory"].map(s=>`<option value="${s}" ${dbSubj===s?"selected":""}>${s==="all"?"All topics":s}</option>`).join("")}</select>
       <select class="dbsel" id="dbstat">${[["all","Any status"],["unsolved","Unsolved"],["solved","Solved"],["review","To review"],["noted","Has note"],["gym","In a gym"]].map(([v,l])=>`<option value="${v}" ${dbStat===v?"selected":""}>${l}</option>`).join("")}</select>
     </div>
@@ -1188,6 +1128,7 @@ function renderDB(){
     <div class="dblist" id="dblist"></div>`;
   const s=document.getElementById("dbsearch");
   s.oninput=()=>{ dbQ=s.value; renderDBList(); };
+  document.getElementById("dbsrc").onchange=e=>{ dbSrc=e.target.value; renderDBList(); };
   document.getElementById("dbsubj").onchange=e=>{ dbSubj=e.target.value; renderDBList(); };
   document.getElementById("dbstat").onchange=e=>{ dbStat=e.target.value; renderDBList(); };
   renderDBList();
@@ -1201,7 +1142,7 @@ function renderDBList(){
     return `<div class="dbrow" data-id="${p.id}">
       <span class="dbcode">${p.code}</span>
       <span><span class="pill ${p.code[0]}">${p.subject}</span></span>
-      <span class="dbyear">${p.year}</span>
+      <span class="dbyear">${p.year || srcName(p)}</span>
       <span class="dblvl">L${p.level}</span>
       <span class="dbsnip">${esc(stripLatex(p.body).slice(0,120))}</span>
       <span class="dbtags"><span class="dbdot ${st}" title="${st||"unattempted"}"></span>
@@ -1219,7 +1160,7 @@ function openProblem(p){
   function draw(){
     box.className="modal wide";
     const done=!!state.solved[p.id];
-    box.innerHTML=`<h3>ISL ${p.year} · ${p.code}</h3>
+    box.innerHTML=`<h3>${probRef(p)}</h3>
       <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""}${solLink(p)?` · ${solLink(p)}`:""} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></p>
       <div class="stmt" id="pbstmt" style="max-height:44vh;overflow:auto;margin-bottom:12px"></div>
       ${hasNote(p.id)?`<div class="noteshow"><span class="notelab">📝 your note</span><div class="notebody" id="pbnote"></div></div>`:""}
@@ -1248,7 +1189,7 @@ function showView(v){
   document.querySelectorAll('.navbtn').forEach(n=>n.classList.toggle('active', n.dataset.view===v));
   ['practice','db','progress','mock','gyms'].forEach(x=>{ const s=document.getElementById('view-'+x); if(s) s.style.display = x===v?'':'none'; });
   const T={practice:["Practice","Four problems, one per topic — solve any; only that card refreshes."],
-    db:["Browse","All 1,004 shortlist problems — search, filter, and jump to any."],
+    db:["Browse",`All ${BANK.length} problems across ${SOURCES.length} competitions — search, filter, and jump to any.`],
     progress:["Progress","Your calibration, activity, and timing — all on this device."],
     mock:["Mock exam","An IMO-format paper — six problems over two days, tiered by difficulty."],
     gyms:["Gyms","Your own collections — group problems and drill them."]};
@@ -1262,11 +1203,14 @@ function showView(v){
 
 /* ---------- init ---------- */
 document.getElementById("bankinfo").textContent =
-  BANK.length ? `${BANK.length} problems · ${Math.min(...BANK.map(p=>p.year))}–${Math.max(...BANK.map(p=>p.year))}` : "no bank.js found";
+  BANK.length ? `${BANK.length} problems · ${SOURCES.length} competition${SOURCES.length===1?"":"s"}` : "no bank.js found";
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 document.getElementById("filters").onclick=(e)=>{ if(!e.target.dataset.s) return;
-  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
-  e.target.classList.add("active"); state.filter=e.target.dataset.s; save(); dealAll(); };
+  document.querySelectorAll("#filters .chip").forEach(c=>c.classList.remove("active"));
+  e.target.classList.add("active"); state.filter=e.target.dataset.s; save(); redeal(); };
+document.getElementById("srcfilters").onclick=(e)=>{ if(!e.target.dataset.src) return;
+  document.querySelectorAll("#srcfilters .chip").forEach(c=>c.classList.remove("active"));
+  e.target.classList.add("active"); state.srcFilter=e.target.dataset.src; save(); redeal(); };
 document.getElementById("shuffle").onclick=()=>dealAll();
 document.getElementById("revealAll").onclick=()=>{ state.revealed=!state.revealed; save(); renderAll(); };
 document.getElementById("exportBtn").onclick=exportProgress;
@@ -1278,17 +1222,19 @@ document.getElementById("reset").onclick=()=>{ if(confirm(`Reset progress for �
 document.getElementById("goalstat").onclick=()=>{ const v=parseInt(prompt("Daily goal — problems per day:", state.goal),10); if(v>0){ state.goal=v; save(); headerStats(); } };
 
 window.addEventListener("load", ()=>{
-  applying=true; renderProfiles(); syncFilterChips(); restoreBoard(); applying=false;  // don't count initial restore as a change
-  renderAccount();
-  if(sb){
-    sb.auth.getSession().then(({data})=>{ currentUser=data.session?.user||null; renderAccount(); if(currentUser) syncOnLogin(); });
-    sb.auth.onAuthStateChange((event,session)=>{ currentUser=session?.user||null; renderAccount(); if(event==="PASSWORD_RECOVERY") openNewPassword(); });
-  }
-  { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h);
-    else if((h==="signin"||h==="signup") && sb) openAuth(h); }
+  applying=true; renderSrcChips(); renderProfiles(); syncFilterChips(); restoreBoard(); applying=false;  // don't count initial restore as a change
+  { const h=location.hash.slice(1); if(['progress','mock','gyms','db'].includes(h)) showView(h); }
   setInterval(updateTimers, 1000);
+  // ask the browser to keep this site's storage durable (don't evict progress under storage pressure)
+  try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
   if(!storageOK) setTimeout(()=>toast("This browser won't save progress here — use ⬇ Backup to keep it"), 700);
-  if("serviceWorker" in navigator && location.protocol!=="file:") navigator.serviceWorker.register("sw.js").catch(()=>{});
+  // Kill any old service worker (older builds cached the app shell and could show a stale sign-in page).
+  if("serviceWorker" in navigator){
+    if(location.protocol!=="file:") navigator.serviceWorker.register("sw.js").catch(()=>{});  // loads the self-destruct worker, then it's gone
+    else navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{});
+  }
+  if(window.caches){ caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))).catch(()=>{}); }
+  initFileSync();
 });
 </script>
 </body>

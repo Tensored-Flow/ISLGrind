@@ -1,17 +1,13 @@
-/* ISLGrind service worker — app shell offline + fast static assets */
-const CACHE = "islgrind-v2";
-const CORE = ["./","./index.html","./bank.js","./manifest.json","./icon-192.png","./icon-512.png"];
-self.addEventListener("install", e=>{ e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())); });
-self.addEventListener("activate", e=>{ e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())); });
-self.addEventListener("fetch", e=>{
-  const req=e.request; if(req.method!=="GET") return;
-  const url=new URL(req.url);
-  const netFirst = req.mode==="navigate" || url.pathname.endsWith("/bank.js") || url.pathname.endsWith("/index.html");
-  if(netFirst){
-    e.respondWith(fetch(req).then(res=>{ const c=res.clone(); caches.open(CACHE).then(ca=>ca.put(req,c)); return res; })
-      .catch(()=>caches.match(req).then(h=>h||caches.match("./index.html"))));
-  } else {
-    e.respondWith(caches.match(req).then(hit=> hit || fetch(req).then(res=>{ const c=res.clone();
-      caches.open(CACHE).then(ca=>{ try{ca.put(req,c);}catch(_){} }); return res; }).catch(()=>hit)));
-  }
+/* ISLGrind no longer uses a service worker.
+   Older versions cached the app shell, which could keep showing a stale page
+   (e.g. the old sign-in screen) after updates. This self-destructing worker
+   unregisters any previously-installed worker, clears its caches, and reloads
+   open tabs so everyone ends up on the current local files. */
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", (e) => {
+  e.waitUntil((async () => {
+    try { await self.registration.unregister(); } catch (_) {}
+    try { for (const k of await caches.keys()) await caches.delete(k); } catch (_) {}
+    try { for (const c of await self.clients.matchAll()) c.navigate(c.url); } catch (_) {}
+  })());
 });

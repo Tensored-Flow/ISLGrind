@@ -1,0 +1,48 @@
+#!/bin/zsh
+# ISLGrind launcher. Starts a tiny local web server (only if one isn't already
+# running) and opens the app in your browser, then EXITS immediately — so there
+# is no lingering process and nothing to force-quit. The background server is
+# reused on the next launch. Debug log: /tmp/islgrind.log
+PROJECT="/Users/leonardowang/islgrind"
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+LOG=/tmp/islgrind.log
+cd "$PROJECT" || { echo "cd failed" >>"$LOG"; exit 1; }
+echo "===== launch $(date) =====" >>"$LOG"
+
+CANDIDATES=(8347 8791 8123 8642 8990 9317)
+PORT=""; REUSE=""
+for p in $CANDIDATES; do
+  if nc -z localhost "$p" 2>/dev/null; then
+    if curl -s --max-time 1 "http://localhost:$p/" 2>/dev/null | grep -q "ISLGrind"; then
+      PORT="$p"; REUSE=1; break        # our own server already up -> reuse it
+    fi
+    continue                            # port taken by something else -> skip
+  fi
+  PORT="$p"; break                      # first free port
+done
+[ -z "$PORT" ] && PORT=8347
+echo "port=$PORT reuse=$REUSE" >>"$LOG"
+
+if [ -z "$REUSE" ]; then
+  # Start the server fully detached (nohup + disown) so it survives after this
+  # launcher process exits. No trap / no wait -> the app never hangs in the Dock.
+  nohup python3 -m http.server "$PORT" >>"$LOG" 2>&1 &
+  disown
+fi
+
+# Wait (up to ~9s) until the server actually answers, then open the browser.
+URL="http://localhost:$PORT/"
+for i in {1..30}; do
+  curl -s --max-time 1 "$URL" 2>/dev/null | grep -q "ISLGrind" && break
+  sleep 0.3
+done
+
+if curl -s --max-time 1 "$URL" 2>/dev/null | grep -q "ISLGrind"; then
+  echo "ready; opening $URL" >>"$LOG"
+  open "$URL"
+else
+  echo "server never became ready on $PORT" >>"$LOG"
+  osascript -e 'display alert "ISLGrind couldn'\''t start" message "The local server did not come up. See /tmp/islgrind.log for details."' >/dev/null 2>&1
+  exit 1
+fi
+exit 0

@@ -2,3 +2,6 @@
 **/.DS_Store
 node_modules/
 .vercel
+
+# local progress / auto-save data (never commit personal progress)
+islgrind-progress.json
