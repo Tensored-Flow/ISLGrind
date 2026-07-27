@@ -1,0 +1,11 @@
+% country: France
+Tim and Tam play a game. To start the game, Tim writes some nonzero real numbers, not necessarily distinct, on a blackboard. In each round, the following happens:
+\begin{itemize}
+\item First, Tam chooses a polynomial
+\[
+P_k(x)=a_kx^k+a_{k-1}x^{k-1}+\cdots+a_1x+a_0
+\]
+whose coefficients $a_k,a_{k-1},\ldots,a_1,a_0$ are all of the numbers currently written on the blackboard in some order. (For example, if the numbers on the blackboard are $4,-3,4$, then $k=2$ and Tam may choose the polynomial $4x^2-3x+4$ or $-3x^2+4x+4$ but not $4x-3$ or $-3x^2-3x+4$.)
+\item Then, if the equation $P_k(x)=0$ has no real solutions, the game is stopped. Otherwise, Tim chooses a real number $r$ such that $P_k(r)=0$ and writes it on the blackboard, so there is now one more number on the blackboard.
+\end{itemize}
+Determine whether Tim can ensure that the game is never stopped, no matter what Tam does.

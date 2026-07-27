@@ -1,0 +1,17 @@
+Prove that there are finitely many prime numbers p such that
+
+   • p − 8 is a perfect square, and
+   • for all odd positive integers k <    p, the number p − k 2 has at most two distinct prime
+     factors.
+
+10                                          Sunshine Coast QLD, Australia, 10th –20th July 2025
+
+                                       Solutions
+ A1.      Quadratic solitaire is a single-player game. To start the game, the player chooses two
+distinct nonzero integers a and b and writes the equation x2 + ax + b = 0 on a blackboard. On
+each turn, if the equation currently written on the blackboard has two distinct nonzero integer
+solutions x = u and x = v, then the player erases the equation and replaces it by one of the
+equations x2 + ux + v = 0 or x2 + vx + u = 0 of their choosing. Otherwise, the game ends.
+    Determine all initial choices of a and b such that quadratic solitaire can be played forever.
+
+Answer: The only pair pa, bq for which quadratic solitaire can be played forever is p1, −2q.

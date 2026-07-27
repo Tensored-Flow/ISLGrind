@@ -1,0 +1,8 @@
+Let n ≥ 3 be an integer, and let Sn be the set of points px, yq in the plane such that
+x and y are nonnegative integers and x + y < n. A line in the plane is called interesting if it is
+not parallel to the x-axis, the y-axis, or the line x + y = 0.
+Determine all nonnegative integers k such that there exist n lines satisfying both of the following:
+
+     • the union of the n lines contains every point of Sn , and
+
+     • exactly k of the lines are interesting.

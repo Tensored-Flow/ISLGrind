@@ -20,8 +20,12 @@ mkdir -p "$OUT"
 echo ">> Official shortlists ($START_OFFICIAL-$END_YEAR) from imo-official.org"
 for y in $(seq "$END_YEAR" -1 "$START_OFFICIAL"); do
   url="https://www.imo-official.org/problems/IMO${y}SL.pdf"
+  fallback="https://www.imo-official.org/assets/documents/problems/${y}/IMO${y}SL.pdf"
   dest="$OUT/ISL-${y}.pdf"
   code=$(curl -sSL -A "$UA" -o "$dest" -w "%{http_code}" "$url")
+  if [ "$code" != "200" ] || [ ! -s "$dest" ]; then
+    code=$(curl -sSL -A "$UA" -o "$dest" -w "%{http_code}" "$fallback")
+  fi
   if [ "$code" = "200" ] && [ -s "$dest" ]; then
     echo "   ISL-${y}.pdf  ✓"
   else

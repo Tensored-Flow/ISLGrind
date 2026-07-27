@@ -1,0 +1,10 @@
+Let S be a set of positive integers, possibly infinite, such that no positive integer greater
+than 1 divides all elements of S. Determine all non-periodic infinite sequences a1 , a2 , a3 , . . . of
+positive integers such that, for all positive integers n,
+
+   • an ≤ |an+ℓ − ℓ| for all ℓ in S, and
+
+   • an = |an+ℓ − ℓ| for at least one ℓ in S.
+
+We say that an infinite sequence a1 , a2 , a3 , . . . is periodic if there exists a positive integer t such
+that an = an+t for all positive integers n.

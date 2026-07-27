@@ -19,3 +19,4 @@
 - **2022** — 33 problems ⚠ approx-math ([all](2022/_problems.md))
 - **2023** — 30 problems ⚠ approx-math ([all](2023/_problems.md))
 - **2024** — 31 problems ⚠ approx-math ([all](2024/_problems.md))
+- **2025** — 31 problems ⚠ approx-math ([all](2025/_problems.md))

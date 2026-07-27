@@ -16,7 +16,7 @@ Two PDF layouts are handled by one rule:
   * only the FIRST occurrence of each code is kept (drops duplicate markers that
     reappear in the solutions section of "consolidated" years).
 
-Some years (2010, 2013-15, 2017-24) embed math in a font whose ToUnicode map is
+Some years (2010, 2013-15, 2017-25) embed math in a font whose ToUnicode map is
 broken, so operators extract as wrong glyphs. GLYPH_FIX recovers the common ones.
 Subscripts/superscripts/fractions still flatten -- those statements are marked
 fidelity="approx" in index.json.
@@ -43,7 +43,7 @@ GLYPH_FIX = {
 GLYPH_FIX["ă"] = "<"   # ă -> <
 GLYPH_FIX["ą"] = ">"   # ą -> >
 
-GARBLED_YEARS = {2010, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024}
+GARBLED_YEARS = {2010, 2013, 2014, 2015, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025}
 
 SOLUTION = re.compile(r"^\s*Solution\b")
 COUNTRY = re.compile(r"\(([A-Z][A-Za-z .'\-]+)\)")

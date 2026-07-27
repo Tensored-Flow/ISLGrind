@@ -91,6 +91,10 @@ def build():
     bank.sort(key=lambda p: (p["level"], p["year"], p["code"]))
     out = ROOT / "bank.js"
     out.write_text("window.ISL_BANK = " + json.dumps(bank, ensure_ascii=False) + ";\n")
+    # Keep the browsable machine index in lockstep with the trainer bank.
+    (PROB / "index.json").write_text(
+        json.dumps(bank, ensure_ascii=False, indent=1) + "\n"
+    )
     # stats
     from collections import Counter
     lv = Counter(p["level"] for p in bank)

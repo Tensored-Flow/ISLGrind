@@ -1,0 +1,17 @@
+Coral and Joey are playing the inekoalaty game, a two-player game whose rules depend
+on a positive real number λ which is known to both players. On the nth turn of the game, the
+following happens:
+
+     • If n is odd, Coral chooses a nonnegative real number xn such that
+
+                                          x1 + x2 + ··· + xn ≤ λn.
+
+     • If n is even, Joey chooses a nonnegative real number xn such that
+
+                                          x21 + x22 + ··· + x2n ≤ n.
+
+All chosen numbers are known to both players. If a player cannot make a move, the game ends
+and the other player wins.
+Determine all values of λ for which Coral has a winning strategy and all those for which Joey
+has a winning strategy.
+                                                                                       (Italy)

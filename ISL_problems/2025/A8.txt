@@ -1,0 +1,16 @@
+Tim and Tam play a game. To start the game, Tim writes some nonzero real numbers,
+not necessarily distinct, on a blackboard. In each round, the following happens:
+
+   • First, Tam chooses a polynomial Pk pxq = ak xk +ak−1 xk−1 +···+a1 x+a0 whose coefficients
+     ak , ak−1 , . . . , a1 , a0 are all of the numbers currently written on the blackboard in some
+     order. (For example, if the numbers on the blackboard are 4, −3, 4, then k = 2 and Tam
+     may choose the polynomial 4x2 − 3x + 4 or −3x2 + 4x + 4 but not 4x − 3 or −3x2 − 3x + 4.)
+
+   • Then, if the equation Pk pxq = 0 has no real solutions, the game is stopped. Otherwise,
+     Tim chooses a real number r such that Pk prq = 0 and writes it on the blackboard, so
+     there is now one more number on the blackboard.
+
+Determine whether Tim can ensure that the game is never stopped, no matter what Tam does.
+                                                                                 (France)
+
+4                                            Sunshine Coast QLD, Australia, 10th –20th July 2025

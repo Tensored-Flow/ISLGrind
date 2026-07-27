@@ -1,0 +1,10 @@
+Let ABCD be a convex quadrilateral with =ADC > 90˝ . Suppose that points X and
+Y lie on diagonal AC such that
+
+          =ADX = =Y DC = 90˝ ,        =CAD = =CBX,         and =DCA = =Y BA.
+
+Let O be the circumcentre of triangle BXY . Suppose point R ‰ O lies on the perpendicular
+bisector of AC such that lines OR and AC are parallel.
+Prove that line RO bisects angle =DRB.
+
+Shortlisted problems                                                                           7

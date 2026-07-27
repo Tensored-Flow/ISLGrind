@@ -1,0 +1,11 @@
+For each integer k ≥ 3, prove that there exists a unique tuple px1 , x2 , . . . , xk q of
+positive real numbers such that x1 ≥ x2 ≥ ··· ≥ xk and
+                        Z         ^ Z           ^          Z        ^
+                                1             1                   1
+                          nx1 +    + nx2 +        + ··· + nxk +     =n
+                                2             2                   2
+
+for every integer n.
+
+Here tzu denotes the greatest integer less than or equal to z. For example, t−πu = −4 and
+t2u = t2.9u = 2.

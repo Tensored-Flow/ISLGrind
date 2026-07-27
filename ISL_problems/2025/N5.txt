@@ -1,0 +1,5 @@
+The sequence of triples of positive integers pa0 , b0 , c0 q, pa1 , b1 , c1 q, . . . , pa2025 , b2025 , c2025 q
+satisfies                                +                                                          ˘
+                  pai+1 , bi+1 , ci+1 q = ai + gcdpbi , ci q, bi + gcdpci , ai q, ci + gcdpai , bi q
+for 0 ≤ i ≤ 2024.
+Determine the smallest possible value of a2025 .

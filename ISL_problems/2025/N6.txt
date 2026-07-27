@@ -1,0 +1,12 @@
+For positive integers n and k, let fk pnq denote the remainder when n is divided by
+    k
+2 − 1. A positive integer n is grouse if
+
+                                     f1 pnq ≤ f2 pnq ≤ f3 pnq ≤ f4 pnq ≤ ··· .
+
+    (a) Prove that there are infinitely many grouse numbers.
+
+    (b) Prove that there exists a positive integer M such that there are at most M {20252025
+        grouse numbers less than M .
+
+Shortlisted problems                                                                        9

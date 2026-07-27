@@ -1,0 +1,12 @@
+Let ABCD be a cyclic quadrilateral with circumcircle Ω such that CD > BD > BC.
+The tangents to Ω at B and C meet at a point S. A line ℓ is called coastal if:
+
+   • ℓ does not pass through A,
+
+   • ℓ intersects ray SD at a point Xℓ beyond D, and
+
+   • there is a circle tangent to line ℓ, line Xℓ A, segment SB and segment SC.
+
+Prove that there is a circle that is tangent to Ω and all coastal lines.
+
+8                                                     Sunshine Coast QLD, Australia, 10th –20th July 2025

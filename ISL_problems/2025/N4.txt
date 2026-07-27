@@ -1,0 +1,4 @@
+Let Z>0 be the set of positive integers. Determine all functions f : Z>0 → Z such that
+for every n P Z>0 , and every positive divisor d of n, there exists a positive divisor e of n such
+that n divides d + f peq.
+                                                                                         (Croatia)

@@ -1,0 +1,10 @@
+Let ABC be an acute-angled triangle. Let IB and IC be the excentres of triangle
+ABC opposite B and C, respectively. Let E be a point on line BA such that =EIB B = 90˝ .
+Let F be a point on line CA such that =CIC F = 90˝ . Let the circle with centre IB and radius
+IB E intersect the segment IB B at X. Let the circle with centre IC and radius IC F intersect
+the segment IC C at Y .
+Prove that BY is perpendicular to CX.
+
+The excentre of a triangle ABC opposite vertex B is the centre of the circle that is tangent to
+line segment AC, to ray BA beyond A, and to ray BC beyond C. The excentre opposite C is
+similarly defined.

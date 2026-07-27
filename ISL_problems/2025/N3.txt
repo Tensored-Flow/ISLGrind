@@ -1,0 +1,6 @@
+An infinite sequence a1 , a2 , . . . consists of positive integers, each of which has at least
+four positive divisors. For each n ≥ 1, an+1 is the sum of the three largest proper divisors of an .
+Determine all possible values of a1 .
+
+A proper divisor of a positive integer N is a divisor of N other than N .
+                                                                                                           (Lithuania)

@@ -1,7 +1,7 @@
 {
   "name": "ISLGrind — IMO Shortlist trainer",
   "short_name": "ISLGrind",
-  "description": "Adaptive practice for IMO Shortlist problems (1990–2024).",
+  "description": "Adaptive practice for IMO Shortlist problems (1990–2025) and the 2026 IMO.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

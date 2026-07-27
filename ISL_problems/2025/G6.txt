@@ -1,0 +1,6 @@
+Let ABC be a triangle with =B > =A > =C. Let Ω be the circumcircle of tri-
+angle ABC. The lines tangent to Ω at points B and C intersect at P . Lines BP and AC
+intersect at E. Lines CP and AB intersect at F . Let D be the reflection of point A in line
+EF . The circumcircles of triangles DEB and DF C intersect again at Q ‰ D. Lines DP and
+BC intersect at Z.
+Prove that points A, Z and Q are collinear.

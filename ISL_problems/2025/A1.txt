@@ -1,0 +1,6 @@
+Quadratic solitaire is a single-player game. To start the game, the player chooses two
+distinct nonzero integers a and b and writes the equation x2 + ax + b = 0 on a blackboard. On
+each turn, if the equation currently written on the blackboard has two distinct nonzero integer
+solutions x = u and x = v, then the player erases the equation and replaces it by one of the
+equations x2 + ux + v = 0 or x2 + vx + u = 0 of their choosing. Otherwise, the game ends.
+Determine all initial choices of a and b such that quadratic solitaire can be played forever.

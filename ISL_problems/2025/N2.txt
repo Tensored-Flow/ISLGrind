@@ -1,0 +1,6 @@
+In an n ˆ n board, for each 1 ≤ i ≤ n and 1 ≤ j ≤ n, the cell in the ith row from the
+bottom and j th column from the left contains gcdpi, jq leaves. A koala travels from the bottom
+left corner to the top right corner. At each step, the koala moves up or to the right by a single
+cell. The koala eats the leaves in each cell it visits, including the bottom left and top right
+cells.
+Determine the maximum number of leaves that the koala can eat.

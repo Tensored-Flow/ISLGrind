@@ -1,0 +1,7 @@
+Bluey is placing lollies on a 1000 ˆ 1000 grid. Initially, every cell of the grid is empty.
+At each step, Bluey chooses a row or column in which the total number of lollies is a multiple
+of 3, chooses an empty cell in this row or column, and places a lolly in it. If there is no such
+row or column, Bluey stops.
+Determine the maximum number of lollies that Bluey can place.
+
+Shortlisted problems                                                                                      5

@@ -1,0 +1,7 @@
+Let ABC be a triangle such that =A is obtuse. Let D and E be points on sides AB
+and AC, respectively, such that BDEC is cyclic. Suppose the circumcircle of triangle ADE
+intersects side BC at two points X and Y , where B, X, Y and C lie in that order. Let the
+circumcircles of triangles BDX and CEY be Ω and Γ, respectively. Let P be a point such that
+P D is tangent to Ω and P E is tangent to Γ. Let Q be a point such that QB is tangent to Ω
+and QC is tangent to Γ.
+Prove that points A, P and Q are collinear.

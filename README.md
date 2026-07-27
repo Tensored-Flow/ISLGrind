@@ -1,6 +1,6 @@
 <h1 align="center">ISLGrind</h1>
 <p align="center"><b>An adaptive trainer for the hardest pre-olympiad math problems on Earth.</b><br>
-Practice 1,627 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus USAMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
+Practice 1,664 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, USAMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
 
 <p align="center">🔗 <b>Live:</b> <a href="https://islgrind.vercel.app">islgrind.vercel.app</a></p>
 
@@ -8,13 +8,13 @@ Practice 1,627 olympiad problems — the <a href="https://www.imo-official.org/"
 
 ## What it is
 
-The **IMO Shortlist** is the pool of ~30 problems each year from which the International Mathematical Olympiad exam is chosen — the gold standard of hard, beautiful math. ISLGrind turns 35 years of them into a personal coach:
+The **IMO Shortlist** is the pool of ~30 problems each year from which the International Mathematical Olympiad exam is chosen — the gold standard of hard, beautiful math. ISLGrind turns 36 years of them into a personal coach:
 
 - 🎯 **Adaptive, per-topic difficulty.** Algebra, Combinatorics, Geometry, and Number Theory each get their own ability estimate. Like a good tutor, ISLGrind serves you problems a notch *above* your level — and updates by how *surprising* each result is (nailing a hard one moves you up a lot; missing an easy one moves you down a lot; an on-level result barely moves you).
 - 🃏 **Four at a time, one per topic.** Work whichever appeals; mark it solved or not and only that card is replaced — so you're always being stretched across all four areas.
-- 🏆 **Filter by competition.** Grind a single source — USAMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
+- 🏆 **Filter by competition.** Grind a single source — IMO, USAMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
 - 👤 **Up to 4 profiles**, each with completely separate progress.
-- 📚 **1,627 problems** across 7 competitions, every one rendered as clean math (not blurry PDF scans).
+- 📚 **1,664 problems** across 8 competitions, every one rendered as clean math (not blurry PDF scans).
 - 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
 
 ## Use it yourself
@@ -31,11 +31,12 @@ Your progress saves automatically in that browser. Pick a profile and go — sol
 
 ## How it was built
 
-The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGrind was assembled by **rendering every problem page to an image and using a vision model to transcribe the math into LaTeX**, then verifying each one — so all 1,004 problems render crisply via [KaTeX](https://katex.org/). The adaptive engine is a lightweight **Elo / item-response model** with per-topic ability and confidence that grows as you practice. It's a single static page — no backend, no accounts.
+The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGrind was assembled by **rendering every problem page to an image and using a vision model to transcribe the math into LaTeX**, then verifying each one — so all 1,035 shortlist problems render crisply via [KaTeX](https://katex.org/). The adaptive engine is a lightweight **Elo / item-response model** with per-topic ability and confidence that grows as you practice. It's a single static page — no backend, no accounts.
 
 ## Attribution
 
-- **IMO Shortlist** (1,004 problems, 1990–2024) — the official shortlists, from [imo-official.org](https://www.imo-official.org/) and [The IMO Compendium](https://www.imomath.com/).
+- **IMO Shortlist** (1,035 problems, 1990–2025) — the official shortlists, from [imo-official.org](https://www.imo-official.org/) and [The IMO Compendium](https://www.imomath.com/).
+- **IMO 2026** (6 problems) — the public contest paper from [imo-official.org](https://www.imo-official.org/problems/2026/). The 2026 shortlist remains confidential until after IMO 2027.
 - **USAMO** (156, 2000–2025) and **EGMO 2012–2022** — from the [AoPS Wiki](https://artofproblemsolving.com/wiki/), each problem linking back to its page.
 - **USA TSTST** (114, 2011–2024) and **USA TST** (79, 2012–2025) — from [Evan Chen's exam archive](https://web.evanchen.cc/problems.html).
 - **EGMO 2023–2025** — from the official [egmo.org](https://www.egmo.org/) papers (EGMO is now complete, 84 problems 2012–2025).

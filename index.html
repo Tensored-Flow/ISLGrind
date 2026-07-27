@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#07080c" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="ISLGrind — adaptive IMO Shortlist practice" />
-<meta property="og:description" content="1,627 olympiad problems — IMO Shortlist, USAMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
+<meta property="og:description" content="1,664 olympiad problems — IMO Shortlist, IMO, USAMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
 <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -452,7 +452,7 @@ const BANK = window.ISL_BANK || [];
 const maxLevel = Math.max(...BANK.map(p=>p.level), 1);
 BANK.forEach(p=>{ if(!p.source) p.source="ISL"; });   // legacy bank.js entries are all ISL
 // distinct sources, ISL first then in a stable preferred order
-const SRC_ORDER = ["ISL","USAMO","USA TST","USA TSTST","EGMO","APMO","RMM"];
+const SRC_ORDER = ["ISL","IMO","USAMO","USA TST","USA TSTST","EGMO","APMO","RMM"];
 const SOURCES = [...new Set(BANK.map(p=>p.source))].sort((a,b)=>{
   const ia=SRC_ORDER.indexOf(a), ib=SRC_ORDER.indexOf(b);
   return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
@@ -478,7 +478,7 @@ function defaultState(){
     theta: {Algebra:1.0, Combinatorics:1.0, Geometry:1.0, "Number Theory":1.0},
     nSub:  {Algebra:0,   Combinatorics:0,   Geometry:0,   "Number Theory":0},
     solved:{}, attempted:{}, streak:0, filter:"all", srcFilter:"all", revealed:false,
-    board:null, started:[null,null,null,null], attempts:[],
+    board:null, boards:{}, started:[null,null,null,null], attempts:[],
     gyms:[], mock:null, review:{}, notes:{}, goal:5
   };
 }
@@ -505,6 +505,7 @@ function loadState(id){
   if(!Array.isArray(s.gyms)) s.gyms=[];
   if(s.mock!==null && typeof s.mock!=="object") s.mock=null;
   if(!s.review||typeof s.review!=="object") s.review={};
+  if(!s.boards||typeof s.boards!=="object"||Array.isArray(s.boards)) s.boards={};
   if(!s.notes||typeof s.notes!=="object") s.notes={};
   if(typeof s.goal!=="number") s.goal=5;
   if(typeof s.level==="number" && SUBJECTS.every(k=>!s.nSub[k])){ for(const k of SUBJECTS) s.theta[k]=s.level; }
@@ -715,22 +716,31 @@ function updateTimers(){
 let board=[null,null,null,null];
 function boardSubjects(){ return state.filter!=="all" ? [state.filter,state.filter,state.filter,state.filter] : SUBJECTS.slice(); }
 let slotSubjects = boardSubjects();
-function persistBoard(){ state.board=board.map(p=>p?p.id:null); save(); }
+// each (source,topic) filter combo remembers its own board, so switching filters and
+// coming back shows the SAME problems (never reshuffles) until you solve/skip or hit New set.
+function filterKey(){ return state.srcFilter + "||" + state.filter; }
+function persistBoard(){
+  const ids=board.map(p=>p?p.id:null);
+  state.board=ids;                                          // last-viewed board (used on reload)
+  if(!state.boards||typeof state.boards!=="object") state.boards={};
+  state.boards[filterKey()]=ids;                            // remembered board for this filter
+  save();
+}
 function byId(id){ return BANK.find(p=>p.id===id)||null; }
+// true only if a card is a valid occupant of slot i under the current filter
+function cardFits(p,i){ return !!(p && p.subject===slotSubjects[i] && srcMatch(p) && !state.solved[p.id]); }
 function dealAll(){
   slotSubjects=boardSubjects(); board=[null,null,null,null];
   for(let i=0;i<4;i++){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; }
   persistBoard(); renderAll();
 }
-// applied when a filter changes: keep every card that still fits, swap only the ones that don't
-// (so toggling source/topic and coming back doesn't reshuffle the whole board)
-function redeal(){
+// Show the board for the current filter: restore its remembered problems, only re-picking
+// cards that are missing / solved / no longer match. First visit to a filter deals fresh.
+function showFilterBoard(){
   slotSubjects=boardSubjects();
-  for(let i=0;i<4;i++){
-    const p=board[i];
-    const fits = p && p.subject===slotSubjects[i] && srcMatch(p) && !state.solved[p.id];
-    if(!fits){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; }
-  }
+  const cached=(state.boards||{})[filterKey()];
+  board = (Array.isArray(cached)&&cached.length===4) ? cached.map(id=>id?byId(id):null) : [null,null,null,null];
+  for(let i=0;i<4;i++){ if(!cardFits(board[i],i)){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; } }
   persistBoard(); renderAll();
 }
 function restoreBoard(){
@@ -767,7 +777,7 @@ function prepBody(s){
   s = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   s = s.replace(/\\begin\{itemize\}/g,"<ul>").replace(/\\end\{itemize\}/g,"</ul>")
        .replace(/\\begin\{enumerate\}/g,"<ol>").replace(/\\end\{enumerate\}/g,"</ol>")
-       .replace(/\\item\s*/g,"<li>")
+       .replace(/\\item(?:\s*\[([^\]]+)\])?\s*/g,(_,label)=>`<li>${label?label+" ":""}`)
        .replace(/\\begin\{center\}/g,"").replace(/\\end\{center\}/g,"");
   s = s.replace(/\\emph\{([^{}]*)\}/g,"<em>$1</em>")
        .replace(/\\textit\{([^{}]*)\}/g,"<em>$1</em>")
@@ -783,10 +793,14 @@ function fillStatement(el,p){ if(p.format==='text') el.textContent=p.body; else 
 // distinctive snippet of the PROBLEM TEXT (not the code — codes are synthetic for 1990-93/97/98),
 // constrained to AoPS, via DuckDuckGo's "\" jump-to-top-result (degrades to results if unsure).
 function srcName(p){ return p.source || "ISL"; }
-// "ISL 2015 · A1", "USAMO 2011 · G2", or "APMO · A3" (when the year is unknown)
-function probRef(p){ const s=srcName(p); return p.year ? `${s} ${p.year} · ${p.code}` : `${s} · ${p.code}`; }
+// pill colour comes from the topic, not the code — some sources have no real problem number
+const SUBJ_LETTER={Algebra:"A",Combinatorics:"C",Geometry:"G","Number Theory":"N"};
+function pillClass(p){ return SUBJ_LETTER[p.subject] || "A"; }
+// revealed label: "ISL 2015 · A1" or "USAMO 2011 · G2" where there's a real problem number;
+// just the competition name ("APMO") for sources whose problems aren't per-year numbered.
+function probRef(p){ const s=srcName(p); return (p.year && p.code) ? `${s} ${p.year} · ${p.code}` : s; }
 function aopsLink(p){
-  if(p.url) return p.url;                       // AoPS-sourced problems carry their exact wiki page
+  if(p.url) return p.url;                       // exact source page when the imported record has one
   const snip = p.body
     .replace(/\\\[|\\\]|\\\(|\\\)|\$/g," ")   // drop math delimiters but keep the symbols inside
     .replace(/\\[a-zA-Z]+\*?/g," ")           // drop \commands
@@ -797,12 +811,18 @@ function aopsLink(p){
 }
 // Official solutions: the year's shortlist booklet (problems + full solutions). Only 2006+ ISL are
 // published online; 1990-2005 solutions live in the (offline) Compendium, so we point those to AoPS.
-function solLink(p){ return (srcName(p)==="ISL" && p.year>=2006)
-  ? `<a href="https://www.imo-official.org/problems/IMO${p.year}SL.pdf" target="_blank" rel="noopener">official solution</a>` : ""; }
+function problemLinkLabel(p){ return p.url && !p.url.includes("artofproblemsolving.com") ? "official" : "AoPS"; }
+function solLink(p){
+  if(srcName(p)!=="ISL" || p.year<2006) return "";
+  const href=p.year>=2025
+    ? `https://www.imo-official.org/assets/documents/problems/${p.year}/IMO${p.year}SL.pdf`
+    : `https://www.imo-official.org/problems/IMO${p.year}SL.pdf`;
+  return `<a href="${href}" target="_blank" rel="noopener">official solution</a>`;
+}
 function srcHTML(p,shown){
-  if(!shown) return `<span class="src">${srcName(p)} · level ${p.level}</span>`;
+  if(!shown) return `<span class="src">level ${p.level}</span>`;   // source stays hidden until reveal/solve
   const sol=solLink(p);
-  return `<span class="src shown">${probRef(p)}${p.country?` · ${p.country}`:''}${sol?` · ${sol}`:''} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></span>`;
+  return `<span class="src shown">${probRef(p)}${p.country?` · ${p.country}`:''}${sol?` · ${sol}`:''} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">${problemLinkLabel(p)}</a></span>`;
 }
 function fillMath(el, text){
   el.innerHTML = prepBody(text);
@@ -827,7 +847,7 @@ function applyResult(p, ok, secs){
 }
 
 function cardHTML(p){
-  const k=p.code[0];
+  const k=pillClass(p);
   return `<div class="ctag"><span class="pill ${k}">${p.subject}</span>${srcHTML(p,state.revealed)}
       <span class="timerwrap"></span>
       <button class="star ${inAnyGym(p.id)?'on':''}" title="Add to a gym">${inAnyGym(p.id)?'★':'☆'}</button>
@@ -987,7 +1007,7 @@ function renderMock(){
       if(!p){ html+=`<div class="card done"></div>`; continue; }
       const stt=m.status[p.id]||"";
       html+=`<div class="card" data-id="${p.id}"><div class="ctag"><span class="pnum">P${idx+1}</span>
-        <span class="pill ${p.code[0]}">${p.subject}</span><span class="tier ${t.cls}">${t.name}</span>
+        <span class="pill ${pillClass(p)}">${p.subject}</span><span class="tier ${t.cls}">${t.name}</span>
         ${srcHTML(p,m.done||state.revealed)}<button class="star ${inAnyGym(p.id)?'on':''}">${inAnyGym(p.id)?'★':'☆'}</button>
         <button class="star notebtn ${hasNote(p.id)?'on':''}" title="Notes">✎</button></div>
         <div class="stmt ${p.format==='text'?'text':''}"></div>
@@ -1017,7 +1037,7 @@ function renderGyms(){
     let html=`<div class="crumb"><a id="gback">← All gyms</a><span style="color:var(--faint)">/</span><b style="color:var(--ink)">${esc(g.name)}</b><span>· ${g.ids.length} problem${g.ids.length===1?'':'s'}</span></div>`;
     if(!g.ids.length) html+=`<div class="empty"><div class="big">This gym is empty</div><p>Add problems with the ☆ button on any card in Practice or Mock.</p></div>`;
     else html+=`<div class="grid">`+g.ids.map(id=>{ const p=byId(id); if(!p) return "";
-      return `<div class="card" data-id="${id}"><div class="ctag"><span class="pill ${p.code[0]}">${p.subject}</span>${srcHTML(p,true)}
+      return `<div class="card" data-id="${id}"><div class="ctag"><span class="pill ${pillClass(p)}">${p.subject}</span>${srcHTML(p,true)}
         <button class="star on rm" title="Remove from gym">★</button>
         <button class="star notebtn ${hasNote(p.id)?'on':''}" title="Notes">✎</button></div>
         <div class="stmt ${p.format==='text'?'text':''}"></div>
@@ -1140,8 +1160,8 @@ function renderDBList(){
   list.innerHTML=shown.map(p=>{
     const st=state.solved[p.id]?"solved":state.review[p.id]?"review":"";
     return `<div class="dbrow" data-id="${p.id}">
-      <span class="dbcode">${p.code}</span>
-      <span><span class="pill ${p.code[0]}">${p.subject}</span></span>
+      <span class="dbcode">${p.year?esc(p.code):""}</span>
+      <span><span class="pill ${pillClass(p)}">${p.subject}</span></span>
       <span class="dbyear">${p.year || srcName(p)}</span>
       <span class="dblvl">L${p.level}</span>
       <span class="dbsnip">${esc(stripLatex(p.body).slice(0,120))}</span>
@@ -1207,10 +1227,10 @@ document.getElementById("bankinfo").textContent =
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 document.getElementById("filters").onclick=(e)=>{ if(!e.target.dataset.s) return;
   document.querySelectorAll("#filters .chip").forEach(c=>c.classList.remove("active"));
-  e.target.classList.add("active"); state.filter=e.target.dataset.s; save(); redeal(); };
+  e.target.classList.add("active"); state.filter=e.target.dataset.s; save(); showFilterBoard(); };
 document.getElementById("srcfilters").onclick=(e)=>{ if(!e.target.dataset.src) return;
   document.querySelectorAll("#srcfilters .chip").forEach(c=>c.classList.remove("active"));
-  e.target.classList.add("active"); state.srcFilter=e.target.dataset.src; save(); redeal(); };
+  e.target.classList.add("active"); state.srcFilter=e.target.dataset.src; save(); showFilterBoard(); };
 document.getElementById("shuffle").onclick=()=>dealAll();
 document.getElementById("revealAll").onclick=()=>{ state.revealed=!state.revealed; save(); renderAll(); };
 document.getElementById("exportBtn").onclick=exportProgress;

@@ -1,0 +1,6 @@
+Determine all integers n ≥ 2 such that the polynomial
+
+                       P px, y, zq = xn + y n + z n − xn−2 yz − xy n−2 z − xyz n−2
+
+can be written as P px, y, zq = Qpx, y, zqRpx, y, zq, where Qpx, y, zq and Rpx, y, zq are noncon-
+stant polynomials with integer coefficients.

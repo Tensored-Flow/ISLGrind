@@ -1,0 +1,6 @@
+The sunshine cost of a sequence a1 , a2 , . . . , a100 of integers is the largest possible value
+of
+                                      |pa1 + a2 + ··· + ai q − aj |
+as i and j vary over all integers 1, 2, . . . , 100.
+Determine the smallest possible sunshine cost over all sequences a1 , a2 , . . . , a100 of pairwise
+distinct integers.

@@ -1,0 +1,12 @@
+On a 45 ˆ 45 square grid there is an echidna. From any cell, the echidna can move
+to any other cell that shares a side. The echidna makes a sequence of 2024 moves, after which
+it has visited each cell exactly once. Prove that it is possible to write the numbers from 1 to
+2025, one in each cell, in such a way that:
+
+   • For any pair of adjacent cells in the same row, the cell containing the larger number was
+     visited earlier.
+
+   • For any pair of adjacent cells in the same column, the cell containing the larger number
+     was visited later.
+
+                                                                                                   (Spain)

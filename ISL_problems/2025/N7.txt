@@ -1,0 +1,6 @@
+Let Z>0 denote the set of positive integers. A function f : Z>0 → Z>0 is said to be
+bonza if
+                                  f paq divides ba − f pbqf paq
+for all positive integers a and b.
+Determine the smallest constant c such that f pnq ≤ cn for any bonza function f and any
+positive integer n.
