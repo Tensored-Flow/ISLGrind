@@ -1,6 +1,6 @@
 <h1 align="center">ISLGrind</h1>
 <p align="center"><b>An adaptive trainer for the hardest pre-olympiad math problems on Earth.</b><br>
-Practice 1,664 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, USAMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
+Practice 1,878 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, every senior Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
 
 <p align="center">🔗 <b>Live:</b> <a href="https://islgrind.vercel.app">islgrind.vercel.app</a></p>
 
@@ -12,9 +12,9 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 
 - 🎯 **Adaptive, per-topic difficulty.** Algebra, Combinatorics, Geometry, and Number Theory each get their own ability estimate. Like a good tutor, ISLGrind serves you problems a notch *above* your level — and updates by how *surprising* each result is (nailing a hard one moves you up a lot; missing an easy one moves you down a lot; an on-level result barely moves you).
 - 🃏 **Four at a time, one per topic.** Work whichever appeals; mark it solved or not and only that card is replaced — so you're always being stretched across all four areas.
-- 🏆 **Filter by competition.** Grind a single source — IMO, USAMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
+- 🏆 **Filter by competition.** Grind a single source — IMO, Balkan MO, USAMO, USEMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
 - 👤 **Up to 4 profiles**, each with completely separate progress.
-- 📚 **1,664 problems** across 8 competitions, every one rendered as clean math (not blurry PDF scans).
+- 📚 **1,878 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
 - 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
 
 ## Use it yourself
@@ -37,10 +37,12 @@ The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGri
 
 - **IMO Shortlist** (1,035 problems, 1990–2025) — the official shortlists, from [imo-official.org](https://www.imo-official.org/) and [The IMO Compendium](https://www.imomath.com/).
 - **IMO 2026** (6 problems) — the public contest paper from [imo-official.org](https://www.imo-official.org/problems/2026/). The 2026 shortlist remains confidential until after IMO 2027.
+- **Balkan MO** (172 problems, every senior paper from 1984–2026) — historical statements from the [John Scholes archive](https://webee.technion.ac.il/people/aditya/www.kalva.demon.co.uk/balkan.html), the [Balkan MO Compendium](https://www.toomates.net/biblioteca/CompendiumBalkanMO.pdf), the open [AI-MO olympiads corpus](https://huggingface.co/datasets/AI-MO/olympiads/tree/main/Balkan_MO), and the [official 2026 host](https://hms.gr/43bmo2026/problems.html).
+- **USEMO** (42 problems, every paper from 2019–2025) — transcribed to LaTeX from the official papers on the [USEMO page](https://web.evanchen.cc/usemo.html).
 - **USAMO** (156, 2000–2025) and **EGMO 2012–2022** — from the [AoPS Wiki](https://artofproblemsolving.com/wiki/), each problem linking back to its page.
 - **USA TSTST** (114, 2011–2024) and **USA TST** (79, 2012–2025) — from [Evan Chen's exam archive](https://web.evanchen.cc/problems.html).
 - **EGMO 2023–2025** — from the official [egmo.org](https://www.egmo.org/) papers (EGMO is now complete, 84 problems 2012–2025).
 - **RMM** (66, 2012–2025, a few editions unavailable) — from the official [Romanian Master of Mathematics](https://rmms.lbi.ro/) papers.
 - **APMO** (124) — from [MathNet](https://huggingface.co/datasets/ShadenA/MathNet) (MIT, CC-BY-4.0).
 
-All problems from PDF sources were transcribed to LaTeX and render via KaTeX; competition topics (Algebra/Combinatorics/Geometry/Number Theory) are auto-classified. Everything except APMO is year- and problem-number-labeled. All rights to the problems remain with their authors and the respective competitions. ISLGrind is a free, non-commercial study tool.
+All problems from PDF sources were transcribed to LaTeX and render via KaTeX; competition topics (Algebra/Combinatorics/Geometry/Number Theory) are editorially classified. Everything except APMO is year- and problem-number-labeled. All rights to the problems remain with their authors and the respective competitions. ISLGrind is a free, non-commercial study tool.

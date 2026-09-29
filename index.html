@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ISLGrind — adaptive IMO Shortlist practice</title>
-<meta name="description" content="Adaptive olympiad practice — IMO Shortlist, USAMO, USA TST/TSTST, EGMO, APMO, RMM. Per-topic difficulty calibration serves you problems a notch above your level across Algebra, Combinatorics, Geometry, and Number Theory." />
+<meta name="description" content="Adaptive olympiad practice — IMO Shortlist, Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, RMM. Per-topic difficulty calibration serves you problems a notch above your level across Algebra, Combinatorics, Geometry, and Number Theory." />
 <meta name="theme-color" content="#07080c" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="ISLGrind — adaptive IMO Shortlist practice" />
-<meta property="og:description" content="1,664 olympiad problems — IMO Shortlist, IMO, USAMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
+<meta property="og:description" content="1,878 olympiad problems — IMO Shortlist, IMO, Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
 <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -447,12 +447,14 @@
 
 <script src="bank.js"></script>
 <script src="bank_extra.js"></script>
+<script src="bank_balkan.js"></script>
+<script src="bank_usemo.js"></script>
 <script>
 const BANK = window.ISL_BANK || [];
 const maxLevel = Math.max(...BANK.map(p=>p.level), 1);
 BANK.forEach(p=>{ if(!p.source) p.source="ISL"; });   // legacy bank.js entries are all ISL
 // distinct sources, ISL first then in a stable preferred order
-const SRC_ORDER = ["ISL","IMO","USAMO","USA TST","USA TSTST","EGMO","APMO","RMM"];
+const SRC_ORDER = ["ISL","IMO","Balkan MO","USAMO","USEMO","USA TST","USA TSTST","EGMO","APMO","RMM"];
 const SOURCES = [...new Set(BANK.map(p=>p.source))].sort((a,b)=>{
   const ia=SRC_ORDER.indexOf(a), ib=SRC_ORDER.indexOf(b);
   return (ia<0?99:ia)-(ib<0?99:ib) || a.localeCompare(b); });
@@ -777,7 +779,7 @@ function prepBody(s){
   s = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   s = s.replace(/\\begin\{itemize\}/g,"<ul>").replace(/\\end\{itemize\}/g,"</ul>")
        .replace(/\\begin\{enumerate\}/g,"<ol>").replace(/\\end\{enumerate\}/g,"</ol>")
-       .replace(/\\item(?:\s*\[([^\]]+)\])?\s*/g,(_,label)=>`<li>${label?label+" ":""}`)
+       .replace(/\\item(?:\s*\[([^\]]+)\])?\s*/g,(_,label)=>label?`<li style="list-style:none">${label} `:"<li>")
        .replace(/\\begin\{center\}/g,"").replace(/\\end\{center\}/g,"");
   s = s.replace(/\\emph\{([^{}]*)\}/g,"<em>$1</em>")
        .replace(/\\textit\{([^{}]*)\}/g,"<em>$1</em>")
@@ -811,7 +813,15 @@ function aopsLink(p){
 }
 // Official solutions: the year's shortlist booklet (problems + full solutions). Only 2006+ ISL are
 // published online; 1990-2005 solutions live in the (offline) Compendium, so we point those to AoPS.
-function problemLinkLabel(p){ return p.url && !p.url.includes("artofproblemsolving.com") ? "official" : "AoPS"; }
+function problemLinkLabel(p){
+  const u=p.url||"";
+  if(!u) return "AoPS";
+  if(u.includes("artofproblemsolving.com")) return "AoPS";
+  if(u.includes("imo-official.org") || u.includes("egmo.org") || u.includes("rmms.lbi.ro") ||
+     u.includes("hms.gr/43bmo2026") || u.includes("bmo2025.pmf.unsa.ba") ||
+     u.includes("web.evanchen.cc/exams/USEMO-")) return "official";
+  return "source";
+}
 function solLink(p){
   if(srcName(p)!=="ISL" || p.year<2006) return "";
   const href=p.year>=2025
@@ -1181,7 +1191,7 @@ function openProblem(p){
     box.className="modal wide";
     const done=!!state.solved[p.id];
     box.innerHTML=`<h3>${probRef(p)}</h3>
-      <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""}${solLink(p)?` · ${solLink(p)}`:""} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">AoPS</a></p>
+      <p class="msub">${p.subject} · level ${p.level}${p.country?` · ${p.country}`:""}${solLink(p)?` · ${solLink(p)}`:""} · <a href="${aopsLink(p)}" target="_blank" rel="noopener">${problemLinkLabel(p)}</a></p>
       <div class="stmt" id="pbstmt" style="max-height:44vh;overflow:auto;margin-bottom:12px"></div>
       ${hasNote(p.id)?`<div class="noteshow"><span class="notelab">📝 your note</span><div class="notebody" id="pbnote"></div></div>`:""}
       <div class="mrow" style="margin-top:14px">
