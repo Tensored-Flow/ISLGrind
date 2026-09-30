@@ -481,7 +481,8 @@ function defaultState(){
     nSub:  {Algebra:0,   Combinatorics:0,   Geometry:0,   "Number Theory":0},
     solved:{}, attempted:{}, streak:0, filter:"all", srcFilter:"all", revealed:false,
     board:null, boards:{}, started:[null,null,null,null], attempts:[],
-    gyms:[], mock:null, review:{}, notes:{}, goal:5
+    gyms:[], mock:null, review:{}, notes:{}, goal:5,
+    dueAt:{}, picks:{}, seen:{}, missed:{}, tick:0
   };
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -508,6 +509,9 @@ function loadState(id){
   if(s.mock!==null && typeof s.mock!=="object") s.mock=null;
   if(!s.review||typeof s.review!=="object") s.review={};
   if(!s.boards||typeof s.boards!=="object"||Array.isArray(s.boards)) s.boards={};
+  for(const k of ["dueAt","picks","seen","missed"]) if(!s[k]||typeof s[k]!=="object"||Array.isArray(s[k])) s[k]={};
+  Object.keys(s.review).forEach((id,k)=>{ if(s.dueAt[id]==null) s.dueAt[id]=3*(k+1); });   // older saves: spread them out
+  if(typeof s.tick!=="number") s.tick=0;
   if(!s.notes||typeof s.notes!=="object") s.notes={};
   if(typeof s.goal!=="number") s.goal=5;
   if(typeof s.level==="number" && SUBJECTS.every(k=>!s.nSub[k])){ for(const k of SUBJECTS) s.theta[k]=s.level; }
@@ -515,26 +519,36 @@ function loadState(id){
   return s;
 }
 let state = loadState(activeId);
-function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); if(!applying) scheduleFileWrite(); }
+// when this browser's progress last changed — decides whether a linked save file is newer or older than it
+const MKEY = "isl_trainer_mtime";
+function localMtime(){
+  const m=+(lsGet(MKEY)||0); if(m) return m;
+  // saved before this clock existed: the newest attempt stored in this browser is when its progress last changed
+  let t=0; PM.profiles.forEach(p=>{ try{ (JSON.parse(lsGet(SKEY(p.id))||"{}").attempts||[]).forEach(a=>{ if(a.t>t) t=a.t; }); }catch(e){} });
+  return t;
+}
+function save(){ lsSet(SKEY(activeId), JSON.stringify(state)); if(!applying){ lsSet(MKEY, String(Date.now())); scheduleFileWrite(); } }
 function activeName(){ const p=PM.profiles.find(x=>x.id===activeId); return p?p.name:"?"; }
 
 /* ---------- profiles ---------- */
 function switchProfile(id){
   if(id===activeId) return;
   save(); activeId=id; PM.active=id; lsSet(PKEY, JSON.stringify(PM));
-  state=loadState(id); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
+  state=loadState(id); syncFilterChips(); renderProfiles(); restoreBoard(); refresh(); showView(curView);
   toast(`Switched to ${activeName()}`);
 }
 function addProfile(){
   if(PM.profiles.length>=MAX_PROFILES) return;
   const n=PM.profiles.reduce((m,p)=>Math.max(m,+(p.id.replace('p',''))||0),0)+1;
-  const name=(prompt("New profile name:","Player "+(PM.profiles.length+1))||"").trim()||("Player "+(PM.profiles.length+1));
+  const raw=prompt("New profile name:","Player "+(PM.profiles.length+1)); if(raw===null) return;   // Cancel → no profile
+  const name=raw.trim()||("Player "+(PM.profiles.length+1));
+  lsDel(SKEY("p"+n));   // a profile removed by an older backup restore may have left its progress under this id
   PM.profiles.push({id:"p"+n,name}); lsSet(PKEY, JSON.stringify(PM)); switchProfile("p"+n);
 }
 function renameProfile(){
   const p=PM.profiles.find(x=>x.id===activeId);
   const nm=(prompt("Rename profile:",p.name)||"").trim();
-  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); renderProfiles(); }
+  if(nm){ p.name=nm; lsSet(PKEY, JSON.stringify(PM)); save(); renderProfiles(); }   // save() carries the new name to the save file
 }
 function deleteProfile(){
   if(PM.profiles.length<=1){ alert("Keep at least one profile."); return; }
@@ -542,7 +556,7 @@ function deleteProfile(){
   lsDel(SKEY(activeId));
   PM.profiles=PM.profiles.filter(p=>p.id!==activeId);
   activeId=PM.profiles[0].id; PM.active=activeId; lsSet(PKEY, JSON.stringify(PM));
-  state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
+  state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh(); showView(curView);
 }
 function renderProfiles(){
   const bar=document.getElementById("profilebar");
@@ -576,8 +590,9 @@ function applyDump(dump){
   if(!dump || dump._app!=="islgrind" || !dump[PKEY]) return false;
   applying=true;
   Object.keys(dump).forEach(k=>{ if((k===PKEY||k.indexOf("isl_trainer_state_v1:")===0)&&dump[k]!=null) lsSet(k,dump[k]); });
+  lsSet(MKEY, String(dump._t||Date.now()));
   PM=loadProfiles(); activeId=(PM.active&&PM.profiles.some(p=>p.id===PM.active))?PM.active:PM.profiles[0].id;
-  state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh();
+  state=loadState(activeId); syncFilterChips(); renderProfiles(); restoreBoard(); refresh(); showView(curView);
   applying=false; return true;
 }
 function exportProgress(){
@@ -588,7 +603,7 @@ function exportProgress(){
 }
 function importProgress(file){
   if(!file) return; const r=new FileReader();
-  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))){ toast("Progress restored ✓"); } else throw 0; }
+  r.onload=()=>{ try{ if(applyDump(JSON.parse(r.result))){ save(); toast("Progress restored ✓"); } else throw 0; }   // save() makes the restore the newest copy, so the save file picks it up
     catch(e){ alert("That file doesn't look like an ISLGrind backup."); } };
   r.readAsText(file);
 }
@@ -598,7 +613,7 @@ function importProgress(file){
    back on launch. No download prompts. Chrome/Edge only; elsewhere we fall back to the
    manual ⬇ Backup button. The linked file handle is remembered in IndexedDB. */
 const FSA_OK = (typeof window!=="undefined") && ("showSaveFilePicker" in window);
-let fileHandle=null, fileWriteTimer=null, fileBusy=false, fileNeedsPerm=false;
+let fileHandle=null, fileWriteTimer=null, fileBusy=false, fileDirty=false, fileNeedsPerm=false;
 function idbOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open("islgrind_sync",1);
   r.onupgradeneeded=()=>r.result.createObjectStore("kv"); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
 async function idbGet(k){ try{ const db=await idbOpen(); return await new Promise(res=>{ const t=db.transaction("kv").objectStore("kv").get(k); t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
@@ -609,39 +624,51 @@ async function fsPerm(handle, request){ try{ const o={mode:"readwrite"};
   if(request && (await handle.requestPermission(o))==="granted") return true; }catch(e){} return false; }
 function setSaveStatus(t,cls){ const e=document.getElementById("savestat"); if(e){ e.textContent=t||""; e.className="savestat "+(cls||""); } }
 async function fileWriteNow(){
-  if(!fileHandle || fileBusy) return; fileBusy=true;
+  if(!fileHandle) return;
+  if(fileBusy){ fileDirty=true; return; }   // a write is running — write again when it finishes, with the newer data
+  fileBusy=true; fileDirty=false;
   try{ const w=await fileHandle.createWritable(); await w.write(JSON.stringify(buildDump(),null,1)); await w.close();
        setSaveStatus("Auto-saved to "+fileHandle.name+" ✓","ok"); }
   catch(e){ setSaveStatus("Couldn't write "+(fileHandle?fileHandle.name:"file")+" — re-link it","bad"); fileNeedsPerm=true; renderDataPanel(); }
-  finally{ fileBusy=false; }
+  finally{ fileBusy=false; if(fileDirty && !fileNeedsPerm) fileWriteNow(); }
 }
-function scheduleFileWrite(){ if(!fileHandle||applying) return; clearTimeout(fileWriteTimer); setSaveStatus("Saving…"); fileWriteTimer=setTimeout(fileWriteNow,600); }
+function scheduleFileWrite(){ if(!fileHandle||applying||fileNeedsPerm) return; clearTimeout(fileWriteTimer); setSaveStatus("Saving…");
+  fileWriteTimer=setTimeout(()=>{ fileWriteTimer=null; fileWriteNow(); },600); }
+// leaving the tab: write any pending save now instead of losing the last 600 ms
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden" && fileWriteTimer){ clearTimeout(fileWriteTimer); fileWriteTimer=null; fileWriteNow(); } });
+// load a linked file only if it holds newer progress than this browser; otherwise this browser's (newer) progress is written to it
+async function syncWithFile(h){
+  let dump=null; try{ const txt=await (await h.getFile()).text(); if(txt.trim()) dump=JSON.parse(txt); }catch(e){}
+  if(dump && dump._app==="islgrind" && (dump._t||0)>localMtime()){ applyDump(dump); return "loaded"; }
+  await fileWriteNow(); return "saved";
+}
 async function linkSaveFile(){
   if(!FSA_OK){ toast("This browser can't auto-save to a file — use ⬇ Backup, or open ISLGrind in Chrome."); return; }
   try{
     const h=await window.showSaveFilePicker({ suggestedName:"islgrind-progress.json",
       types:[{description:"ISLGrind progress",accept:{"application/json":[".json"]}}] });
     fileHandle=h; fileNeedsPerm=false; await idbPut("handle",h);
-    await fileWriteNow(); renderDataPanel();
-    toast("Auto-saving to "+h.name+" — you're set. No more downloads.");
+    const r=await syncWithFile(h); renderDataPanel();   // picking your existing save file loads it rather than overwriting it
+    toast(r==="loaded" ? "Loaded the newer progress in "+h.name+" — auto-saving there from now on." : "Auto-saving to "+h.name+" — you're set. No more downloads.");
   }catch(e){ /* user cancelled the picker */ }
 }
 async function chooseExistingFile(){
   if(!FSA_OK) return;
-  try{
-    const [h]=await window.showOpenFilePicker({ types:[{description:"ISLGrind progress",accept:{"application/json":[".json"]}}] });
-    fileHandle=h; fileNeedsPerm=false; await idbPut("handle",h);
-    const f=await h.getFile(); const txt=await f.text();
-    if(txt.trim() && applyDump(JSON.parse(txt))) toast("Loaded progress from "+h.name+" ✓");
-    else await fileWriteNow();
-    renderDataPanel();
-  }catch(e){}
+  let h; try{ [h]=await window.showOpenFilePicker({ types:[{description:"ISLGrind progress",accept:{"application/json":[".json"]}}] }); }catch(e){ return; }   // cancelled
+  let dump=null;
+  try{ const txt=await (await h.getFile()).text(); if(txt.trim()){ dump=JSON.parse(txt); if(!dump || dump._app!=="islgrind") throw 0; } }
+  catch(e){ toast("That isn't an ISLGrind progress file — nothing was changed."); return; }   // never link (and later overwrite) some other file
+  fileHandle=h; fileNeedsPerm=false; await idbPut("handle",h);
+  if(dump && ((dump._t||0)>localMtime() || confirm("This browser has newer progress than that file.\n\nOK: load the file (replaces this browser's progress)\nCancel: keep this browser's progress and save it into the file"))){
+    applyDump(dump); toast("Loaded progress from "+h.name+" ✓"); }
+  else await fileWriteNow();
+  renderDataPanel();
 }
 async function unlinkSaveFile(){ fileHandle=null; fileNeedsPerm=false; await idbDel("handle"); renderDataPanel(); toast("Auto-save file unlinked (progress stays saved on this device)."); }
 async function resumeSaveFile(){   // re-grant permission after a fresh launch, then load the file
   if(!fileHandle) return;
   if(await fsPerm(fileHandle,true)){ fileNeedsPerm=false;
-    try{ const f=await fileHandle.getFile(); const txt=await f.text(); if(txt.trim()) applyDump(JSON.parse(txt)); }catch(e){}
+    await syncWithFile(fileHandle);   // practice done before reconnecting is newer than the file, so it's kept
     setSaveStatus("Auto-saving to "+fileHandle.name+" ✓","ok"); renderDataPanel();
   } else { toast("Permission needed to use your save file."); }
 }
@@ -650,8 +677,8 @@ async function initFileSync(){
   if(!FSA_OK) return;
   const h=await idbGet("handle"); if(!h){ renderDataPanel(); return; }
   fileHandle=h;
-  if(await fsPerm(h,false)){                 // already allowed → load from the file (it's the source of truth)
-    try{ const f=await h.getFile(); const txt=await f.text(); if(txt.trim()) applyDump(JSON.parse(txt)); }catch(e){}
+  if(await fsPerm(h,false)){                 // already allowed → load the file if it's newer, else bring it up to date
+    await syncWithFile(h);
     setSaveStatus("Auto-saving to "+h.name+" ✓","ok");
   } else { fileNeedsPerm=true; }             // needs one click to re-grant after this launch
   renderDataPanel();
@@ -683,18 +710,43 @@ function randn(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(
 function srcMatch(p){ return state.srcFilter==="all" || (p.source||"ISL")===state.srcFilter; }
 function subjPool(subject){ return BANK.filter(p=>p.subject===subject && srcMatch(p)); }
 function zpdTarget(subject){ const th=state.theta[subject]||1; return Math.max(1,Math.min(maxLevel,Math.round(th+ZPD+randn()*0.9))); }
+// skipped/failed problems wait this many other problems in their topic, then come back for sure;
+// each repeat fail doubles the wait (8, 16, 32, 64) so problems you can't crack yet don't take over the board
+const SKIP_GAP=3, FAIL_GAP=8, FAIL_GAP_MAX=64, SEEN_MAX=900;
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function queueReview(p,gap){ state.review[p.id]=true; state.dueAt[p.id]=(state.picks[p.subject]||0)+gap+1; }
+function failGap(id){ return Math.min(FAIL_GAP_MAX, FAIL_GAP*2**Math.max(0,(state.missed[id]||1)-1)); }
+// remember when each problem was last dealt, so picks rotate through a level instead of repeating
+function markSeen(p){
+  if(!p) return p;
+  state.seen[p.id]=++state.tick;
+  const ids=Object.keys(state.seen);
+  if(ids.length>SEEN_MAX) ids.sort((a,b)=>state.seen[a]-state.seen[b]).slice(0,ids.length-Math.round(SEEN_MAX*0.8)).forEach(id=>delete state.seen[id]);
+  return p;
+}
 function pickProblem(subject, exclude){
   const all=subjPool(subject); if(!all.length) return null;
+  const n=state.picks[subject]=(state.picks[subject]||0)+1;
+  const live=all.filter(p=>!exclude.has(p.id) && !state.solved[p.id]);
+  // due skipped/failed problems come back first (longest-waiting first), whatever their level
+  const due=live.filter(p=>state.review[p.id] && (state.dueAt[p.id]||0)<=n)
+    .sort((a,b)=>(state.dueAt[a.id]||0)-(state.dueAt[b.id]||0));
+  const retryShown=[...exclude].some(id=>state.review[id]);   // at most one retry on the board at a time
+  if(due.length && !retryShown){ state.dueAt[due[0].id]=n+SKIP_GAP+1; return markSeen(due[0]); }   // restart its clock so "New set" can't re-deal it at once
+  const open=live.filter(p=>!state.review[p.id]);   // review items wait their turn rather than reappearing at random
   const target=zpdTarget(subject), order=[0]; for(let r=1;r<=maxLevel;r++){ order.push(r,-r); }
-  // skipped/failed problems get priority to return (within ~2 levels of target)
-  const rev=all.filter(p=>state.review[p.id] && !exclude.has(p.id) && !state.solved[p.id] && Math.abs(p.level-target)<=2);
-  if(rev.length && Math.random()<0.4) return rev[Math.floor(Math.random()*rev.length)];
-  for(const off of order){ const lv=target+off; if(lv<1||lv>maxLevel) continue;
-    const cands=all.filter(p=>p.level===lv && !exclude.has(p.id) && !state.solved[p.id]);
-    if(cands.length) return cands[Math.floor(Math.random()*cands.length)]; }
-  let c=all.filter(p=>!exclude.has(p.id)&&!state.solved[p.id]);
-  if(!c.length) c=all.filter(p=>!exclude.has(p.id)); if(!c.length) c=all;
-  return c[Math.floor(Math.random()*c.length)];
+  const levels=order.map(o=>target+o).filter(lv=>open.some(p=>p.level===lv));
+  if(levels.length){
+    // problems you haven't been shown yet: nearest level first, else one level either side of it
+    for(const lv of levels.filter(lv=>Math.abs(lv-levels[0])<=1)){
+      const fresh=open.filter(p=>p.level===lv && !state.seen[p.id]); if(fresh.length) return markSeen(rnd(fresh)); }
+    // all shown already: re-serve from the third of the nearest level seen longest ago
+    const cands=open.filter(p=>p.level===levels[0]).sort((a,b)=>state.seen[a.id]-state.seen[b.id]);
+    return markSeen(rnd(cands.slice(0,Math.ceil(cands.length/3))));
+  }
+  // nothing new left: bring the longest-waiting retry forward; if everything is solved or on the board, leave the slot empty
+  if(!live.length) return null;
+  return markSeen(live.sort((a,b)=>(state.dueAt[a.id]||0)-(state.dueAt[b.id]||0))[0]);
 }
 function boardIds(skip){ const s=new Set(); board.forEach((p,i)=>{ if(p&&i!==skip) s.add(p.id); }); return s; }
 const overallLevel = ()=> SUBJECTS.reduce((a,s)=>a+(state.theta[s]||1),0)/SUBJECTS.length;
@@ -721,8 +773,11 @@ let slotSubjects = boardSubjects();
 // each (source,topic) filter combo remembers its own board, so switching filters and
 // coming back shows the SAME problems (never reshuffles) until you solve/skip or hit New set.
 function filterKey(){ return state.srcFilter + "||" + state.filter; }
+// cards marked ✓/✗ this session: they keep showing their result (even when redrawn) until "Next problem →"
+let resolved=[null,null,null,null];
+function setSlot(i,p){ board[i]=p; state.started[i]=null; resolved[i]=null; }
 function persistBoard(){
-  const ids=board.map(p=>p?p.id:null);
+  const ids=board.map((p,i)=>p&&!resolved[i]?p.id:null);   // a finished card isn't kept — reload / filter return deals a new one
   state.board=ids;                                          // last-viewed board (used on reload)
   if(!state.boards||typeof state.boards!=="object") state.boards={};
   state.boards[filterKey()]=ids;                            // remembered board for this filter
@@ -730,10 +785,11 @@ function persistBoard(){
 }
 function byId(id){ return BANK.find(p=>p.id===id)||null; }
 // true only if a card is a valid occupant of slot i under the current filter
-function cardFits(p,i){ return !!(p && p.subject===slotSubjects[i] && srcMatch(p) && !state.solved[p.id]); }
+function cardFits(p,i){ return !!(p && p.subject===slotSubjects[i] && srcMatch(p) && !state.solved[p.id]
+  && !board.some((q,j)=>j<i && q && q.id===p.id)); }   // never the same problem on two cards
 function dealAll(){
-  slotSubjects=boardSubjects(); board=[null,null,null,null];
-  for(let i=0;i<4;i++){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; }
+  slotSubjects=boardSubjects(); board=[null,null,null,null]; resolved=[null,null,null,null];
+  for(let i=0;i<4;i++) setSlot(i, pickProblem(slotSubjects[i], boardIds(i)));
   persistBoard(); renderAll();
 }
 // Show the board for the current filter: restore its remembered problems, only re-picking
@@ -742,19 +798,21 @@ function showFilterBoard(){
   slotSubjects=boardSubjects();
   const cached=(state.boards||{})[filterKey()];
   board = (Array.isArray(cached)&&cached.length===4) ? cached.map(id=>id?byId(id):null) : [null,null,null,null];
-  for(let i=0;i<4;i++){ if(!cardFits(board[i],i)){ board[i]=pickProblem(slotSubjects[i], boardIds(i)); state.started[i]=null; } }
+  resolved=[null,null,null,null]; state.started=[null,null,null,null];   // timers belong to the cards you left, not this board
+  for(let i=0;i<4;i++){ if(!cardFits(board[i],i)) setSlot(i, pickProblem(slotSubjects[i], boardIds(i))); }
   persistBoard(); renderAll();
 }
+// on load / profile switch: the last board you saw, re-checked against that profile's filters
 function restoreBoard(){
-  const ids=state.board;
-  if(!Array.isArray(ids)||ids.length!==4){ dealAll(); return; }
-  board=ids.map(id=>id?byId(id):null);
-  state.started=[null,null,null,null];   // timers are session-only & opt-in — never resume on reload
-  for(let i=0;i<4;i++){
-    const subj=board[i]?board[i].subject:(slotSubjects[i]||SUBJECTS[i]);
-    if(!board[i]||state.solved[board[i].id]){ board[i]=pickProblem(subj, boardIds(i)); state.started[i]=null; }
-  }
-  persistBoard(); renderAll();
+  if(!state.boards[filterKey()] && Array.isArray(state.board) && state.board.length===4) state.boards[filterKey()]=state.board;   // older saves kept only the last board
+  showFilterBoard();
+}
+// problems finished elsewhere (Browse, Gyms, Mock) leave the practice board
+function syncBoard(){
+  let changed=false;
+  for(let i=0;i<4;i++){ const p=board[i];
+    if(p && !resolved[i] && state.solved[p.id]){ const ex=boardIds(i); ex.add(p.id); setSlot(i, pickProblem(p.subject, ex)); changed=true; } }
+  if(changed){ persistBoard(); renderAll(); }
 }
 
 /* ---------- rendering ---------- */
@@ -771,7 +829,7 @@ function headerStats(){
   const gn=document.getElementById("goalN"); if(gn) gn.textContent=state.goal;
   const pct=Math.max(0,Math.min(1, state.goal? tc/state.goal : 0));
   const fg=document.getElementById("ringfg"); if(fg) fg.style.strokeDashoffset=(97.4*(1-pct)).toFixed(1);
-  if(state.goal>0 && tc>=state.goal && state._goalDay!==today){ state._goalDay=today; save(); toast("🎯 Daily goal reached — nice work!"); }
+  if(state.goal>0 && tc>=state.goal && state._goalDay!==today){ state._goalDay=today; save(); setTimeout(()=>toast("🎯 Daily goal reached — nice work!"),2300); }   // after the result toast, which would overwrite it
 }
 // turn document-level LaTeX (lists, emphasis) into HTML; leave math for KaTeX.
 // escaping &<> first is reversed by the DOM in text nodes, so KaTeX still sees raw $…$.
@@ -843,17 +901,19 @@ function inAnyGym(id){ return (state.gyms||[]).some(g=>g.ids.includes(id)); }
 
 /* shared scoring core — used by the practice board AND gym practice (mock is separate) */
 function applyResult(p, ok, secs){
-  state.attempted[p.id]=true;
   const subject=p.subject,d=p.level,th=state.theta[subject],n=state.nSub[subject]||0;
-  const exp=expectedSolve(th,d),K=stepSize(n);
-  const nth=Math.max(1,Math.min(maxLevel, th+K*((ok?1:0)-exp)));
-  state.theta[subject]=nth; state.nSub[subject]=n+1;
+  const exp=expectedSolve(th,d);
+  if(ok && state.solved[p.id]) return {th,nth:th,exp,retry:true};   // already solved (e.g. again in a gym) — nothing new
+  // only your first attempt at a problem is evidence about you; retries of a problem you missed leave the rating alone
+  const retry=!!state.attempted[p.id]; let nth=th;
+  if(!retry){ nth=Math.max(1,Math.min(maxLevel, th+stepSize(n)*((ok?1:0)-exp))); state.theta[subject]=nth; state.nSub[subject]=n+1; }
+  state.attempted[p.id]=true;
   state.attempts.push({t:nowMs(),sub:subject,lvl:d,ok,secs:secs||0});
   if(state.attempts.length>6000) state.attempts=state.attempts.slice(-6000);
-  if(ok){ state.solved[p.id]=true; state.streak++; delete state.review[p.id]; }
-  else { state.streak=0; state.review[p.id]=true; }      // failed → queue to return
+  if(ok){ state.solved[p.id]=true; state.streak++; delete state.review[p.id]; delete state.dueAt[p.id]; delete state.missed[p.id]; }
+  else { state.streak=0; state.missed[p.id]=(state.missed[p.id]||0)+1; queueReview(p,failGap(p.id)); }   // failed → comes back later, later each time
   save();
-  return {th,nth,exp};
+  return {th,nth,exp,retry};
 }
 
 function cardHTML(p){
@@ -898,30 +958,36 @@ function renderSlot(i){
   card.querySelectorAll(".star")[0].onclick=()=>openGymPicker(p);
   card.querySelector(".notebtn").onclick=()=>openNote(p);
   card.querySelector(".skip").onclick=()=>{
-    state.review[p.id]=true; board[i]=pickProblem(p.subject, boardIds(i)); state.started[i]=null;
-    persistBoard(); renderSlot(i); toast("Saved for later — it'll come back");
+    queueReview(p,SKIP_GAP); const ex=boardIds(i); ex.add(p.id);
+    setSlot(i, pickProblem(p.subject, ex));
+    persistBoard(); renderSlot(i); toast(`Saved for later — back after ${SKIP_GAP} more ${p.subject} problems`);
   };
+  if(resolved[i]) showResolved(card, i);
+}
+// the finished look of a card: result colour, final time, source revealed, and the Next button
+function showResolved(card, i){
+  const p=board[i], r=resolved[i];
+  card.dataset.done="1"; card.classList.add(r.ok?"solved-card":"failed-card");
+  { const s=card.querySelector(".src"); if(s) s.outerHTML=srcHTML(p,true); }   // same specific source (AoPS search + official solution) as the manual reveal
+  card.querySelectorAll(".btns button").forEach(b=>b.disabled=true);
+  const w=card.querySelector(".timerwrap"); if(w) w.innerHTML = r.secs ? `<span class="timer done">${fmtTime(r.secs)}</span>` : '';
+  const nb=document.createElement("button"); nb.className="nextbtn"; nb.textContent="Next problem →";
+  nb.onclick=()=>{ const ex=boardIds(i); ex.add(p.id); setSlot(i, pickProblem(p.subject, ex)); persistBoard(); renderSlot(i); };
+  card.appendChild(nb);
 }
 function renderAll(){ headerStats(); document.getElementById("grid").innerHTML=""; board.forEach((_,i)=>renderSlot(i)); updateTimers(); renderProgress(); }
 function refresh(){ headerStats(); renderProgress(); }
 
 function resolve(i, ok){
-  const p=board[i]; if(!p) return;
-  const card=document.getElementById("grid").children[i];
-  if(card.dataset.done) return; card.dataset.done="1";
+  const p=board[i]; if(!p || resolved[i]) return;
   const subject=p.subject, d=p.level;
   const st=state.started&&state.started[i]; const secs=st?Math.round((nowMs()-st)/1000):0;
-  const {th,nth,exp}=applyResult(p, ok, secs);
-  const dir=nth>th+0.02?"↑":nth<th-0.02?"↓":"→";
-  const extra=ok?(exp<0.4?" — strong, above your level!":""):(exp>0.6?" — in range, worth review":"");
-  { const s=card.querySelector(".src"); if(s) s.outerHTML=srcHTML(p,true); }   // same specific source (AoPS search + official solution) as the manual reveal
-  card.classList.add(ok?"solved-card":"failed-card");
-  card.querySelectorAll(".btns button").forEach(b=>b.disabled=true);
-  const w=card.querySelector(".timerwrap"); if(w) w.innerHTML = st ? `<span class="timer done">${fmtTime(secs)}</span>` : '';
+  const {th,nth,exp,retry}=applyResult(p, ok, secs);
+  resolved[i]={ok,secs}; state.started[i]=null; persistBoard();
+  showResolved(document.getElementById("grid").children[i], i);
   refresh();
-  const nb=document.createElement("button"); nb.className="nextbtn"; nb.textContent="Next problem →";
-  nb.onclick=()=>{ board[i]=pickProblem(subject, boardIds(i)); state.started[i]=null; persistBoard(); renderSlot(i); };
-  card.appendChild(nb);
+  const dir=nth>th+0.02?"↑":nth<th-0.02?"↓":"→";
+  const extra=retry?" — retry, rating unchanged":ok?(exp<0.4?" — strong, above your level!":""):(exp>0.6?" — in range, worth review":"");
   toast(`${subject} ${ok?"✓":"✗"} (lvl ${d}${st?`, ${fmtTime(secs)}`:''}) · ${th.toFixed(1)} ${dir} ${nth.toFixed(1)}${extra}`);
 }
 
@@ -989,9 +1055,12 @@ function genMock(){
 }
 function setMockStatus(id,st){ if(!state.mock||state.mock.done) return; state.mock.status[id]=st; save(); renderMock(); }
 function finishMock(){
+  if(!state.mock || state.mock.done) return;
   state.mock._end=nowMs(); state.mock.done=true;
   state.mock.ids.forEach(id=>{ const st=state.mock.status[id]; const p=byId(id); if(!st||!p) return;
-    state.attempts.push({t:nowMs(),sub:p.subject,lvl:p.level,ok:st==="solved",secs:0}); });
+    state.attempts.push({t:nowMs(),sub:p.subject,lvl:p.level,ok:st==="solved",secs:0});
+    if(st==="solved"){ state.solved[id]=true; delete state.review[id]; delete state.dueAt[id]; delete state.missed[id]; }
+    else if(!state.solved[id]) queueReview(p,FAIL_GAP); });
   if(state.attempts.length>6000) state.attempts=state.attempts.slice(-6000);
   save(); renderMock(); refresh();
 }
@@ -1187,6 +1256,7 @@ function renderDBList(){
 }
 function openProblem(p){
   const m=document.getElementById("modal"), box=document.getElementById("modalbox");
+  let failedNow=false;
   function draw(){
     box.className="modal wide";
     const done=!!state.solved[p.id];
@@ -1199,6 +1269,7 @@ function openProblem(p){
         <button class="mini" id="pbgymbtn">${inAnyGym(p.id)?"★ Gyms":"☆ Add to gym"}</button>
         <span class="spacer"></span>
         ${done?'<span class="msub" style="margin:0;color:var(--good)">solved ✓</span> <button class="mini" id="pbclose">Close</button>'
+         :failedNow?'<span class="msub" style="margin:0;color:var(--bad)">✗ saved for review</span> <button class="mini" id="pbclose">Close</button>'
               :'<button class="sbtn" id="pbfail">✗ Not solved</button><button class="primary" id="pbsolve">✓ Solved</button>'}
       </div>`;
     fillStatement(document.getElementById("pbstmt"), p);
@@ -1207,7 +1278,7 @@ function openProblem(p){
     document.getElementById("pbgymbtn").onclick=()=>openGymPicker(p);
     const sv=document.getElementById("pbsolve"), fl=document.getElementById("pbfail"), cl=document.getElementById("pbclose");
     if(sv) sv.onclick=()=>{ const r=applyResult(p,true,0); refresh(); renderDBList(); draw(); toast(`${p.subject} ✓ · ${r.th.toFixed(1)} → ${r.nth.toFixed(1)}`); };
-    if(fl) fl.onclick=()=>{ applyResult(p,false,0); refresh(); renderDBList(); draw(); toast(`${p.subject} ✗ · saved for review`); };
+    if(fl) fl.onclick=()=>{ applyResult(p,false,0); failedNow=true; refresh(); renderDBList(); draw(); toast(`${p.subject} ✗ · saved for review`); };
     if(cl) cl.onclick=close;
   }
   function close(){ m.style.display="none"; m.onclick=null; renderDBList(); }
@@ -1215,7 +1286,9 @@ function openProblem(p){
 }
 
 /* ---------- view switching ---------- */
+let curView="practice";
 function showView(v){
+  curView=v;
   document.querySelectorAll('.navbtn').forEach(n=>n.classList.toggle('active', n.dataset.view===v));
   ['practice','db','progress','mock','gyms'].forEach(x=>{ const s=document.getElementById('view-'+x); if(s) s.style.display = x===v?'':'none'; });
   const T={practice:["Practice","Four problems, one per topic — solve any; only that card refreshes."],
@@ -1225,6 +1298,7 @@ function showView(v){
     gyms:["Gyms","Your own collections — group problems and drill them."]};
   document.getElementById('viewtitle').textContent=T[v][0];
   document.getElementById('viewsub').textContent=T[v][1];
+  if(v==='practice') syncBoard();
   if(v==='progress') renderProgress();
   if(v==='mock') renderMock();
   if(v==='gyms'){ gymOpen=null; renderGyms(); }
@@ -1248,7 +1322,10 @@ document.getElementById("importBtn").onclick=()=>document.getElementById("import
 document.getElementById("importFile").onchange=(e)=>{ importProgress(e.target.files[0]); e.target.value=""; };
 document.getElementById("renprof").onclick=renameProfile;
 document.getElementById("delprof").onclick=deleteProfile;
-document.getElementById("reset").onclick=()=>{ if(confirm(`Reset progress for “${activeName()}”? (other profiles are unaffected)`)){ state=defaultState(); save(); syncFilterChips(); dealAll(); } };
+document.getElementById("reset").onclick=()=>{ if(confirm(`Reset progress for “${activeName()}”? Ratings, solved problems, review queue and stats are cleared; notes and gyms are kept. (Other profiles are unaffected.)`)){
+    // keep what isn't progress, plus the "already shown" memory so a reset deals problems you haven't just seen
+    const {seen,tick,notes,gyms,goal,filter,srcFilter,revealed}=state;
+    state=Object.assign(defaultState(),{seen,tick,notes,gyms,goal,filter,srcFilter,revealed}); save(); syncFilterChips(); dealAll(); showView(curView); } };
 document.getElementById("goalstat").onclick=()=>{ const v=parseInt(prompt("Daily goal — problems per day:", state.goal),10); if(v>0){ state.goal=v; save(); headerStats(); } };
 
 window.addEventListener("load", ()=>{
