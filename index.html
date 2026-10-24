@@ -481,8 +481,7 @@ function defaultState(){
     nSub:  {Algebra:0,   Combinatorics:0,   Geometry:0,   "Number Theory":0},
     solved:{}, attempted:{}, streak:0, filter:"all", srcFilter:"all", revealed:false,
     board:null, boards:{}, started:[null,null,null,null], attempts:[],
-    gyms:[], mock:null, review:{}, notes:{}, goal:5,
-    dueAt:{}, picks:{}, seen:{}, missed:{}, tick:0
+    gyms:[], mock:null, review:{}, notes:{}, goal:5
   };
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -509,9 +508,6 @@ function loadState(id){
   if(s.mock!==null && typeof s.mock!=="object") s.mock=null;
   if(!s.review||typeof s.review!=="object") s.review={};
   if(!s.boards||typeof s.boards!=="object"||Array.isArray(s.boards)) s.boards={};
-  for(const k of ["dueAt","picks","seen","missed"]) if(!s[k]||typeof s[k]!=="object"||Array.isArray(s[k])) s[k]={};
-  Object.keys(s.review).forEach((id,k)=>{ if(s.dueAt[id]==null) s.dueAt[id]=3*(k+1); });   // older saves: spread them out
-  if(typeof s.tick!=="number") s.tick=0;
   if(!s.notes||typeof s.notes!=="object") s.notes={};
   if(typeof s.goal!=="number") s.goal=5;
   if(typeof s.level==="number" && SUBJECTS.every(k=>!s.nSub[k])){ for(const k of SUBJECTS) s.theta[k]=s.level; }
@@ -710,43 +706,18 @@ function randn(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(
 function srcMatch(p){ return state.srcFilter==="all" || (p.source||"ISL")===state.srcFilter; }
 function subjPool(subject){ return BANK.filter(p=>p.subject===subject && srcMatch(p)); }
 function zpdTarget(subject){ const th=state.theta[subject]||1; return Math.max(1,Math.min(maxLevel,Math.round(th+ZPD+randn()*0.9))); }
-// skipped/failed problems wait this many other problems in their topic, then come back for sure;
-// each repeat fail doubles the wait (8, 16, 32, 64) so problems you can't crack yet don't take over the board
-const SKIP_GAP=3, FAIL_GAP=8, FAIL_GAP_MAX=64, SEEN_MAX=900;
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
-function queueReview(p,gap){ state.review[p.id]=true; state.dueAt[p.id]=(state.picks[p.subject]||0)+gap+1; }
-function failGap(id){ return Math.min(FAIL_GAP_MAX, FAIL_GAP*2**Math.max(0,(state.missed[id]||1)-1)); }
-// remember when each problem was last dealt, so picks rotate through a level instead of repeating
-function markSeen(p){
-  if(!p) return p;
-  state.seen[p.id]=++state.tick;
-  const ids=Object.keys(state.seen);
-  if(ids.length>SEEN_MAX) ids.sort((a,b)=>state.seen[a]-state.seen[b]).slice(0,ids.length-Math.round(SEEN_MAX*0.8)).forEach(id=>delete state.seen[id]);
-  return p;
-}
+function queueReview(p){ state.review[p.id]=true; }
 function pickProblem(subject, exclude){
-  const all=subjPool(subject); if(!all.length) return null;
-  const n=state.picks[subject]=(state.picks[subject]||0)+1;
-  const live=all.filter(p=>!exclude.has(p.id) && !state.solved[p.id]);
-  // due skipped/failed problems come back first (longest-waiting first), whatever their level
-  const due=live.filter(p=>state.review[p.id] && (state.dueAt[p.id]||0)<=n)
-    .sort((a,b)=>(state.dueAt[a.id]||0)-(state.dueAt[b.id]||0));
-  const retryShown=[...exclude].some(id=>state.review[id]);   // at most one retry on the board at a time
-  if(due.length && !retryShown){ state.dueAt[due[0].id]=n+SKIP_GAP+1; return markSeen(due[0]); }   // restart its clock so "New set" can't re-deal it at once
-  const open=live.filter(p=>!state.review[p.id]);   // review items wait their turn rather than reappearing at random
-  const target=zpdTarget(subject), order=[0]; for(let r=1;r<=maxLevel;r++){ order.push(r,-r); }
-  const levels=order.map(o=>target+o).filter(lv=>open.some(p=>p.level===lv));
-  if(levels.length){
-    // problems you haven't been shown yet: nearest level first, else one level either side of it
-    for(const lv of levels.filter(lv=>Math.abs(lv-levels[0])<=1)){
-      const fresh=open.filter(p=>p.level===lv && !state.seen[p.id]); if(fresh.length) return markSeen(rnd(fresh)); }
-    // all shown already: re-serve from the third of the nearest level seen longest ago
-    const cands=open.filter(p=>p.level===levels[0]).sort((a,b)=>state.seen[a.id]-state.seen[b.id]);
-    return markSeen(rnd(cands.slice(0,Math.ceil(cands.length/3))));
-  }
-  // nothing new left: bring the longest-waiting retry forward; if everything is solved or on the board, leave the slot empty
+  const live=subjPool(subject).filter(p=>!exclude.has(p.id) && !state.solved[p.id]);
   if(!live.length) return null;
-  return markSeen(live.sort((a,b)=>(state.dueAt[a.id]||0)-(state.dueAt[b.id]||0))[0]);
+  const target=zpdTarget(subject), order=[0]; for(let r=1;r<=maxLevel;r++){ order.push(r,-r); }
+  // Every eligible problem at the target level has an equal chance, including seen/review items.
+  // If that level has none left, use the nearest available level (higher first on a tie).
+  for(const offset of order){
+    const pool=live.filter(p=>p.level===target+offset);
+    if(pool.length) return rnd(pool);
+  }
 }
 function boardIds(skip){ const s=new Set(); board.forEach((p,i)=>{ if(p&&i!==skip) s.add(p.id); }); return s; }
 const overallLevel = ()=> SUBJECTS.reduce((a,s)=>a+(state.theta[s]||1),0)/SUBJECTS.length;
@@ -910,8 +881,8 @@ function applyResult(p, ok, secs){
   state.attempted[p.id]=true;
   state.attempts.push({t:nowMs(),sub:subject,lvl:d,ok,secs:secs||0});
   if(state.attempts.length>6000) state.attempts=state.attempts.slice(-6000);
-  if(ok){ state.solved[p.id]=true; state.streak++; delete state.review[p.id]; delete state.dueAt[p.id]; delete state.missed[p.id]; }
-  else { state.streak=0; state.missed[p.id]=(state.missed[p.id]||0)+1; queueReview(p,failGap(p.id)); }   // failed → comes back later, later each time
+  if(ok){ state.solved[p.id]=true; state.streak++; delete state.review[p.id]; }
+  else { state.streak=0; queueReview(p); }
   save();
   return {th,nth,exp,retry};
 }
@@ -958,9 +929,9 @@ function renderSlot(i){
   card.querySelectorAll(".star")[0].onclick=()=>openGymPicker(p);
   card.querySelector(".notebtn").onclick=()=>openNote(p);
   card.querySelector(".skip").onclick=()=>{
-    queueReview(p,SKIP_GAP); const ex=boardIds(i); ex.add(p.id);
+    queueReview(p); const ex=boardIds(i); ex.add(p.id);
     setSlot(i, pickProblem(p.subject, ex));
-    persistBoard(); renderSlot(i); toast(`Saved for later — back after ${SKIP_GAP} more ${p.subject} problems`);
+    persistBoard(); renderSlot(i); toast("Saved for review — future draws stay random");
   };
   if(resolved[i]) showResolved(card, i);
 }
@@ -1059,8 +1030,8 @@ function finishMock(){
   state.mock._end=nowMs(); state.mock.done=true;
   state.mock.ids.forEach(id=>{ const st=state.mock.status[id]; const p=byId(id); if(!st||!p) return;
     state.attempts.push({t:nowMs(),sub:p.subject,lvl:p.level,ok:st==="solved",secs:0});
-    if(st==="solved"){ state.solved[id]=true; delete state.review[id]; delete state.dueAt[id]; delete state.missed[id]; }
-    else if(!state.solved[id]) queueReview(p,FAIL_GAP); });
+    if(st==="solved"){ state.solved[id]=true; delete state.review[id]; }
+    else if(!state.solved[id]) queueReview(p); });
   if(state.attempts.length>6000) state.attempts=state.attempts.slice(-6000);
   save(); renderMock(); refresh();
 }
@@ -1323,9 +1294,9 @@ document.getElementById("importFile").onchange=(e)=>{ importProgress(e.target.fi
 document.getElementById("renprof").onclick=renameProfile;
 document.getElementById("delprof").onclick=deleteProfile;
 document.getElementById("reset").onclick=()=>{ if(confirm(`Reset progress for “${activeName()}”? Ratings, solved problems, review queue and stats are cleared; notes and gyms are kept. (Other profiles are unaffected.)`)){
-    // keep what isn't progress, plus the "already shown" memory so a reset deals problems you haven't just seen
-    const {seen,tick,notes,gyms,goal,filter,srcFilter,revealed}=state;
-    state=Object.assign(defaultState(),{seen,tick,notes,gyms,goal,filter,srcFilter,revealed}); save(); syncFilterChips(); dealAll(); showView(curView); } };
+    // keep notes, collections and settings when resetting progress
+    const {notes,gyms,goal,filter,srcFilter,revealed}=state;
+    state=Object.assign(defaultState(),{notes,gyms,goal,filter,srcFilter,revealed}); save(); syncFilterChips(); dealAll(); showView(curView); } };
 document.getElementById("goalstat").onclick=()=>{ const v=parseInt(prompt("Daily goal — problems per day:", state.goal),10); if(v>0){ state.goal=v; save(); headerStats(); } };
 
 window.addEventListener("load", ()=>{

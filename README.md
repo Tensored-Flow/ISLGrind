@@ -2,7 +2,7 @@
 <p align="center"><b>An adaptive trainer for the hardest pre-olympiad math problems on Earth.</b><br>
 Practice 1,878 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, every senior Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
 
-<p align="center">🔗 <b>Live:</b> <a href="https://islgrind.vercel.app">islgrind.vercel.app</a></p>
+<p align="center">🔗 <b>Live:</b> <a href="https://isl-grind.vercel.app">isl-grind.vercel.app</a></p>
 
 ---
 
@@ -17,9 +17,11 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 - 📚 **1,878 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
 - 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
 
+Practice draws give every unsolved problem at the adaptive target difficulty an equal chance within your topic and source filters. If that level is exhausted, the nearest available level is used. Questions can repeat across sets; skipped or failed questions stay saved for review without being forced back into practice.
+
 ## Use it yourself
 
-**Easiest — just open the live site:** **[islgrind.vercel.app](https://islgrind.vercel.app)** (works on desktop and mobile; nothing to install).
+**Easiest — just open the live site:** **[isl-grind.vercel.app](https://isl-grind.vercel.app)** (works on desktop and mobile; nothing to install).
 
 **Or run it on your own computer:**
 1. Click the green **`Code`** button at the top of this repo → **Download ZIP** (or `git clone https://github.com/Tensored-Flow/ISLGrind.git`).
