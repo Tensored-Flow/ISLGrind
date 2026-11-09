@@ -3,3 +3,6 @@ ISL_problems
 *.py
 *.sh
 tests/
+.cache/
+__pycache__/
+apmo_problems.json

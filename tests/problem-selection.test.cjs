@@ -215,7 +215,7 @@ test('legacy saved review schedules and seen history are inert after reload', ()
 
 test('every real-bank question in a difficulty pool is reachable with equal-width draws', () => {
   const context = vm.createContext({ window: {} });
-  for (const file of ['bank.js', 'bank_extra.js', 'bank_balkan.js', 'bank_usemo.js']) {
+  for (const file of ['bank.js', 'bank_extra.js', 'bank_balkan.js', 'bank_usemo.js', 'bank_apmo.js']) {
     vm.runInContext(readFileSync(join(root, file), 'utf8'), context, { filename: file });
   }
   const bank = Array.from(context.window.ISL_BANK);

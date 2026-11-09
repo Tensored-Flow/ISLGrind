@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+"""Build APMO's static bank from reviewed transcriptions of official papers.
+
+Run with --refresh to discover/download the official archive and verify the
+reviewed PDF hashes before building. New or changed papers need transcription
+review in apmo_problems.json; raw PDF extraction is not reliable for mathematics.
+The default build is offline and uses only Python's standard library.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+from html.parser import HTMLParser
+import json
+from pathlib import Path
+import re
+from urllib.parse import urljoin, urlparse
+from urllib.request import Request, urlopen
+
+
+ROOT = Path(__file__).resolve().parent
+ARCHIVE_URL = "https://www.apmo-official.org/problems"
+SUBJECTS = {"Algebra", "Combinatorics", "Geometry", "Number Theory"}
+
+
+def paper_url(year: int) -> str:
+    return f"https://www.apmo-official.org/static/problems/apmo{year}_prb.pdf"
+
+
+class ArchiveParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.years: set[int] = set()
+
+    def handle_starttag(self, tag: str, attrs: list) -> None:
+        if tag != "a":
+            return
+        href = dict(attrs).get("href")
+        if not href:
+            return
+        url = urlparse(urljoin(ARCHIVE_URL, href))
+        match = re.fullmatch(r"/static/problems/apmo(\d{4})_prb\.pdf", url.path)
+        if url.hostname in {"www.apmo-official.org", "apmo-official.org"} and match:
+            self.years.add(int(match[1]))
+
+
+def archive_years(html: str) -> list[int]:
+    parser = ArchiveParser()
+    parser.feed(html)
+    if not parser.years:
+        raise ValueError("The official archive contains no recognized problem papers")
+    return sorted(parser.years)
+
+
+def build_records(papers: list[dict]) -> list[dict]:
+    years = [paper["year"] for paper in papers]
+    if not years or years != list(range(1989, max(years) + 1)):
+        raise ValueError("APMO papers must cover every year from 1989 in order")
+    records = []
+    ids = set()
+    for paper in papers:
+        year = paper["year"]
+        if not re.fullmatch(r"[0-9a-f]{64}", paper["sha256"]):
+            raise ValueError(f"Missing reviewed PDF hash for APMO {year}")
+        if [p["number"] for p in paper["problems"]] != [1, 2, 3, 4, 5]:
+            raise ValueError(f"APMO {year} must contain problems 1 through 5 exactly once")
+        for problem in paper["problems"]:
+            number = problem["number"]
+            identity = problem["id"]
+            if not re.fullmatch(r"APMO-(?:[ACGN]\d+|\d{4}-[1-5])", identity) or identity in ids:
+                raise ValueError(f"Invalid or duplicate problem ID: {identity}")
+            ids.add(identity)
+            if problem["subject"] not in SUBJECTS or not 1 <= problem["level"] <= 8:
+                raise ValueError(f"Invalid topic/difficulty for {identity}")
+            body = problem["body"].strip()
+            if not body or re.search(r"\b(?:Answer|Solution)\s*:", body, re.I):
+                raise ValueError(f"Expected a statement without an answer for {identity}")
+            records.append({
+                "id": identity,
+                "source": "APMO",
+                "year": year,
+                "number": number,
+                "code": f"P{number}",
+                "subject": problem["subject"],
+                "level": problem["level"],
+                "country": "",
+                "format": "latex",
+                "body": body,
+                "url": paper_url(year),
+            })
+    return records
+
+
+def download(url: str) -> bytes:
+    request = Request(url, headers={"User-Agent": "ISLGrind APMO archive importer"})
+    with urlopen(request, timeout=60) as response:
+        return response.read()
+
+
+def refresh_sources(papers: list[dict], cache_dir: Path) -> None:
+    years = archive_years(download(ARCHIVE_URL).decode("utf-8"))
+    reviewed = {p["year"]: p["sha256"] for p in papers}
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    needs_review = []
+    for year in years:
+        data = download(paper_url(year))
+        if not data.startswith(b"%PDF-"):
+            raise ValueError(f"APMO {year}: official download is not a PDF")
+        (cache_dir / f"apmo{year}_prb.pdf").write_bytes(data)
+        if hashlib.sha256(data).hexdigest() != reviewed.get(year):
+            needs_review.append(year)
+    if needs_review:
+        raise ValueError(
+            f"New or changed official papers need review: {needs_review}. "
+            f"Inspect PDFs in {cache_dir}, then update apmo_problems.json. Bank unchanged."
+        )
+    if set(years) != set(reviewed):
+        raise ValueError("The official archive no longer lists every reviewed paper; bank unchanged")
+
+
+def write_bank(path: Path, records: list[dict]) -> None:
+    lines = [
+        f"/* APMO {records[0]['year']}-{records[-1]['year']}: {len(records)} problems.",
+        "   Official papers: https://www.apmo-official.org/problems",
+        "   Generated by import_apmo.py from reviewed apmo_problems.json.",
+        "   Legacy IDs are retained to preserve saved progress. */",
+        "window.ISL_BANK = (window.ISL_BANK || []).concat([",
+    ]
+    lines.extend(
+        ("," if index else "") + json.dumps(record, ensure_ascii=False, separators=(",", ":"))
+        for index, record in enumerate(records)
+    )
+    lines.append("]);\n")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--refresh", action="store_true", help="fetch and check official papers")
+    parser.add_argument("--cache-dir", type=Path, default=ROOT / ".cache" / "apmo")
+    parser.add_argument("--output", type=Path, default=ROOT / "bank_apmo.js")
+    args = parser.parse_args()
+    papers = json.loads((ROOT / "apmo_problems.json").read_text(encoding="utf-8"))["papers"]
+    records = build_records(papers)
+    if args.refresh:
+        refresh_sources(papers, args.cache_dir)
+    write_bank(args.output, records)
+    print(f"Wrote {len(records)} APMO problems to {args.output}")
+
+
+if __name__ == "__main__":
+    main()

@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#07080c" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="ISLGrind — adaptive IMO Shortlist practice" />
-<meta property="og:description" content="1,878 olympiad problems — IMO Shortlist, IMO, Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
+<meta property="og:description" content="1,944 olympiad problems — IMO Shortlist, IMO, Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, RMM — with adaptive, per-topic difficulty calibration." />
 <meta name="twitter:card" content="summary" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -449,6 +449,7 @@
 <script src="bank_extra.js"></script>
 <script src="bank_balkan.js"></script>
 <script src="bank_usemo.js"></script>
+<script src="bank_apmo.js"></script>
 <script>
 const BANK = window.ISL_BANK || [];
 const maxLevel = Math.max(...BANK.map(p=>p.level), 1);
@@ -828,7 +829,7 @@ function srcName(p){ return p.source || "ISL"; }
 const SUBJ_LETTER={Algebra:"A",Combinatorics:"C",Geometry:"G","Number Theory":"N"};
 function pillClass(p){ return SUBJ_LETTER[p.subject] || "A"; }
 // revealed label: "ISL 2015 · A1" or "USAMO 2011 · G2" where there's a real problem number;
-// just the competition name ("APMO") for sources whose problems aren't per-year numbered.
+// APMO uses the official P1-P5 numbers; legacy unnumbered records fall back to the source.
 function probRef(p){ const s=srcName(p); return (p.year && p.code) ? `${s} ${p.year} · ${p.code}` : s; }
 function aopsLink(p){
   if(p.url) return p.url;                       // exact source page when the imported record has one
@@ -846,7 +847,7 @@ function problemLinkLabel(p){
   const u=p.url||"";
   if(!u) return "AoPS";
   if(u.includes("artofproblemsolving.com")) return "AoPS";
-  if(u.includes("imo-official.org") || u.includes("egmo.org") || u.includes("rmms.lbi.ro") ||
+  if(u.includes("imo-official.org") || u.includes("apmo-official.org") || u.includes("egmo.org") || u.includes("rmms.lbi.ro") ||
      u.includes("hms.gr/43bmo2026") || u.includes("bmo2025.pmf.unsa.ba") ||
      u.includes("web.evanchen.cc/exams/USEMO-")) return "official";
   return "source";
