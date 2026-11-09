@@ -1,6 +1,6 @@
 <h1 align="center">ISLGrind</h1>
 <p align="center"><b>An adaptive trainer for the hardest pre-olympiad math problems on Earth.</b><br>
-Practice 1,878 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, every senior Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
+Practice 1,944 olympiad problems — the <a href="https://www.imo-official.org/">IMO Shortlist</a> plus IMO 2026, every senior Balkan MO, USAMO, USEMO, USA TST/TSTST, EGMO, APMO, and RMM — and the difficulty adapts to you, topic by topic.</p>
 
 <p align="center">🔗 <b>Live:</b> <a href="https://isl-grind.vercel.app">isl-grind.vercel.app</a></p>
 
@@ -14,7 +14,7 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 - 🃏 **Four at a time, one per topic.** Work whichever appeals; mark it solved or not and only that card is replaced — so you're always being stretched across all four areas.
 - 🏆 **Filter by competition.** Grind a single source — IMO, Balkan MO, USAMO, USEMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
 - 👤 **Up to 4 profiles**, each with completely separate progress.
-- 📚 **1,878 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
+- 📚 **1,944 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
 - 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
 
 Practice draws give every unsolved problem at the adaptive target difficulty an equal chance within your topic and source filters. If that level is exhausted, the nearest available level is used. Questions can repeat across sets; skipped or failed questions stay saved for review without being forced back into practice.
@@ -45,6 +45,14 @@ The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGri
 - **USA TSTST** (114, 2011–2024) and **USA TST** (79, 2012–2025) — from [Evan Chen's exam archive](https://web.evanchen.cc/problems.html).
 - **EGMO 2023–2025** — from the official [egmo.org](https://www.egmo.org/) papers (EGMO is now complete, 84 problems 2012–2025).
 - **RMM** (66, 2012–2025, a few editions unavailable) — from the official [Romanian Master of Mathematics](https://rmms.lbi.ro/) papers.
-- **APMO** (124) — from [MathNet](https://huggingface.co/datasets/ShadenA/MathNet) (MIT, CC-BY-4.0).
+- **APMO** (190 problems, every paper from 1989–2026) — from the [official APMO archive](https://www.apmo-official.org/problems), labeled by year and official problem number (P1–P5), with links to the official papers. The 124 existing [MathNet](https://huggingface.co/datasets/ShadenA/MathNet) transcriptions (MIT, CC-BY-4.0) are matched to those papers, with statement corrections and embedded answers removed; their internal IDs remain stable so saved progress, notes, and gyms still work.
 
-All problems from PDF sources were transcribed to LaTeX and render via KaTeX; competition topics (Algebra/Combinatorics/Geometry/Number Theory) are editorially classified. Everything except APMO is year- and problem-number-labeled. All rights to the problems remain with their authors and the respective competitions. ISLGrind is a free, non-commercial study tool.
+All problems from PDF sources were transcribed to LaTeX and render via KaTeX; competition topics (Algebra/Combinatorics/Geometry/Number Theory) are editorially classified. Every competition is year- and problem-number-labeled. All rights to the problems remain with their authors and the respective competitions. ISLGrind is a free, non-commercial study tool.
+
+## Updating the APMO bank
+
+Run `python import_apmo.py --refresh` to fetch the official archive and its problem PDFs, check them against the reviewed hashes in `apmo_problems.json`, and regenerate `bank_apmo.js`. Downloads stay in the ignored `.cache/apmo/` directory. The app loads the generated bank locally, including when opened offline; it does not fetch PDFs during practice.
+
+New or changed official papers stop the refresh before it replaces the bank. Transcribe/review their five statements in `apmo_problems.json` and update the paper's SHA-256 hash, then rerun. This review keeps PDF extraction errors out of mathematical formulas. `python import_apmo.py` rebuilds from the reviewed transcriptions without network access. Existing difficulty levels are retained; the 66 added problems use provisional levels 3–7 by paper position.
+
+Check the import and application integration with `python -m unittest discover -s tests -p "test_*.py"` and `node --test tests/*.test.cjs`.
