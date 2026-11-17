@@ -15,7 +15,7 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 - 🏆 **Filter by competition.** Grind a single source — IMO, Balkan MO, USAMO, USEMO, EGMO, APMO, RMM, USA TST/TSTST, or the full IMO Shortlist — or mix them all.
 - 👤 **Up to 4 profiles**, each with completely separate progress.
 - 📚 **1,944 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
-- 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
+- 💾 **No login, no tracking.** Your progress lives in your own browser — turn on **☁ Sync** to carry it to your other devices with a sync code.
 
 Each new card is drawn from your unsolved problems within your topic and source filters. One in four comes from the problems you marked ✗ Couldn't or skipped, at any level; one in four comes from every unsolved problem, at any level, so easier ones keep turning up however high you climb; the rest come from the adaptive target difficulty, every problem there with an equal chance (if that level is exhausted, the nearest available level is used). With nothing saved for review in a topic, its review share uses the adaptive draw. Solving a problem takes it off the review list.
 
@@ -27,13 +27,21 @@ Each new card is drawn from your unsolved problems within your topic and source 
 1. Click the green **`Code`** button at the top of this repo → **Download ZIP** (or `git clone https://github.com/Tensored-Flow/ISLGrind.git`).
 2. Unzip it and double-click **`index.html`** — it opens in your browser and you're training.
    - *(Optional, for a cleaner setup: open a terminal in the unzipped folder and run `python3 -m http.server`, then visit the link it prints.)*
-   - *Tip: to keep progress when moving between computers, use the **⬇ Backup** button to save a file and **⬆ Restore** it elsewhere.*
+   - *Tip: to keep progress when moving between computers, turn on **☁ Sync across devices**, or use **⬇ Backup** to save a file and **⬆ Restore** it elsewhere.*
 
 Your progress saves automatically in that browser. Pick a profile and go — solve two notches above your level, and watch each topic's bar climb.
 
+**Sync across devices.** Click **☁ Sync across devices** (sidebar, under Data) → **Create a sync code**. On your phone or another computer, open the site, click the same button and enter the code: you get the same profiles, the same four problems, solved list, notes and gyms. Every change is sent a moment later; other devices pick it up when you open the site or switch back to it (and every 30 s while it's open). If two devices change the same profile before they can sync — say one was offline — the later change wins; different profiles combine. **Stop syncing** works like deregistering a Kindle: the device goes back to a fresh start and your progress stays saved under the code, ready to come back whenever you enter it again. Anyone with the code can see and change your progress, so keep it to yourself.
+
+**Keep a save file (Chrome / Edge).** Click **⬇ Backup** once and create (or choose) `islgrind-progress.json` in your Downloads folder. From then on every solve, skip, note and setting is written to that file automatically. On each later visit, one click on **⬇ Backup** loads it back — or pick *"Allow on every visit"* in Chrome's prompt and it loads by itself. Other browsers download a copy instead.
+
+**Light or dark.** The ☀ / ☾ button next to the logo switches themes; until you choose, ISLGrind follows your system setting.
+
 ## How it was built
 
-The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGrind was assembled by **rendering every problem page to an image and using a vision model to transcribe the math into LaTeX**, then verifying each one — so all 1,035 shortlist problems render crisply via [KaTeX](https://katex.org/). The adaptive engine is a lightweight **Elo / item-response model** with per-topic ability and confidence that grows as you practice. It's a single static page — no backend, no accounts.
+The official shortlists live in PDFs whose math doesn't copy out cleanly. ISLGrind was assembled by **rendering every problem page to an image and using a vision model to transcribe the math into LaTeX**, then verifying each one — so all 1,035 shortlist problems render crisply via [KaTeX](https://katex.org/). The adaptive engine is a lightweight **Elo / item-response model** with per-topic ability and confidence that grows as you practice. It's a single static page with no accounts; the optional sync keeps each sync code's progress in one [Supabase](https://supabase.com/) table, reached only through three database functions (`supabase/sync.sql`), and stores only a hash of the code.
+
+**Setting up sync on a new Supabase project:** paste [`supabase/sync.sql`](supabase/sync.sql) into the dashboard's SQL Editor and run it (safe to re-run), then set `SUPA_URL` and `SUPA_KEY` in `index.html` to the project's URL and public anon key.
 
 ## Attribution
 

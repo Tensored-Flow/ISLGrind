@@ -111,6 +111,7 @@ test('loading, saving and exporting four profiles preserves their full solve his
     lsGet: key => storage.get(key) ?? null,
     lsSet: (key, value) => storage.set(key, value),
     scheduleFileWrite: () => {},
+    scheduleSync: () => {},
   });
   vm.runInContext(section('function defaultState(){', 'function esc(') +
     section('function loadState(id){', 'let state = loadState(activeId);') +
@@ -141,6 +142,10 @@ test('loading, saving and exporting four profiles preserves their full solve his
   for (const { id } of profiles) {
     app.activeId = id;
     vm.runInContext('state = loadState(activeId); save();', app);
+    // saving stamps when the profile last changed (sync keeps the later change); everything else is unchanged
+    const stamped = JSON.parse(storage.get(stateKey(id)))._m;
+    assert.equal(typeof stamped, 'number');
+    snapshots.get(id)._m = stamped;
     assert.deepEqual(JSON.parse(storage.get(stateKey(id))), snapshots.get(id));
     assert.deepEqual(JSON.parse(JSON.stringify(app.loadState(id))), snapshots.get(id));
     const dump = app.buildDump();

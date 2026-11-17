@@ -6,3 +6,4 @@ tests/
 .cache/
 __pycache__/
 apmo_problems.json
+supabase/
