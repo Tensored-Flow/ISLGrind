@@ -709,11 +709,18 @@ function subjPool(subject){ return BANK.filter(p=>p.subject===subject && srcMatc
 function zpdTarget(subject){ const th=state.theta[subject]||1; return Math.max(1,Math.min(maxLevel,Math.round(th+ZPD+randn()*0.9))); }
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 function queueReview(p){ state.review[p.id]=true; }
+// share of new cards that come from your Couldn't/skipped problems, and from any level
+const REVIEW_SHARE=0.25, ANY_LEVEL_SHARE=0.25;
 function pickProblem(subject, exclude){
   const live=subjPool(subject).filter(p=>!exclude.has(p.id) && !state.solved[p.id]);
   if(!live.length) return null;
-  const target=zpdTarget(subject), order=[0]; for(let r=1;r<=maxLevel;r++){ order.push(r,-r); }
-  // Every eligible problem at the target level has an equal chance, including seen/review items.
+  const r=Math.random(), review=live.filter(p=>state.review[p.id]);
+  // 1 in 4: one of your Couldn't/skipped problems, any level (none in this topic → adaptive below)
+  if(r<REVIEW_SHARE && review.length) return rnd(review);
+  // 1 in 4: any unsolved problem, any level — easier ones keep turning up however high you climb
+  if(r>=REVIEW_SHARE && r<REVIEW_SHARE+ANY_LEVEL_SHARE) return rnd(live);
+  const target=zpdTarget(subject), order=[0]; for(let k=1;k<=maxLevel;k++){ order.push(k,-k); }
+  // Adaptive: every eligible problem at the target level has an equal chance, including review items.
   // If that level has none left, use the nearest available level (higher first on a tie).
   for(const offset of order){
     const pool=live.filter(p=>p.level===target+offset);
@@ -932,7 +939,7 @@ function renderSlot(i){
   card.querySelector(".skip").onclick=()=>{
     queueReview(p); const ex=boardIds(i); ex.add(p.id);
     setSlot(i, pickProblem(p.subject, ex));
-    persistBoard(); renderSlot(i); toast("Saved for review — future draws stay random");
+    persistBoard(); renderSlot(i); toast("Saved for review — it'll come back in later draws");
   };
   if(resolved[i]) showResolved(card, i);
 }

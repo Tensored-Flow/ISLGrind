@@ -17,7 +17,7 @@ The **IMO Shortlist** is the pool of ~30 problems each year from which the Inter
 - 📚 **1,944 problems** across 10 competitions, every one rendered as clean math (not blurry PDF scans).
 - 💾 **No login, no tracking.** Your progress lives entirely in your own browser.
 
-Practice draws give every unsolved problem at the adaptive target difficulty an equal chance within your topic and source filters. If that level is exhausted, the nearest available level is used. Questions can repeat across sets; skipped or failed questions stay saved for review without being forced back into practice.
+Each new card is drawn from your unsolved problems within your topic and source filters. One in four comes from the problems you marked ✗ Couldn't or skipped, at any level; one in four comes from every unsolved problem, at any level, so easier ones keep turning up however high you climb; the rest come from the adaptive target difficulty, every problem there with an equal chance (if that level is exhausted, the nearest available level is used). With nothing saved for review in a topic, its review share uses the adaptive draw. Solving a problem takes it off the review list.
 
 ## Use it yourself
 
